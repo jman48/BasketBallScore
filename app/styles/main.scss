@@ -45,12 +45,12 @@ body {
   margin: 30px 0;
 }
 
-.ng-dirty {
-  border-color: red;
-}
-
 .ng-pristine {
   border-color: green;
+}
+
+.error-msg {
+  color: red;
 }
 
 /* Responsive: Portrait tablets and up */
