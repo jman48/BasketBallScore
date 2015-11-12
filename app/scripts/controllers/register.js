@@ -11,8 +11,8 @@ angular.module('bballApp')
   .controller('RegisterCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
       $scope.nameOK = true;
 
-      $scope.attemptLogin = function(userName){
-        $scope.nameOK = user.attemptLogin(userName);
+      $scope.attemptRegister = function(userName){
+        $scope.nameOK = user.attemptRegister(userName);
         if ($scope.nameOK){
           $scope.nameRegistered = true;
           $location.path('/login')

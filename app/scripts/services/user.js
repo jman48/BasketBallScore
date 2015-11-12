@@ -9,9 +9,11 @@
  */
 angular.module('bballApp')
   .service('user', function () {
-    var users = ['reserved'];
+    var users = [];
     // AngularJS will instantiate a singleton by calling "new" on this function
-    this.attemptLogin = function(username){
+    this.attemptRegister = function(username){
+      if (!username)
+        return false;
       if (users.indexOf(username) == -1){
         users.push(username)
         return true;
