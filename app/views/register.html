@@ -5,6 +5,6 @@
         <span class="input-group-btn">
           <button class="btn btn-primary" ng-click="attemptRegister(username)">Register</button>
         </span>
-        <p class="" ng-hide="nameOK">Sorry, name already in use</p>
     </div>
+    <p class="" ng-hide="nameOK">{{errorMessage}}</p>
 </div>

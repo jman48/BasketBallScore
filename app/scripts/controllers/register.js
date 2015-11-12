@@ -12,10 +12,14 @@ angular.module('bballApp')
       $scope.nameOK = true;
 
       $scope.attemptRegister = function(userName){
-        $scope.nameOK = user.attemptRegister(userName);
-        if ($scope.nameOK){
+        var promise = user.attemptRegister(userName);
+        promise.then(function(username) {
           $scope.nameRegistered = true;
-          $location.path('/login')
-        }
-      }
+          $location.path('/login');
+        },
+          function(errorMsg){
+            $scope.nameOK = false;
+            $scope.errorMessage = errorMsg;
+        });
+      };
   }]);

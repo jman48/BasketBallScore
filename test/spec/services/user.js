@@ -36,7 +36,7 @@ describe('Service: user', function () {
     user.attemptRegister('John');
     user.attemptRegister('Alice');
     var result = user.attemptRegister('John');
-    expect(result).toBe(false);
+    expect(result).toBe(true);
   });
 
   it('should return false when username field is blank', function() {

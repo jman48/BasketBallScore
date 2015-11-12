@@ -8,16 +8,20 @@
  * Service in the bballApp.
  */
 angular.module('bballApp')
-  .service('user', function () {
-    var users = [];
+  .service('user', ['$q', function ($q) {
+    var users = ['reserved'];
     // AngularJS will instantiate a singleton by calling "new" on this function
     this.attemptRegister = function(username){
+      var defer = $q.defer();
       if (!username)
-        return false;
+        defer.reject("Username is not valid");
       if (users.indexOf(username) == -1){
-        users.push(username)
-        return true;
+        users.push(username);
+        defer.resolve(username);
       }
-      else return false;
+      else defer.reject("Username is already taken");
+
+      return defer.promise;
     }
-  });
+  }]);
+
