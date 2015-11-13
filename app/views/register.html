@@ -1,0 +1,10 @@
+<div class="container">
+    <p class="">Enter username</p>
+    <div class="input-group">
+        <input class="form-control" ng-model="username" ng-class="">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" ng-click="attemptRegister(username)">Register</button>
+        </span>
+    </div>
+    <p class="error-msg" ng-hide="nameOK">{{errorMessage}}</p>
+</div>
