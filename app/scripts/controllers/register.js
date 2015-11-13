@@ -14,7 +14,6 @@ angular.module('bballApp')
       $scope.attemptRegister = function(userName){
         var promise = user.attemptRegister(userName);
         promise.then(function(username) {
-          $scope.nameRegistered = true;
           $location.path('/login');
         },
           function(errorMsg){

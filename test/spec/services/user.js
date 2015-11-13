@@ -9,7 +9,7 @@ describe('Service: user', function () {
   var user, scope;
   beforeEach(inject(function (_user_, _$rootScope_) {
     user = _user_;
-    scope = _$rootScope_;
+    scope = _$rootScope_.$new();
   }));
 
   it('should do something', function () {
