@@ -19,6 +19,15 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
+
+      .when('/', {
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl',
+        controllerAs: 'register'
+      })
+      .when('/login', {
+        templateUrl: 'views/blank.html'
+      })
       .otherwise({
         redirectTo: '/'
       });
