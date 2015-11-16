@@ -17,7 +17,6 @@ angular.module('bballApp')
 
       promise.then(function(success){
         $location.path('/landing');
-        $rootScope.userName = "David";
       }, function(errorMsg){
         $scope.errorMessage = errorMsg;
       });

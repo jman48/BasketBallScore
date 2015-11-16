@@ -8,11 +8,11 @@
  * Service in the bballApp.
  */
 angular.module('bballApp')
-  .service('user', ['$q', function ($q) {
-    var usernames = ['reserved'];
+  .service('user', ['$q', '$rootScope', function ($q, $rootScope) {
 
     var users = {
       'reserved': {
+        name: 'reserved',
         totalShots: 100,
         highestStreak: 5,
         shootOutsWon: 30
@@ -26,8 +26,11 @@ angular.module('bballApp')
       var defer = $q.defer();
       if (!username)
         defer.reject("Username is not valid");
-      if (usernames.indexOf(username) == -1){
-        usernames.push(username);
+      if (!users.hasOwnProperty(username)){
+        users[username] = {name: username,
+          totalShots: 0,
+          highestStreak: 0,
+          shootOutsWon: 0};
         defer.resolve(username);
       }
       else defer.reject("Username is already taken");
@@ -39,8 +42,9 @@ angular.module('bballApp')
       var defer = $q.defer();
       if (!username)
         defer.reject("Username is not valid");
-      if (usernames.indexOf(username) !== -1){
+      if (users.hasOwnProperty(username)){
         currentUser = users[username];
+        $rootScope.userName = username;
         defer.resolve(username);
       }
       else defer.reject("Username is not registered");
