@@ -34,13 +34,6 @@ describe('Controller: RegisterCtrl', function () {
     return defer.promise;
   }
 
-  it("should change nameOK when given valid username", function(){
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(true, "John"));
-    var promise = scope.attemptRegister("John");
-    scope.$apply();
-    expect(scope.nameOK).toBe(true);
-  });
-
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
     spyOn(user, "attemptRegister").and.returnValue(generatePromise(true, "John"));
@@ -48,13 +41,6 @@ describe('Controller: RegisterCtrl', function () {
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/login');
     expect(scope.errorMessage).toBe(undefined);
-  });
-
-  it("should not change nameOK when given invalid username", function(){
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
-    scope.$apply();
-    expect(scope.nameOK).toBe(false);
   });
 
   it("should stay on same page when given invalid username", function() {

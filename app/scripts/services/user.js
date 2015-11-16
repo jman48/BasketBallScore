@@ -11,6 +11,7 @@ angular.module('bballApp')
   .service('user', ['$q', function ($q) {
     var users = ['reserved'];
     // AngularJS will instantiate a singleton by calling "new" on this function
+
     this.attemptRegister = function(username){
       var defer = $q.defer();
       if (!username)
