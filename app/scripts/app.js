@@ -21,7 +21,7 @@ angular
     $routeProvider
 
       .when('/', {
-        redirectTo: "/login"
+        redirectTo: "/landing"
       })
       .when('/register', {
         templateUrl: 'views/register.html',
@@ -32,7 +32,8 @@ angular
         controller: 'LoginCtrl'
       })
       .when('/landing', {
-        templateUrl: 'views/blank.html'
+        templateUrl: 'views/landing.html',
+        controller: 'SinglePlayerCtrl'
       })
       .otherwise({
         redirectTo: '/'
