@@ -5,19 +5,58 @@ describe('Controller: LoginCtrl', function () {
   // load the controller's module
   beforeEach(module('bballApp'));
 
-  var LoginCtrl,
-    scope;
+  var LoginController,
+    scope,
+    q,
+    user,
+    location;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function (_user_, $controller, $rootScope, $q, $location) {
     scope = $rootScope.$new();
-    LoginCtrl = $controller('LoginCtrl', {
-      $scope: scope
+    q = $q;
+    location = $location;
+    user = _user_;
+    LoginController = $controller('LoginCtrl', {
       // place here mocked dependencies
+      $scope: scope,
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(LoginCtrl.awesomeThings.length).toBe(3);
+  var generatePromise = function(resolve, data){
+    var defer = q.defer();
+    if (resolve) {
+      defer.resolve(data);
+    }
+    else {
+      defer.reject(data);
+    }
+    return defer.promise;
+  }
+
+  it("should redirect when when given valid username", function(){
+    spyOn(location, 'path');
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(true, "RegisteredUser"));
+    var promise = scope.attemptLogin("RegisteredUser");
+    scope.$apply();
+    expect(location.path).toHaveBeenCalledWith('/landing');
+    expect(scope.errorMessage).toBe(undefined);
   });
+
+  it("should stay on same page when given invalid username", function() {
+    spyOn(location, 'path');
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
+    scope.$apply();
+    expect(location.path).not.toHaveBeenCalled();
+  });
+
+  it("should change error message if username is invalid", function() {
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
+    scope.$apply();
+    expect(scope.errorMessage).toBe("Error");
+  });
+
 });
+
