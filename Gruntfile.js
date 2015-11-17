@@ -362,7 +362,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html'],
+          src: ['*.html', 'views/*.html', 'views/**/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -413,13 +413,19 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'bower_components/**/*'
           ]
         }, {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
+        }, {
+          expand: true,
+          cwd: 'bower_components',
+          dest: '<%= yeoman.dist %>/bower_components',
+          src: ['**/*']
         }]
       },
       styles: {
@@ -427,6 +433,35 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      dev: {
+        files: [{
+          expand: true,
+          cwd: 'conf/',
+          dest: '<%= yeoman.dist %>',
+          src: ['*-dev.js']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>',
+          src: [
+            '*.html',
+            'views/*.html',
+            'views/**/*.html',
+            'scripts/*',
+            'scripts/**/*',
+            'styles/*.css',
+            'styles/**/*.css'
+          ]
+        }]
+      },
+      prod: {
+        files: [{
+          expand: true,
+          cwd: 'conf/',
+          dest: '<%= yeoman.dist %>',
+          src: ['*-prod.js']
+        }]
       }
     },
 
@@ -484,7 +519,7 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
+  grunt.registerTask('build-prod', [
     'clean:dist',
     'wiredep',
     'useminPrepare',
@@ -494,9 +529,26 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
+    'copy:dev',
     'cdnify',
     'cssmin',
     'uglify',
+    'filerev',
+    'usemin',
+    'htmlmin'
+  ]);
+
+  grunt.registerTask('build-dev', [
+    'clean:dist',
+    'wiredep',
+    'useminPrepare',
+    'concurrent:dist',
+    'postcss',
+    'ngtemplates',
+    'ngAnnotate',
+    'copy:dist',
+    'copy:dev',
+    'cdnify',
     'filerev',
     'usemin',
     'htmlmin'
