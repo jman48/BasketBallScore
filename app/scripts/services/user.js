@@ -9,8 +9,6 @@
  */
 angular.module('bballApp')
   .service('user', ['$q', function ($q) {
-    var usernames = ['reserved'];
-
     var users = {
       'reserved': {
         totalHoops: 100,
@@ -27,8 +25,8 @@ angular.module('bballApp')
       if (!username) {
         defer.reject("Username is not valid");
       }
-      if (usernames.indexOf(username) == -1){
-        usernames.push(username);
+      // if user does not exist
+      if (!users[username]){
         users[username] = {
           totalHoops: 0,
           highestStreak: 0,
@@ -43,9 +41,10 @@ angular.module('bballApp')
 
     this.attemptLogin = function(username){
       var defer = $q.defer();
-      if (!username)
+      if (!username){
         defer.reject("Username is not valid");
-      if (usernames.indexOf(username) !== -1){
+      }
+      if (users[username]){
         currentUser = users[username];
         defer.resolve(username);
       }
