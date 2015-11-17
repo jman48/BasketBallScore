@@ -34,6 +34,10 @@ angular
       .when('/landing', {
         templateUrl: 'views/blank.html'
       })
+      .when('/scores', {
+        templateUrl: 'views/scoretable.html',
+        controller: 'ScoretableCtrl'
+      })
       .when('/logout', {
         redirectTo: '/login'
       })

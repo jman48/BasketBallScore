@@ -13,9 +13,21 @@ angular.module('bballApp')
     var users = {
       'reserved': {
         name: 'reserved',
-        totalShots: 100,
+        totalShots: 101,
         highestStreak: 5,
-        shootOutsWon: 30
+        shootOutsWon: 2
+      },
+      'reserved1': {
+        name: 'reserved1',
+        totalShots: 50,
+        highestStreak: 6,
+        shootOutsWon: 4
+      },
+      'reserved2': {
+        name: 'reserved2',
+        totalShots: 75,
+        highestStreak: 1,
+        shootOutsWon: 6
       }
     };
 
@@ -51,6 +63,14 @@ angular.module('bballApp')
       }
       else defer.reject("Username is not registered");
       return defer.promise;
+    };
+
+    this.getUsers = function() {
+      var result = [];
+      angular.forEach(users, function(value, key) {
+        result.push(value);
+      })
+      return result;
     };
   }]);
 

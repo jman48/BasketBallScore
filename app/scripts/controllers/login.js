@@ -12,17 +12,17 @@ angular.module('bballApp')
 
     $rootScope.userName = null;
 
-    $scope.attemptLogin = function(username){
+    $scope.attemptLogin = function (username) {
       var promise = user.attemptLogin(username);
 
-      promise.then(function(success){
+      promise.then(function (success) {
         $location.path('/landing');
-      }, function(errorMsg){
+      }, function (errorMsg) {
         $scope.errorMessage = errorMsg;
       });
     };
 
-    $scope.register = function(){
+    $scope.register = function () {
       $location.path('/register');
     }
   }]);
