@@ -17,6 +17,13 @@ body {
   padding-right: 15px;
 }
 
+/* Highlight user name */
+.user {
+  color: #8a4182;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;

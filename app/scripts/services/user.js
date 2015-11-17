@@ -24,13 +24,15 @@ angular.module('bballApp')
     // AngularJS will instantiate a singleton by calling "new" on this function
     this.attemptRegister = function(username){
       var defer = $q.defer();
-      if (!username)
+      if (!username || username === undefined)
         defer.reject("Username is not valid");
-      if (!users.hasOwnProperty(username)){
-        users[username] = {name: username,
+      if (!users.hasOwnProperty(username.toLowerCase())){
+        users[username.toLowerCase()] = {name: username,
           totalShots: 0,
           highestStreak: 0,
           shootOutsWon: 0};
+        currentUser = users[username.toLowerCase()];
+        $rootScope.userName = username;
         defer.resolve(username);
       }
       else defer.reject("Username is already taken");
@@ -42,8 +44,8 @@ angular.module('bballApp')
       var defer = $q.defer();
       if (!username)
         defer.reject("Username is not valid");
-      if (users.hasOwnProperty(username)){
-        currentUser = users[username];
+      if (users.hasOwnProperty(username.toLowerCase())){
+        currentUser = users[username.toLowerCase()];
         $rootScope.userName = username;
         defer.resolve(username);
       }

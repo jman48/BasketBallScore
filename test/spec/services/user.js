@@ -56,15 +56,6 @@ describe('Service: user', function () {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should reject promise when username field is blank', function() {
-    var promise = user.attemptRegister();
-    var spy = jasmine.createSpy('blank username');
-    promise.then(angular.noop, spy);
-    scope.$apply();
-
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should reject promise when username field is empty string', function() {
     var promise = user.attemptRegister('');
     var spy = jasmine.createSpy('empty string username');

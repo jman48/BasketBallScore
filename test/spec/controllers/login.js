@@ -17,7 +17,14 @@ describe('Controller: LoginCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(LoginCtrl.awesomeThings.length).toBe(3);
-  });
+  var generatePromise = function(resolve, data){
+    var defer = q.defer();
+    if (resolve) {
+      defer.resolve(data);
+    }
+    else {
+      defer.reject(data);
+    }
+    return defer.promise;
+  }
 });
