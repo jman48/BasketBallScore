@@ -33,8 +33,9 @@ angular.module('bballApp')
           shootOutsWon: 0
         };
         defer.resolve(username);
+      } else {
+        defer.reject("Username is already taken");
       }
-      else defer.reject("Username is already taken");
 
       return defer.promise;
     };
@@ -47,8 +48,9 @@ angular.module('bballApp')
       if (users[username]){
         currentUser = users[username];
         defer.resolve(username);
+      } else {
+        defer.reject("Username is not registered");
       }
-      else defer.reject("Username is not registered");
       return defer.promise;
     };
 
