@@ -437,9 +437,9 @@ module.exports = function (grunt) {
       dev: {
         files: [{
           expand: true,
-          cwd: 'conf/',
-          dest: '<%= yeoman.dist %>',
-          src: ['*-dev.js']
+          cwd: 'conf/dev/',
+          dest: '<%= yeoman.dist %>/conf',
+          src: ['*']
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>',
@@ -458,9 +458,9 @@ module.exports = function (grunt) {
       prod: {
         files: [{
           expand: true,
-          cwd: 'conf/',
-          dest: '<%= yeoman.dist %>',
-          src: ['*-prod.js']
+          cwd: 'conf/prod/',
+          dest: '<%= yeoman.dist %>/conf',
+          src: ['*']
         }]
       }
     },
@@ -492,7 +492,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
+      return grunt.task.run(['build-dev', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
