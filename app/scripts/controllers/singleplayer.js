@@ -29,7 +29,6 @@ angular.module('bballApp')
     };
 
     $scope.incrementStreak = function(){
-      $scope.incrementHoops();
       $scope.currentStreak++;
       if ($scope.currentStreak > user.currentUser().highestStreak){
         user.updateHighestStreak($scope.currentStreak);
