@@ -27,14 +27,19 @@
         <div class="container">
           <div class="navbar-header">
 
-            <a class="navbar-brand" href="#/">BBall App</a>
+            <a class="navbar-brand" href="#/landing">BBall App</a>
           </div>
-
           <div>
-
-            <ul class="nav navbar-nav">
-              <li><a href="#/login">Login</a></li>
-              <li><a ng-href="#/register">Register</a></li>
+            <ul class="nav navbar-nav navbar-left">
+              <li><a ng-href="#/scores">High Scores</a></li>
+            </ul>
+          </div>
+          <div>
+            <ul class="nav navbar-nav navbar-right">
+              <li ng-hide="userName"><a ng-href="#/login">Login</a></li>
+              <li ng-hide="userName"><a ng-href="#/register">Register</a></li>
+              <li ng-show="userName" class="navbar-text"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{userName}}</span></li>
+              <li ng-show="userName"><a ng-href="#/logout">Log Out</a></li>
             </ul>
           </div>
         </div>
@@ -44,6 +49,8 @@
     <div class="container">
     <div ng-view=""></div>
     </div>
+
+    <br>
 
     <div class="footer">
       <div class="container">
@@ -80,6 +87,7 @@
         <script src="scripts/controllers/register.js"></script>
         <script src="scripts/services/user.js"></script>
         <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/scoretable.js"></script>
         <!-- endbuild -->
 </body>
 </html>

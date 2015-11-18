@@ -5,7 +5,7 @@ describe('Controller: LoginCtrl', function () {
   // load the controller's module
   beforeEach(module('bballApp'));
 
-  var LoginController,
+  var LoginCtrl,
     scope,
     q,
     user,
@@ -17,7 +17,7 @@ describe('Controller: LoginCtrl', function () {
     q = $q;
     location = $location;
     user = _user_;
-    LoginController = $controller('LoginCtrl', {
+    LoginCtrl = $controller('LoginCtrl', {
       // place here mocked dependencies
       $scope: scope,
     });
@@ -49,6 +49,13 @@ describe('Controller: LoginCtrl', function () {
     var promise = scope.attemptLogin(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
+  });
+
+  it("should change error message if username is invalid", function() {
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
+    scope.$apply();
+    expect(scope.errorMessage).toBe("Error");
   });
 
   it("should change error message if username is invalid", function() {
