@@ -65,6 +65,22 @@ angular.module('bballApp')
       return defer.promise;
     };
 
+    this.attemptDelete = function(username) {
+      var defer = $q.defer();
+
+      if (!username) {
+        defer.reject("No username supplied.");
+      } else if (!users.hasOwnProperty(username.toLowerCase())) {
+        defer.reject("Cannot find username in database?");
+      } else {
+        delete users[username];
+        this.currentUser = {};
+        defer.resolve(username);
+      }
+
+      return defer.promise;
+    };
+
     this.getUsers = function() {
       var result = [];
       angular.forEach(users, function(value, key) {
