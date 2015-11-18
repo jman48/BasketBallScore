@@ -32,7 +32,7 @@ describe('Controller: RegisterCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  }
+  };
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');

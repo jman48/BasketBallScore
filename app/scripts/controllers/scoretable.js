@@ -42,13 +42,13 @@ angular.module('bballApp')
 
       switch ($scope.highScore) {
         case 'totalShots':
-          result += "\'hoops\' is ";
+          result += "'hoops' is ";
           break;
         case 'highestStreak':
-          result += '\'longest streak\' is ';
+          result += "'longest streak' is ";
           break;
         case 'shootOutsWon':
-          result += '\'shootouts won\' is ';
+          result += "'shootouts won' is ";
           break;
         default:
           result += $scope.highScore;
