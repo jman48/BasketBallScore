@@ -56,7 +56,6 @@ describe('Service: user', function () {
     expect(spy).toHaveBeenCalled();
   });
 
-<<<<<<< HEAD
   it('should fail when username field is blank', function() {
     var promise = user.attemptRegister();
     var spy = jasmine.createSpy('blank username');
@@ -67,9 +66,6 @@ describe('Service: user', function () {
   });
 
   it('should fail when username field is empty string', function() {
-=======
-  it('should reject promise when username field is empty string', function() {
->>>>>>> feature-scoretable
     var promise = user.attemptRegister('');
     var spy = jasmine.createSpy('empty string username');
     promise.then(angular.noop, spy);
