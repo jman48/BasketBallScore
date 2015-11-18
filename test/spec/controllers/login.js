@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: RegisterCtrl', function () {
+describe('Controller: LoginCtrl', function () {
 
   // load the controller's module
   beforeEach(module('bballApp'));
 
-  var RegisterCtrl,
+  var LoginCtrl,
     scope,
     q,
     user,
@@ -17,7 +17,7 @@ describe('Controller: RegisterCtrl', function () {
     q = $q;
     location = $location;
     user = _user_;
-    RegisterCtrl = $controller('RegisterCtrl', {
+    LoginCtrl = $controller('LoginCtrl', {
       // place here mocked dependencies
       $scope: scope,
     });
@@ -32,12 +32,12 @@ describe('Controller: RegisterCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  };
+  }
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(true, "John"));
-    var promise = scope.attemptRegister("John");
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(true, "RegisteredUser"));
+    var promise = scope.attemptLogin("RegisteredUser");
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/landing');
     expect(scope.errorMessage).toBe(undefined);
@@ -45,17 +45,25 @@ describe('Controller: RegisterCtrl', function () {
 
   it("should stay on same page when given invalid username", function() {
     spyOn(location, 'path');
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
   });
 
   it("should change error message if username is invalid", function() {
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
+    scope.$apply();
+    expect(scope.errorMessage).toBe("Error");
+  });
+
+  it("should change error message if username is invalid", function() {
+    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
     scope.$apply();
     expect(scope.errorMessage).toBe("Error");
   });
 
 });
+
