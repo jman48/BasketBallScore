@@ -1,23 +1,24 @@
 <div class="container">
   <h1>High Scores</h1>
-  <table class="table table-striped">
+  <h2 class="highscore" ng-bind="printHighScore()"></h2>
+  <table class="table table-striped table-responsive">
     <thead>
     <tr>
       <th>
+        <span class="{{getGlyph('name')}}"></span>
         <a href="#/scores" ng-click="order('name')">Name</a>
-        <span class="sortorder" ng-show="sortBy === 'name'" ng-class="{reverse:reverse}"></span>
       </th>
       <th>
+        <span class="{{getGlyph('totalShots')}}"></span>
         <a href="#/scores" ng-click="order('totalShots')">Hoops</a>
-        <span class="sortorder" ng-show="sortBy === 'totalShots'" ng-class="{reverse:reverse}"></span>
       </th>
       <th>
+        <span class="{{getGlyph('highestStreak')}}"></span>
         <a href="#/scores" ng-click="order('highestStreak')">Longest Streak</a>
-        <span class="sortorder" ng-show="sortBy === 'highestStreak'" ng-class="{reverse:reverse}"></span>
       </th>
       <th>
+        <span class="{{getGlyph('shootOutsWon')}}"></span>
         <a href="#/scores" ng-click="order('shootOutsWon')">Shootouts Won</a>
-        <span class="sortorder" ng-show="sortBy === 'shootOutsWon'" ng-class="{reverse:reverse}"></span>
       </th>
     </tr>
     </thead>
