@@ -54,4 +54,13 @@ describe('Controller: DeleteuserCtrl', function () {
     scope.$apply();
     expect(scope.userName).toBe(null);
   });
+
+  it("should stay on same page and return an error message if invalid username is deleted", function() {
+    spyOn(location, 'path');
+    spyOn(user, "attemptDelete").and.returnValue(generatePromise(false, "Error"));
+    scope.confirmDelete("");
+    scope.$apply();
+    expect(location.path).not.toHaveBeenCalled();
+    expect(scope.errorMessage).toBe("Error");
+  })
 });
