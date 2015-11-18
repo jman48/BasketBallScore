@@ -29,17 +29,30 @@
 
             <a class="navbar-brand" href="#/landing">BBall App</a>
           </div>
+
           <div>
             <ul class="nav navbar-nav navbar-left">
               <li><a ng-href="#/scores">High Scores</a></li>
             </ul>
           </div>
+
           <div>
             <ul class="nav navbar-nav navbar-right">
               <li ng-hide="userName"><a ng-href="#/login">Login</a></li>
               <li ng-hide="userName"><a ng-href="#/register">Register</a></li>
-              <li ng-show="userName" class="navbar-text"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{userName}}</span></li>
-              <li ng-show="userName"><a ng-href="#/logout">Log Out</a></li>
+              <!--<li ng-show="userName" class="navbar-text"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{userName}}</span></li>-->
+              <!--<li ng-show="userName"><a ng-href="#/logout">Log Out</a></li>-->
+              <li ng-show="userName" class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{userName}}</span>
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a ng-href="#/logout">Log Out</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Delete account</a></li>
+                  </ul>
+              </li>
             </ul>
           </div>
         </div>
@@ -81,6 +94,9 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
