@@ -12,7 +12,7 @@ angular.module('bballApp')
       $scope.attemptRegister = function(userName){
         var promise = user.attemptRegister(userName);
         promise.then(function(username) {
-          $location.path('/login');
+          $location.path('/landing');
         },
           function(errorMsg){
             $scope.errorMessage = errorMsg;

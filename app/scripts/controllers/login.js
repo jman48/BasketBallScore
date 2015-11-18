@@ -8,18 +8,21 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('LoginCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
-    $scope.attemptLogin = function(username){
+  .controller('LoginCtrl', ['$scope', 'user', '$location', '$rootScope', function ($scope, user, $location, $rootScope) {
+
+    $rootScope.userName = null;
+
+    $scope.attemptLogin = function (username) {
       var promise = user.attemptLogin(username);
 
-      promise.then(function(success){
+      promise.then(function (success) {
         $location.path('/landing');
-      }, function(errorMsg){
+      }, function (errorMsg) {
         $scope.errorMessage = errorMsg;
       });
     };
 
-    $scope.register = function(){
+    $scope.register = function () {
       $location.path('/register');
     }
   }]);

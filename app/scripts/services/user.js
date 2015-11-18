@@ -8,14 +8,26 @@
  * Service in the bballApp.
  */
 angular.module('bballApp')
-  .service('user', ['$q', function ($q) {
-    var usernames = ['reserved'];
+  .service('user', ['$q', '$rootScope', function ($q, $rootScope) {
 
     var users = {
       'reserved': {
-        totalShots: 100,
+        name: 'reserved',
+        totalShots: 101,
         highestStreak: 5,
-        shootOutsWon: 30
+        shootOutsWon: 2
+      },
+      'reserved1': {
+        name: 'reserved1',
+        totalShots: 50,
+        highestStreak: 6,
+        shootOutsWon: 4
+      },
+      'reserved2': {
+        name: 'reserved2',
+        totalShots: 75,
+        highestStreak: 1,
+        shootOutsWon: 6
       }
     };
 
@@ -25,10 +37,15 @@ angular.module('bballApp')
 
     this.attemptRegister = function(username){
       var defer = $q.defer();
-      if (!username)
+      if (!username) {
         defer.reject("Username is not valid");
-      if (usernames.indexOf(username) == -1){
-        usernames.push(username);
+      } else if (!users.hasOwnProperty(username.toLowerCase())){
+        users[username.toLowerCase()] = {name: username,
+          totalShots: 0,
+          highestStreak: 0,
+          shootOutsWon: 0};
+        currentUser = users[username.toLowerCase()];
+        $rootScope.userName = username;
         defer.resolve(username);
       }
       else defer.reject("Username is already taken");
@@ -38,14 +55,23 @@ angular.module('bballApp')
 
     this.attemptLogin = function(username){
       var defer = $q.defer();
-      if (!username)
+      if (!username) {
         defer.reject("Username is not valid");
-      if (usernames.indexOf(username) !== -1){
-        currentUser = users[username];
+      } else if (users.hasOwnProperty(username.toLowerCase())){
+        currentUser = users[username.toLowerCase()];
+        $rootScope.userName = username;
         defer.resolve(username);
       }
       else defer.reject("Username is not registered");
       return defer.promise;
+    };
+
+    this.getUsers = function() {
+      var result = [];
+      angular.forEach(users, function(value, key) {
+        result.push(value);
+      })
+      return result;
     };
   }]);
 
