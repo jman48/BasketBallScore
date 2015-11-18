@@ -21,14 +21,22 @@ angular
     $routeProvider
 
       .when('/', {
+        redirectTo: "/landing"
+      })
+      .when('/register', {
         templateUrl: 'views/register.html',
-        controller: 'RegisterCtrl',
-        controllerAs: 'register'
+        controller: 'RegisterCtrl'
       })
       .when('/login', {
-        templateUrl: 'views/blank.html'
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/landing', {
+        templateUrl: 'views/landing.html',
+        controller: 'SinglePlayerCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
   });
+
