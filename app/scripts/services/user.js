@@ -49,7 +49,6 @@ angular.module('bballApp')
       var url = serverAddr + "users";
       var promise = $http.get(url);
       var defer = $q.defer();
-
       promise.then(function (getSuccessRes){
         // if user already exists
         if (getUser(getSuccessRes.data, username)){

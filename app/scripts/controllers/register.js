@@ -18,10 +18,7 @@ angular.module('bballApp')
         var promise = user.register(username);
         promise.then(function (username) {
           $location.path('/login');
-        },
-          function (errorMsg) {
-            $scope.errorMessage = "Request error: " + errorMsg;
-          });
+        });
       }
     };
 

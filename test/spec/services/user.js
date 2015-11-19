@@ -16,16 +16,20 @@ describe('Service: user', function () {
     scope = _$rootScope_.$new();
     q = $q;
     http = $http;
+
+    // reset users
+    testUsers = [{
+      username: "testUser",
+      totalHoops: 50,
+      highestStreak: 3,
+      shootoutsWon: 10
+    }];
+
   }));
 
-  var testUsers = [{
-    username: "testUser",
-    totalHoops: 50,
-    highestStreak: 3,
-    shootoutsWon: 10
-  }];
+  var testUsers = [];
 
-  var fakeGetPromise = function (shouldResolve) {
+  var fakeGetReq = function (shouldResolve) {
     return q(function (resolve, reject) {
       if (shouldResolve){
         resolve({
@@ -39,11 +43,12 @@ describe('Service: user', function () {
     });
   };
 
-  var fakePostPromise = function (shouldResolve) {
+  var fakePostReq = function (shouldResolve) {
+    testUsers.push(user);
     return q(function (resolve, reject) {
       if (shouldResolve){
         resolve({
-          status: 300
+          status: 200 // success
         });
       } else {
         reject({
@@ -59,10 +64,12 @@ describe('Service: user', function () {
 
   it('should succeed when registering an unused username', function() {
     var newUser = "john";
-    spyOn(http, "get").and.returnValue(fakeGetPromise(true));
-    spyOn(http, "post").and.returnValue(fakePostPromise(true));
-    var promise = user.register(newUser);
     var spy = jasmine.createSpy('add user spy');
+
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
+    spyOn(http, "post").and.returnValue(fakePostReq(true));
+
+    var promise = user.register(newUser);
     promise.then(spy);
     scope.$apply();
 
@@ -73,11 +80,13 @@ describe('Service: user', function () {
 
   it('should fail when registering existing username', function() {
     var existingUser = "testUser";
-    spyOn(http, "get").and.returnValue(fakeGetPromise(true));
-    spyOn(http, "post").and.returnValue(fakePostPromise(true));
+    var failSpy = jasmine.createSpy('duplicate user spy');
+
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
+    spyOn(http, "post").and.returnValue(fakePostReq(true));
+
     user.register(existingUser);
     var promise = user.register(existingUser);
-    var failSpy = jasmine.createSpy('duplicate user spy');
     promise.then(angular.noop, failSpy);
     scope.$apply();
 
@@ -85,42 +94,6 @@ describe('Service: user', function () {
     expect(http.post).not.toHaveBeenCalled();
     expect(failSpy).toHaveBeenCalled();
   });
-
-  it('should succeed when registering two different usernames', function() {
-    var name1 = "will";
-    var name2 = "monkey";
-    spyOn(http, "get").and.returnValue(fakeGetPromise(true));
-    spyOn(http, "post").and.returnValue(fakePostPromise(true));
-    var successSpy = jasmine.createSpy('succeed spy');
-    var failSpy = jasmine.createSpy('fail spy');
-
-    user.register(name1).then(successSpy, failSpy);
-    user.register(name2).then(successSpy, failSpy);
-    scope.$apply();
-
-    expect(successSpy).toHaveBeenCalledWith(name1);
-    expect(successSpy).toHaveBeenCalledWith(name2);
-  });
-
-  // todo: uncomment when post is implemented
-/*  it('should fail when registering two different usernames with the first username repeated afterwards', function() {
-    var name1 = 'john';
-    var name2 = 'alice';
-    spyOn(http, "get").and.returnValue(fakeHttpGetPromise(true));
-    var successSpy = jasmine.createSpy('success spy');
-    user.register(name1);
-    var successPromise = user.register(name2);
-    successPromise.then(successSpy);
-    scope.$apply();
-    expect(successSpy).toHaveBeenCalled();
-
-    var failPromise = user.register(name1);
-    var failSpy = jasmine.createSpy('fail spy');
-    failPromise.then(angular.noop, failSpy);
-    scope.$apply();
-
-    expect(failSpy).toHaveBeenCalled();
-  });*/
 
   // LOGGING IN -----
   it('should succeed when logging in as a valid user', function(){
@@ -155,5 +128,4 @@ describe('Service: user', function () {
 
     expect(spy).toHaveBeenCalled();
   });
-  // implement log out before more tests..
 });
