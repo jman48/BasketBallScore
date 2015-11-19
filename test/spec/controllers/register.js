@@ -32,30 +32,30 @@ describe('Controller: RegisterCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  };
+  }
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(true, "John"));
+    spyOn(user, "register").and.returnValue(generatePromise(true, "John"));
     var promise = scope.attemptRegister("John");
     scope.$apply();
-    expect(location.path).toHaveBeenCalledWith('/landing');
+    expect(location.path).toHaveBeenCalledWith('/login');
     expect(scope.errorMessage).toBe(undefined);
   });
 
   it("should stay on same page when given invalid username", function() {
     spyOn(location, 'path');
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
+    spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
     var promise = scope.attemptRegister(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
   });
 
-  it("should change error message if username is invalid", function() {
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
+  it("shouldn't use user service if username is not valid", function() {
+    spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
     var promise = scope.attemptRegister(null);
     scope.$apply();
-    expect(scope.errorMessage).toBe("Error");
+    expect(user.register).not.toHaveBeenCalled();
   });
 
 });

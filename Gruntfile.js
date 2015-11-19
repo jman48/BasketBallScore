@@ -91,7 +91,7 @@ module.exports = function (grunt) {
               ),
               connect().use(
                 '/conf',
-                connect.static('./conf/dev')
+                connect.static('./dist/conf')
               ),
               connect.static(appConfig.app)
             ];
@@ -487,7 +487,7 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'test/karma.conf.js',
-        singleRun: true
+        singleRun: true,
       }
     }
   });
@@ -513,12 +513,23 @@ module.exports = function (grunt) {
     grunt.task.run(['serve:' + target]);
   });
 
-  grunt.registerTask('test', [
+  grunt.registerTask('test-dev', [
     'clean:server',
     'wiredep',
     'concurrent:test',
     'postcss',
     'connect:test',
+    'copy:dev',
+    'karma'
+  ]);
+
+  grunt.registerTask('test-prod', [
+    'clean:server',
+    'wiredep',
+    'concurrent:test',
+    'postcss',
+    'connect:test',
+    'copy:prod',
     'karma'
   ]);
 

@@ -1,3 +1,3 @@
 var config = {
-  backend: 'bballnz-uat.herokuapp.com/'
+  backend: 'http://bballnz.herokuapp.com/'
 };
