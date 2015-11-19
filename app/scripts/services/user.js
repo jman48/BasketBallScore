@@ -63,11 +63,9 @@ angular.module('bballApp')
             //shootoutsWon: 0
           };
 
-          console.log("posting: " + username);
           var postRes = $http.post(
             serverAddr + 'users',
             JSON.stringify(newUser)
-            //{headers: {contentType: "text/java"}}
           );
           postRes.then(function(postSuccessRes){
             defer.resolve(username);

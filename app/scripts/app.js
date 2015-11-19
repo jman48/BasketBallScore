@@ -17,9 +17,8 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .config(function ($routeProvider) {
+  .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
-
       .when('/', {
         redirectTo: "/login"
       })
@@ -44,5 +43,10 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+
+    // makes post requests to the rails server work properly
+    // without it, rails server responds with 406 - Not Acceptable
+    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
+  }]);
 
