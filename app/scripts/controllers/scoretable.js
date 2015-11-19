@@ -33,7 +33,7 @@ angular.module('bballApp')
           return "glyphicon glyphicon-triangle-top";
         }
       } else {
-        return "";
+        return "glyphicon glyphicon-triangle-top";
       }
     };
 

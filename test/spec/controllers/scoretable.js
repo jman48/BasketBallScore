@@ -42,7 +42,7 @@ describe('Controller: ScoretableCtrl', function () {
     });
   }));
 
-  var generatePromise = function(resolve, data){
+  var falsePromise = function(resolve, data){
     var defer = q.defer();
     if (resolve) {
       defer.resolve(data);

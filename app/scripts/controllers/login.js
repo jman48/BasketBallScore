@@ -25,5 +25,5 @@ angular.module('bballApp')
 
     $scope.register = function () {
       $location.path('/register');
-    }
+    };
   }]);
