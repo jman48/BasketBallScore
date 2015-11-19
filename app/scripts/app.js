@@ -21,7 +21,7 @@ angular
     $routeProvider
 
       .when('/', {
-        redirectTo: "/landing"
+        redirectTo: "/login"
       })
       .when('/register', {
         templateUrl: 'views/register.html',
