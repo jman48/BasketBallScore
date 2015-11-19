@@ -12,6 +12,28 @@ describe('Service: user', function () {
     scope = _$rootScope_.$new();
   }));
 
+  var existingUsername = "existing";
+  var users = [{
+    username: existingUsername,
+    totalHoops: 20,
+    highestStreak: 3,
+    shootoutsWon: 10
+  }];
+
+  var fakeGetRequest = function (shouldResolve) {
+    return q(function (resolve, reject) {
+      if (shouldResolve){
+        resolve({
+          data: users
+        });
+      } else {
+        reject({
+          statusText: "Didn't work"
+        });
+      }
+    });
+  };
+
   it('should do something', function () {
     expect(!!user).toBe(true);
   });
@@ -75,18 +97,20 @@ describe('Service: user', function () {
   });
 
   // LOGGING IN -----
-  it('should succeed when logging in as a valid user', function(){
-    var promise = user.attemptLogin('reserved');
+  it('should succeed when logging in as an existing user', function(){
+    spyOn(http, "get").and.returnValue(fakeGetRequest(true));
+    var promise = user.login(existingUsername);
     var spy = jasmine.createSpy('valid user logon');
+    // place spy at success path
     promise.then(spy);
     scope.$apply();
 
+    expect(http.get).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
 
   it('should fail when logging in with an invalid username', function(){
-    var attempt1 = user.attemptLogin('');
-    var attempt2 = user.attemptLogin(null);
+    spyOn(http, "get")
 
     var spy = jasmine.createSpy('invalid username logon');
 
@@ -100,7 +124,7 @@ describe('Service: user', function () {
   });
 
   it('should fail when logging in as an unrecognised user', function(){
-    var promise = user.attemptLogin('Jimbo');
+    var promise = user.login('Jimbo');
     var spy = jasmine.createSpy('unrecognised user');
     promise.then(angular.noop, spy);
     scope.$apply();

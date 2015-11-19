@@ -9,14 +9,16 @@ describe('Controller: LoginCtrl', function () {
     scope,
     q,
     user,
-    location;
+    location,
+    http;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function (_user_, $controller, $rootScope, $q, $location) {
+  beforeEach(inject(function (_user_, $controller, $rootScope, $q, $location, $http) {
     scope = $rootScope.$new();
     q = $q;
     location = $location;
     user = _user_;
+    http = $http;
     LoginController = $controller('LoginCtrl', {
       // place here mocked dependencies
       $scope: scope,
@@ -36,7 +38,7 @@ describe('Controller: LoginCtrl', function () {
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
-    spyOn(user, "attemptLogin").and.returnValue(generatePromise(true, "RegisteredUser"));
+    spyOn(user, "login").and.returnValue(generatePromise(true, "RegisteredUser"));
     var promise = scope.attemptLogin("RegisteredUser");
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/landing');
@@ -45,17 +47,26 @@ describe('Controller: LoginCtrl', function () {
 
   it("should stay on same page when given invalid username", function() {
     spyOn(location, 'path');
-    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptLogin(null);
+    spyOn(user, "login").and.returnValue(generatePromise(false, "Error"));
+    scope.attemptLogin(null);
+    scope.$apply();
+    expect(location.path).not.toHaveBeenCalled();
+
+    scope.attemptLogin('');
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
   });
 
   it("should change error message if username is invalid", function() {
-    spyOn(user, "attemptLogin").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptLogin(null);
+    spyOn(user, "login").and.returnValue(generatePromise(false, "Error"));
+    scope.attemptLogin('');
     scope.$apply();
-    expect(scope.errorMessage).toBe("Error");
+    expect(scope.errorMessage).toBe.not(undefined);
+    scope.errorMessage = undefined;
+
+    scope.attemptLogin(null);
+    scope.$apply();
+    expect(scope.errorMessage).toBe.not.(undefined);
   });
 
 });

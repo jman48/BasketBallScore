@@ -10,13 +10,16 @@
 angular.module('bballApp')
   .controller('LoginCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
     $scope.attemptLogin = function(username){
-      var promise = user.attemptLogin(username);
-
-      promise.then(function(success){
-        $location.path('/landing');
-      }, function(errorMsg){
-        $scope.errorMessage = errorMsg;
-      });
+      if (!username){
+        $scope.errorMessage('invalid name');
+      } else {
+        var promise = user.login(username);
+        promise.then(function (success) {
+          $location.path('/landing');
+        }, function (errorMsg) {
+          $scope.errorMessage = errorMsg;
+        });
+      }
     };
 
     $scope.register = function(){
