@@ -85,8 +85,8 @@ describe('Service: user', function () {
   });
 
   it('should fail when logging in with an invalid username', function(){
-    var attempt1 = user.attemptLogin('');
-    var attempt2 = user.attemptLogin(null);
+    var attempt1 = user.attemptLogin(null);
+    var attempt2 = user.attemptLogin('');
 
     var spy = jasmine.createSpy('invalid username logon');
 
@@ -107,5 +107,23 @@ describe('Service: user', function () {
 
     expect(spy).toHaveBeenCalled();
   });
+
+  // DELETING USERS
+
+  it('should fail if no username is supplied', function() {
+    var rejected1 = user.attemptDelete(null);
+    var rejected2 = user.attemptDelete('');
+
+    var spy = jasmine.createSpy('Invalid username');
+
+    rejected1.then(angular.noop, spy);
+    scope.$apply();
+    expect(spy).toHaveBeenCalled();
+
+    rejected2.then(angular.noop, spy);
+    scope.$apply();
+    expect(spy).toHaveBeenCalled();
+  });
+
   // implement log out before more tests..
 });
