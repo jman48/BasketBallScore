@@ -34,9 +34,8 @@ angular.module('bballApp')
       }
     };
 
+    this.currentUser = {};
     // backend serverAddr
-
-    var currentUser = {};
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
@@ -84,11 +83,27 @@ angular.module('bballApp')
       if (!username) {
         defer.reject("Username is not valid");
       } else if (users.hasOwnProperty(username.toLowerCase())) {
-        currentUser = users[username.toLowerCase()];
+        this.currentUser = users[username.toLowerCase()];
         defer.resolve(username);
         $rootScope.userName = username;
 
       } else defer.reject("Username is not registered");
+
+      return defer.promise;
+    }
+
+    this.attemptDelete = function(username) {
+      var defer = $q.defer();
+
+      if (!username) {
+        defer.reject("No username supplied.");
+      } else if (!users.hasOwnProperty(username.toLowerCase())) {
+        defer.reject("Cannot find username in database?");
+      } else {
+        delete users[username];
+        this.currentUser = {};
+        defer.resolve(username);
+      }
 
       return defer.promise;
     }

@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Confirm Deletion</h1>
+  <br>
+  <div>Are you sure you wish to delete account for <span class="user">{{userName}}</span>?</div>
+  <br>
+  <button class="btn btn-success" ng-click="confirmDelete(userName)">Make it so!</button>
+  <button class="btn btn-danger" ng-click="cancelDelete()">Whoops please no!</button>
+  <p class="error-msg" ng-show="errorMessage" ng-bind="errorMessage"></p>
+</div>

@@ -11,6 +11,7 @@ angular.module('bballApp')
   .controller('LoginCtrl', ['$scope', 'user', '$location', '$rootScope', function ($scope, user, $location, $rootScope) {
 
     $rootScope.userName = null;
+    user.currentUser = {};
 
     $scope.attemptLogin = function (username) {
       var promise = user.attemptLogin(username);

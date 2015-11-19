@@ -33,7 +33,7 @@ angular.module('bballApp')
           return "glyphicon glyphicon-triangle-top";
         }
       } else {
-        return "";
+        return "glyphicon glyphicon-triangle-top";
       }
     };
 
@@ -83,5 +83,13 @@ angular.module('bballApp')
       }
 
       return result += highestPlayer.toUpperCase();
+    };
+
+    $scope.matchActiveRow = function(thisUser) {
+      if (thisUser.name === user.currentUser.name) {
+        return "info";
+      } else {
+        return "";
+      }
     };
   }]);
