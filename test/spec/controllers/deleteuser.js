@@ -34,12 +34,6 @@ describe('Controller: DeleteuserCtrl', function () {
     return defer.promise;
   };
 
-  it("should redirect to landing page if deletion is cancelled", function() {
-    spyOn(location, 'path');
-    scope.cancelDelete();
-    expect(location.path).toHaveBeenCalledWith('/landing');
-  });
-
   it("should redirect when valid username is deleted", function(){
     spyOn(location, 'path');
     spyOn(user, "attemptDelete").and.returnValue(generatePromise(true, "RegisteredUser"));
