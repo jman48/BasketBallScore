@@ -15,19 +15,19 @@ angular.module('bballApp')
     // todo: replace with http requests
     var users = {
       'reserved': {
-        name: 'reserved',
+        username: 'reserved',
         totalShots: 101,
         highestStreak: 5,
         shootOutsWon: 2
       },
       'reserved1': {
-        name: 'reserved1',
+        username: 'reserved1',
         totalShots: 50,
         highestStreak: 6,
         shootOutsWon: 4
       },
       'reserved2': {
-        name: 'reserved2',
+        username: 'reserved2',
         totalShots: 75,
         highestStreak: 1,
         shootOutsWon: 6
@@ -59,6 +59,8 @@ angular.module('bballApp')
             //highestStreak: 0,
             //shootoutsWon: 0
           };
+
+          currentUser = newUser;
 
           var postRes = $http.post(
             serverAddr + 'users',

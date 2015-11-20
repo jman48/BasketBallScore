@@ -10,7 +10,7 @@
 angular.module('bballApp')
   .controller('IndexCtrl', ['$scope', 'user', function ($scope, user) {
     $scope.username = function() {
-      return user.getCurrentUser().name;
+      return user.getCurrentUser().username;
     };
 
     $scope.logOut = function() {
