@@ -15,7 +15,7 @@ angular.module('bballApp')
 
       promise.then(function (success) {
         $location.path('/landing');
-        user.currentUser = {};
+        user.logOut();
       }, function (errorMsg) {
         $scope.errorMessage = errorMsg;
       });
@@ -26,6 +26,6 @@ angular.module('bballApp')
     };
 
     $scope.username = function() {
-      return user.currentUser.name;
+      return user.getCurrentUser().name;
     };
   }]);

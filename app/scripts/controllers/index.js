@@ -10,6 +10,6 @@
 angular.module('bballApp')
   .controller('IndexCtrl', ['$scope', 'user', function ($scope, user) {
     $scope.username = function() {
-      return user.currentUser.name;
+      return user.getCurrentUser().name;
     };
   }]);

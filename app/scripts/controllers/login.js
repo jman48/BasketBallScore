@@ -10,7 +10,7 @@
 angular.module('bballApp')
   .controller('LoginCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
 
-    user.currentUser = {};
+    user.logOut();
 
     $scope.attemptLogin = function (username) {
       var promise = user.attemptLogin(username);

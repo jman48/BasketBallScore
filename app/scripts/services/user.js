@@ -34,8 +34,7 @@ angular.module('bballApp')
       }
     };
 
-    this.currentUser = {};
-    // backend serverAddr
+    var currentUser = {};
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
@@ -83,7 +82,7 @@ angular.module('bballApp')
       if (!username) {
         defer.reject("Username is not valid");
       } else if (users.hasOwnProperty(username.toLowerCase())) {
-        this.currentUser = users[username.toLowerCase()];
+        currentUser = users[username.toLowerCase()];
         defer.resolve(username);
 
       } else defer.reject("Username is not registered");
@@ -100,7 +99,7 @@ angular.module('bballApp')
         defer.reject("Cannot find username in database?");
       } else {
         delete users[username];
-        this.currentUser = {};
+        currentUser = {};
         defer.resolve(username);
       }
 
@@ -115,5 +114,12 @@ angular.module('bballApp')
       return result;
     };
 
+    this.getCurrentUser = function() {
+      return currentUser;
+    };
+
+    this.logOut = function() {
+      currentUser = {};
+    };
   }]);
 
