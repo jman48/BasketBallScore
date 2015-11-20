@@ -8,9 +8,8 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('LoginCtrl', ['$scope', 'user', '$location', '$rootScope', function ($scope, user, $location, $rootScope) {
+  .controller('LoginCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
 
-    $rootScope.userName = null;
     user.currentUser = {};
 
     $scope.attemptLogin = function (username) {

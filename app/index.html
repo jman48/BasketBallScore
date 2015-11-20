@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="bballApp">
+  <body ng-app="bballApp" ng-controller="IndexCtrl">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -40,11 +40,11 @@
             <li><a ng-href="#/scores">High Scores</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li ng-hide="userName"><a ng-href="#/login">Login</a></li>
-            <li ng-hide="userName"><a ng-href="#/register">Register</a></li>
-            <li class="dropdown ng-cloak" ng-show="userName">
+            <li ng-hide="username()"><a ng-href="#/login">Login</a></li>
+            <li ng-hide="username()"><a ng-href="#/register">Register</a></li>
+            <li class="dropdown ng-cloak" ng-show="username()">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{userName}}</span>
+                <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{username()}}</span>
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
@@ -59,7 +59,7 @@
     </nav>
 
     <div class="container">
-    <div ng-view=""></div>
+    <div ng-view></div>
     </div>
 
     <br>
@@ -94,6 +94,7 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/scoretable.js"></script>
         <script src="scripts/controllers/deleteuser.js"></script>
+        <script src="scripts/controllers/index.js"></script>
         <!-- endbuild -->
 </body>
 </html>

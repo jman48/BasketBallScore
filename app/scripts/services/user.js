@@ -8,7 +8,7 @@
  * Service in the bballApp.
  */
 angular.module('bballApp')
-  .service('user', ['$q', '$rootScope', '$http', function ($q, $rootScope, $http) {
+  .service('user', ['$q', '$http', function ($q, $http) {
 
     var serverAddr = config.backend;
 
@@ -85,7 +85,6 @@ angular.module('bballApp')
       } else if (users.hasOwnProperty(username.toLowerCase())) {
         this.currentUser = users[username.toLowerCase()];
         defer.resolve(username);
-        $rootScope.userName = username;
 
       } else defer.reject("Username is not registered");
 
