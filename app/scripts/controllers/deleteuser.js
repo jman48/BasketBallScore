@@ -21,11 +21,7 @@ angular.module('bballApp')
       });
     };
 
-    $scope.cancelDelete = function() {
-      $location.path('/landing');
-    };
-
-    $scope.username = function() {
+    $scope.getUsername = function() {
       return user.getCurrentUser().name;
     };
   }]);
