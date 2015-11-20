@@ -13,7 +13,7 @@ angular.module('bballApp')
     // backend serverAddr
     var serverAddr = config.backend;
 
-    var currentUser = {};
+    var currentUser = {username: "test", totalHoops: 100, highestStreak: "3"};
 
     var users = [];
 
@@ -76,11 +76,15 @@ angular.module('bballApp')
     };
 
     this.getUsers = function() {
-      var result = [];
-      angular.forEach(users, function(value, key) {
-        result.push(value);
+      var url = serverAddr + 'users';
+      return $q(function (resolve, reject) {
+        $http.get(url).then(function (successRes) {
+          var users = successRes.data;
+          resolve(users);
+        }, function (failRes) {
+          reject(failRes.statusText);
+        });
       });
-      return result;
     };
 
     this.incrementHoops = function(){
