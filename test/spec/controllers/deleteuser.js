@@ -48,13 +48,6 @@ describe('Controller: DeleteuserCtrl', function () {
     expect(location.path).toHaveBeenCalledWith('/landing');
   });
 
-  it("should set userName to null when user deleted", function() {
-    spyOn(user, "attemptDelete").and.returnValue(generatePromise(true, "RegisteredUser"));
-    scope.confirmDelete("RegisteredUser");
-    scope.$apply();
-    expect(scope.userName).toBe(null);
-  });
-
   it("should stay on same page and return an error message if invalid username is deleted", function() {
     spyOn(location, 'path');
     spyOn(user, "attemptDelete").and.returnValue(generatePromise(false, "Error"));
