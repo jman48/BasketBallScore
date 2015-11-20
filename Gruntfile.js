@@ -89,6 +89,10 @@ module.exports = function (grunt) {
                 '/app/styles',
                 connect.static('./app/styles')
               ),
+              connect().use(
+                '/conf',
+                connect.static('./dist/conf')
+              ),
               connect.static(appConfig.app)
             ];
           }
@@ -475,7 +479,6 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        'imagemin',
         'svgmin'
       ]
     },
@@ -484,7 +487,7 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'test/karma.conf.js',
-        singleRun: true
+        singleRun: true,
       }
     }
   });
@@ -492,7 +495,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build-dev', 'connect:dist:keepalive']);
+      return grunt.task.run(['connect:dist:keepalive']);
     }
 
     grunt.task.run([
@@ -510,12 +513,23 @@ module.exports = function (grunt) {
     grunt.task.run(['serve:' + target]);
   });
 
-  grunt.registerTask('test', [
+  grunt.registerTask('test-dev', [
     'clean:server',
     'wiredep',
     'concurrent:test',
     'postcss',
     'connect:test',
+    'copy:dev',
+    'karma'
+  ]);
+
+  grunt.registerTask('test-prod', [
+    'clean:server',
+    'wiredep',
+    'concurrent:test',
+    'postcss',
+    'connect:test',
+    'copy:prod',
     'karma'
   ]);
 
@@ -529,7 +543,7 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'copy:dev',
+    'copy:prod',
     'cdnify',
     'cssmin',
     'uglify',

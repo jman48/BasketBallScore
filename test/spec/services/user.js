@@ -5,73 +5,94 @@ describe('Service: user', function () {
   // load the service's module
   beforeEach(module('bballApp'));
 
-  // instantiate service
-  var user, scope;
-  beforeEach(inject(function (_user_, _$rootScope_) {
+  // instantiate services
+  var user,
+    scope,
+    q,
+    http;
+
+  beforeEach(inject(function (_user_, _$rootScope_, $q, $http) {
     user = _user_;
     scope = _$rootScope_.$new();
+    q = $q;
+    http = $http;
+
+    // reset users
+    testUsers = [{
+      username: "testUser",
+      totalHoops: 50,
+      highestStreak: 3,
+      shootoutsWon: 10
+    }];
+
   }));
+
+  var testUsers = [];
+
+  var fakeGetReq = function (shouldResolve) {
+    return q(function (resolve, reject) {
+      if (shouldResolve){
+        resolve({
+          data: testUsers
+        });
+      } else {
+        reject({
+          statusText: "Could not complete get"
+        });
+      }
+    });
+  };
+
+  var fakePostReq = function (shouldResolve) {
+    testUsers.push(user);
+    return q(function (resolve, reject) {
+      if (shouldResolve){
+        resolve({
+          status: 200 // success
+        });
+      } else {
+        reject({
+          statusText: "Could not complete post"
+        });
+      }
+    });
+  };
 
   it('should do something', function () {
     expect(!!user).toBe(true);
   });
 
-  it('should succeed when registering a valid username', function() {
-    var promise = user.attemptRegister('John');
+  it('should succeed when registering an unused username', function() {
+    var newUser = "john";
     var spy = jasmine.createSpy('add user spy');
+
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
+    spyOn(http, "post").and.returnValue(fakePostReq(true));
+
+    var promise = user.register(newUser);
     promise.then(spy);
     scope.$apply();
 
-    expect(spy).toHaveBeenCalledWith('John');
+    expect(http.get).toHaveBeenCalled();
+    expect(http.post).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(newUser);
   });
 
   it('should fail when registering existing username', function() {
-    user.attemptRegister('John');
-    var promise = user.attemptRegister('John');
-    var spy = jasmine.createSpy('duplicate user spy');
-    promise.then(angular.noop, spy);
+    var existingUser = "testUser";
+    var failSpy = jasmine.createSpy('duplicate user spy');
+
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
+    spyOn(http, "post").and.returnValue(fakePostReq(true));
+
+    user.register(existingUser);
+    var promise = user.register(existingUser);
+    promise.then(angular.noop, failSpy);
     scope.$apply();
 
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should succeed when registering two different usernames', function() {
-    user.attemptRegister('John');
-    var promise = user.attemptRegister('Mary');
-    var spy = jasmine.createSpy('different users spy');
-    promise.then(spy);
-    scope.$apply();
-
-    expect(spy).toHaveBeenCalledWith('Mary');
-  });
-
-  it('should fail when registering two different usernames with the first username repeated afterwards', function() {
-    user.attemptRegister('John');
-    user.attemptRegister('Alice');
-    var promise = user.attemptRegister('John');
-    var spy = jasmine.createSpy('different users spy');
-    promise.then(angular.noop, spy);
-    scope.$apply();
-
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should fail when username field is blank', function() {
-    var promise = user.attemptRegister();
-    var spy = jasmine.createSpy('blank username');
-    promise.then(angular.noop, spy);
-    scope.$apply();
-
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should fail when username field is empty string', function() {
-    var promise = user.attemptRegister('');
-    var spy = jasmine.createSpy('empty string username');
-    promise.then(angular.noop, spy);
-    scope.$apply();
-
-    expect(spy).toHaveBeenCalled();
+    expect(http.get).toHaveBeenCalled();
+    expect(http.post).not.toHaveBeenCalled();
+    expect(failSpy).toHaveBeenCalled();
   });
 
   // LOGGING IN -----
@@ -107,5 +128,4 @@ describe('Service: user', function () {
 
     expect(spy).toHaveBeenCalled();
   });
-  // implement log out before more tests..
 });

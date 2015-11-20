@@ -27,14 +27,19 @@
         <div class="container">
           <div class="navbar-header">
 
-            <a class="navbar-brand" href="#/">BBall App</a>
+            <a class="navbar-brand" href="#/landing">BBall App</a>
           </div>
-
           <div>
-
-            <ul class="nav navbar-nav">
-              <li><a href="#/login">Login</a></li>
-              <li><a ng-href="#/register">Register</a></li>
+            <ul class="nav navbar-nav navbar-left">
+              <li><a ng-href="#/scores">High Scores</a></li>
+            </ul>
+          </div>
+          <div>
+            <ul class="nav navbar-nav navbar-right">
+              <li ng-hide="userName"><a ng-href="#/login">Login</a></li>
+              <li ng-hide="userName"><a ng-href="#/register">Register</a></li>
+              <li ng-show="userName" class="navbar-text"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user">{{userName}}</span></li>
+              <li ng-show="userName"><a ng-href="#/logout">Log Out</a></li>
             </ul>
           </div>
         </div>
@@ -45,23 +50,13 @@
     <div ng-view=""></div>
     </div>
 
+    <br>
+
     <div class="footer">
       <div class="container">
         <p>Made by Will and David</p>
       </div>
     </div>
-
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
 
     <script src="conf/config.js"></script>
 
@@ -82,7 +77,11 @@
         <script src="scripts/controllers/register.js"></script>
         <script src="scripts/services/user.js"></script>
         <script src="scripts/controllers/login.js"></script>
+<<<<<<< HEAD
         <script src="scripts/controllers/singleplayer.js"></script>
+=======
+        <script src="scripts/controllers/scoretable.js"></script>
+>>>>>>> 49c60220731b04739bb0a708e1de2395f06ee0f4
         <!-- endbuild -->
 </body>
 </html>

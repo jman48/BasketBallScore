@@ -8,39 +8,60 @@
  * Service in the bballApp.
  */
 angular.module('bballApp')
-  .service('user', ['$q', function ($q) {
-    var users = {
-      'reserved': {
-        totalHoops: 100,
-        highestStreak: 5,
-        shootOutsWon: 30
-      }
+  .service('user', ['$q', '$rootScope', '$http', function ($q, $rootScope, $http) {
+
+    // backend serverAddr
+    var serverAddr = config.backend;
+
+    var currentUser = {};
+
+    var users = [];
+
+    // helper function, returns user from users array
+    var getUser = function (users, username) {
+      return users[users.map(function (user) {
+        return user.username;
+      }).indexOf(username)];
     };
 
-    var currentUser = users["reserved"];
-
-    // AngularJS will instantiate a singleton by calling "new" on this function
-    this.attemptRegister = function(username){
+    this.register = function (username) {
+      var url = serverAddr + "users";
+      var promise = $http.get(url);
       var defer = $q.defer();
       if (!username) {
         defer.reject("Username is not valid");
       }
-      // if user does not exist
-      if (!users[username]){
-        users[username] = {
-          totalHoops: 0,
-          highestStreak: 0,
-          shootOutsWon: 0
-        };
-        defer.resolve(username);
-      } else {
-        defer.reject("Username is already taken");
-      }
+      promise.then(function (getSuccessRes){
+        // if user already exists
+        if (getUser(getSuccessRes.data, username)){
+          defer.reject("Username is already taken");
+        } else { // username is available
+
+          var newUser = {
+            "username": username
+            //totalHoops: 0,
+            //highestStreak: 0,
+            //shootoutsWon: 0
+          };
+
+          var postRes = $http.post(
+            serverAddr + 'users',
+            JSON.stringify(newUser)
+          );
+          postRes.then(function(postSuccessRes){
+            defer.resolve(username);
+          }, function(postFailRes){
+            defer.reject("Post failed: " + postFailRes.statusText);
+          });
+        }
+      }, function (getFailRes) {
+        defer.reject("Get failed: " + getFailRes.statusText);
+      });
 
       return defer.promise;
     };
 
-    this.attemptLogin = function(username){
+    this.attemptLogin = function (username) {
       var defer = $q.defer();
       if (!username){
         defer.reject("Username is not valid");
@@ -52,6 +73,14 @@ angular.module('bballApp')
         defer.reject("Username is not registered");
       }
       return defer.promise;
+    };
+
+    this.getUsers = function() {
+      var result = [];
+      angular.forEach(users, function(value, key) {
+        result.push(value);
+      });
+      return result;
     };
 
     this.incrementHoops = function(){
