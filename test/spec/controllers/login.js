@@ -5,7 +5,7 @@ describe('Controller: LoginCtrl', function () {
   // load the controller's module
   beforeEach(module('bballApp'));
 
-  var LoginController,
+  var LoginCtrl,
     scope,
     q,
     user,
@@ -19,9 +19,9 @@ describe('Controller: LoginCtrl', function () {
     location = $location;
     user = _user_;
     http = $http;
-    LoginController = $controller('LoginCtrl', {
+    LoginCtrl = $controller('LoginCtrl', {
       // place here mocked dependencies
-      $scope: scope,
+      $scope: scope
     });
   }));
 
@@ -61,13 +61,19 @@ describe('Controller: LoginCtrl', function () {
     spyOn(user, "login").and.returnValue(generatePromise(false, "Error"));
     scope.attemptLogin('');
     scope.$apply();
-    expect(scope.errorMessage).toBe.not(undefined);
+    expect(scope.errorMessage).not.toBe(undefined);
     scope.errorMessage = undefined;
 
     scope.attemptLogin(null);
     scope.$apply();
-    expect(scope.errorMessage).toBe.not.(undefined);
+    expect(scope.errorMessage).not.toBe(undefined);
+  });
+
+  it("should change error message if username is invalid", function() {
+    spyOn(user, "login").and.returnValue(generatePromise(false, "Error"));
+    var promise = scope.attemptLogin(null);
+    scope.$apply();
+    expect(scope.errorMessage).toBe("Error");
   });
 
 });
-

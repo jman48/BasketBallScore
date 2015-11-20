@@ -9,51 +9,85 @@
  */
 angular.module('bballApp')
   .service('user', ['$q','$http', function ($q, $http) {
-    var usernames = ['reserved'];
-    var tempConfig = { backend: 'http://bballnz.herokuapp.com' };
-    var serverAddr = tempConfig.backend;
 
-    var users = {
-      'reserved': {
-        totalShots: 100,
-        highestStreak: 5,
-        shootOutsWon: 30
-      }
-    };
+    // local server when built with dev
+    // remove server when built with prod
+    var serverAddr = config.backend;
 
     var currentUser = {};
 
-    // AngularJS will instantiate a singleton by calling "new" on this function
-    this.attemptRegister = function(username){
+    // helper function, returns user from users array
+    var getUser = function (users, username) {
+      return users[users.map(function (user) {
+        return user.username;
+      }).indexOf(username)];
+    };
+
+    this.register = function (username) {
+      var url = serverAddr + "users";
+      var promise = $http.get(url);
       var defer = $q.defer();
-      if (!username)
-        defer.reject("Username is not valid");
-      if (usernames.indexOf(username) == -1){
-        usernames.push(username);
-        defer.resolve(username);
-      }
-      else defer.reject("Username is already taken");
+      promise.then(function (getSuccessRes){
+        // if user already exists
+        if (getUser(getSuccessRes.data, username)){
+          defer.reject("Username is already taken");
+        } else { // username is available
+
+          var newUser = {
+            "username": username
+            //totalHoops: 0,
+            //highestStreak: 0,
+            //shootoutsWon: 0
+          };
+
+          var postRes = $http.post(
+            serverAddr + 'users',
+            JSON.stringify(newUser)
+          );
+          postRes.then(function(postSuccessRes){
+            defer.resolve(username);
+          }, function(postFailRes){
+            defer.reject("Post failed: " + postFailRes.statusText);
+          });
+        }
+      }, function (getFailRes) {
+        defer.reject("Get failed: " + getFailRes.statusText);
+      });
 
       return defer.promise;
     };
 
     this.login = function(username){
+
       var defer = $q.defer();
       var url = serverAddr + 'users';
 
-      $http.post(url).then(function (successRes) {
+      $http.get(url).then(function (successRes) {
         var users = successRes.data;
-        var user = getUsers(users, username);
+        var user = getUser(users, username);
         if (user){ // user exists
           currentUser = user;
           defer.resolve(username);
         } else {
-          defer.reject("User doesn't exist ya chump");
+          defer.reject("That username doesn't exist ya chump");
         }
       }, function (failRes) {
         defer.reject("Get request failed: " + failRes.statusText);
       });
       return defer.promise;
     };
+
+    this.getUsers = function() {
+      var url = serverAddr + 'users';
+      return $q(function (resolve, reject) {
+        $http.get(url).then(function (successRes) {
+          var users = successRes.data;
+          resolve(users);
+        }, function (failRes) {
+          reject(failRes.statusText);
+        });
+      });
+    };
+
   }]);
 
