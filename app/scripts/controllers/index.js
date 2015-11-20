@@ -12,4 +12,8 @@ angular.module('bballApp')
     $scope.username = function() {
       return user.getCurrentUser().name;
     };
+
+    $scope.logOut = function() {
+      user.logOut();
+    };
   }]);

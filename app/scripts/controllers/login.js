@@ -10,8 +10,6 @@
 angular.module('bballApp')
   .controller('LoginCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
 
-    user.logOut();
-
     $scope.attemptLogin = function (username) {
       var promise = user.attemptLogin(username);
 
@@ -20,9 +18,5 @@ angular.module('bballApp')
       }, function (errorMsg) {
         $scope.errorMessage = errorMsg;
       });
-    };
-
-    $scope.register = function () {
-      $location.path('/register');
     };
   }]);

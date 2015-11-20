@@ -21,8 +21,4 @@ angular.module('bballApp')
         });
       }
     };
-
-    $scope.test = function () {
-      $scope.errorMessage = "Nothing wrong";
-    };
   }]);
