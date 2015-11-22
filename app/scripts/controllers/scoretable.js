@@ -78,7 +78,7 @@ angular.module('bballApp')
 
         if (maxScore < score) {
           maxScore = score;
-          highestPlayer = user.name;
+          highestPlayer = user.username;
         }
       }
 
