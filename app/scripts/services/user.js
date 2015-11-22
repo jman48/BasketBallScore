@@ -101,6 +101,14 @@ angular.module('bballApp')
       return defer.promise;
     };
 
+    this.removePlayerFromShootout = function(player) {
+
+      var index = currentPlayers.indexOf(player)
+
+      currentPlayers.splice(index, index + 1);
+
+    };
+
     this.attemptDelete = function(username) {
       var defer = $q.defer();
 

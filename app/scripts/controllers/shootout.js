@@ -26,6 +26,10 @@ angular.module('bballApp')
         });
     };
 
+    $scope.removePlayer = function(player) {
+      user.removePlayerFromShootout(player);
+    };
+
     $scope.startShootout = function () {
 
     };
