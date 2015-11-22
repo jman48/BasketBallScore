@@ -8,7 +8,7 @@
  * Service in the bballApp.
  */
 angular.module('bballApp')
-  .service('user', ['$q','$http', function ($q, $http) {
+  .service('user', ['$q', '$http', function ($q, $http) {
 
     // local server when built with dev
     // remove server when built with prod
@@ -39,6 +39,8 @@ angular.module('bballApp')
             //highestStreak: 0,
             //shootoutsWon: 0
           };
+
+          currentUser = newUser;
 
           var postRes = $http.post(
             serverAddr + 'users',
@@ -77,6 +79,22 @@ angular.module('bballApp')
       return defer.promise;
     };
 
+    this.attemptDelete = function(username) {
+      var defer = $q.defer();
+
+      if (!username) {
+        defer.reject("No username supplied.");
+      } else if (!users.hasOwnProperty(username.toLowerCase())) {
+        defer.reject("Cannot find username in database?");
+      } else {
+        delete users[username];
+        currentUser = {};
+        defer.resolve(username);
+      }
+
+      return defer.promise;
+    }
+
     this.getUsers = function() {
       var url = serverAddr + 'users';
       return $q(function (resolve, reject) {
@@ -89,5 +107,12 @@ angular.module('bballApp')
       });
     };
 
+    this.getCurrentUser = function() {
+      return currentUser;
+    };
+
+    this.logOut = function() {
+      currentUser = {};
+    };
   }]);
 

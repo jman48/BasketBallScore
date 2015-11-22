@@ -24,10 +24,10 @@
     </thead>
     <tbody>
     <tr ng-repeat="user in users | orderBy:sortBy:reverse">
-      <td>{{user.name}}</td>
-      <td>{{user.totalShots}}</td>
-      <td>{{user.highestStreak}}</td>
-      <td>{{user.shootOutsWon}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.username}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.totalShots}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.highestStreak}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.shootOutsWon}}</td>
     </tr>
     </tbody>
   </table>

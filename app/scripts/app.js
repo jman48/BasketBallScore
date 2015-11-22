@@ -30,6 +30,10 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .when('/deleteuser', {
+        templateUrl: 'views/deleteuser.html',
+        controller: 'DeleteuserCtrl'
+      })
       .when('/landing', {
         templateUrl: 'views/blank.html'
       })
@@ -49,4 +53,3 @@ angular
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
   }]);
-
