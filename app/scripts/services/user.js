@@ -27,9 +27,6 @@ angular.module('bballApp')
     this.register = function (username) {
       var promise = $http.get(url);
       var defer = $q.defer();
-      if (!username) {
-        defer.reject("Username is not valid");
-      }
       promise.then(function (getSuccessRes){
         // if user already exists
         if (getUser(getSuccessRes.data, username)){
@@ -120,7 +117,7 @@ angular.module('bballApp')
     };
 
     var updateHoops = function () {
-      $http.put(url + "/" + 1 + "/totalHoops",
+      $http.put(url + "/" + currentUser.id + "/totalHoops",
         {
           totalHoops: currentUser.totalHoops
         });
@@ -132,7 +129,7 @@ angular.module('bballApp')
 
     this.updateHighestStreak = function(newHighest) {
       currentUser.highestStreak = newHighest;
-      $http.put(url + "/" + 1 + "/highestStreak",
+      $http.put(url + "/" + currentUser.id + "/highestStreak",
         {
           highestStreak: currentUser.highestStreak
         }
