@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>High Scores</h1>
+  <h2 class="highscore" ng-bind="printHighScore()"></h2>
+  <table class="table table-striped table-responsive">
+    <thead>
+    <tr>
+      <th>
+        <span class="{{getGlyph('name')}}"></span>
+        <a href="#/scores" ng-click="order('name')">Name</a>
+      </th>
+      <th>
+        <span class="{{getGlyph('totalShots')}}"></span>
+        <a href="#/scores" ng-click="order('totalShots')">Hoops</a>
+      </th>
+      <th>
+        <span class="{{getGlyph('highestStreak')}}"></span>
+        <a href="#/scores" ng-click="order('highestStreak')">Longest Streak</a>
+      </th>
+      <th>
+        <span class="{{getGlyph('shootOutsWon')}}"></span>
+        <a href="#/scores" ng-click="order('shootOutsWon')">Shootouts Won</a>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users | orderBy:sortBy:reverse">
+      <td class="{{matchActiveRow(user)}}">{{user.username}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.totalShots}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.highestStreak}}</td>
+      <td class="{{matchActiveRow(user)}}">{{user.shootOutsWon}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

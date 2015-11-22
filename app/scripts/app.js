@@ -17,9 +17,8 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .config(function ($routeProvider) {
+  .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
-
       .when('/', {
         redirectTo: "/login"
       })
@@ -31,11 +30,27 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .when('/deleteuser', {
+        templateUrl: 'views/deleteuser.html',
+        controller: 'DeleteuserCtrl'
+      })
       .when('/landing', {
-        templateUrl: 'views/blank.html'
+        templateUrl: 'views/landing.html',
+        controller: 'SinglePlayerCtrl'
+      })
+      .when('/scores', {
+        templateUrl: 'views/scoretable.html',
+        controller: 'ScoretableCtrl'
+      })
+      .when('/logout', {
+        redirectTo: '/login'
       })
       .otherwise({
         redirectTo: '/'
       });
-  });
 
+    // makes post requests to the rails server work properly
+    // without it, rails server responds with 406 - Not Acceptable
+    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
+  }]);
