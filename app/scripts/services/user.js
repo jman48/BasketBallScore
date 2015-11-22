@@ -16,6 +16,8 @@ angular.module('bballApp')
 
     var currentUser = {};
 
+    var currentPlayers = [];
+
     // helper function, returns user from users array
     var getUser = function (users, username) {
       return users[users.map(function (user) {
@@ -79,6 +81,26 @@ angular.module('bballApp')
       return defer.promise;
     };
 
+    this.addPlayer = function(username){
+
+      var defer = $q.defer();
+      var url = serverAddr + 'users';
+
+      $http.get(url).then(function (successRes) {
+        var users = successRes.data;
+        var user = getUser(users, username);
+        if (user){ // user exists
+          currentPlayers.push(user);
+          defer.resolve(username);
+        } else {
+          defer.reject("That username doesn't exist my good sir");
+        }
+      }, function (failRes) {
+        defer.reject("Get request failed: " + failRes.statusText);
+      });
+      return defer.promise;
+    };
+
     this.attemptDelete = function(username) {
       var defer = $q.defer();
 
@@ -111,8 +133,16 @@ angular.module('bballApp')
       return currentUser;
     };
 
+    this.getCurrentPlayers = function() {
+      return currentPlayers;
+    };
+
     this.logOut = function() {
       currentUser = {};
+    };
+
+    this.clearCurrentPlayers = function() {
+      currentPlayers = [];
     };
   }]);
 
