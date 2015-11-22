@@ -68,7 +68,6 @@ angular.module('bballApp')
         var user = getUser(users, username);
         if (user){ // user exists
           currentUser = user;
-          console.log(currentUser);
           defer.resolve(username);
         } else {
           defer.reject("That username doesn't exist ya chump");
