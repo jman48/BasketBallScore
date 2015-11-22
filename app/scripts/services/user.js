@@ -29,9 +29,9 @@ angular.module('bballApp')
       var url = serverAddr + "users";
       var promise = $http.get(url);
       var defer = $q.defer();
-      promise.then(function (getSuccessRes){
+      promise.then(function (getSuccessRes) {
         // if user already exists
-        if (getUser(getSuccessRes.data, username)){
+        if (getUser(getSuccessRes.data, username)) {
           defer.reject("Username is already taken");
         } else { // username is available
 
@@ -48,9 +48,9 @@ angular.module('bballApp')
             serverAddr + 'users',
             JSON.stringify(newUser)
           );
-          postRes.then(function(postSuccessRes){
+          postRes.then(function (postSuccessRes) {
             defer.resolve(username);
-          }, function(postFailRes){
+          }, function (postFailRes) {
             defer.reject("Post failed: " + postFailRes.statusText);
           });
         }
@@ -61,7 +61,7 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.login = function(username){
+    this.login = function (username) {
 
       var defer = $q.defer();
       var url = serverAddr + 'users';
@@ -69,7 +69,7 @@ angular.module('bballApp')
       $http.get(url).then(function (successRes) {
         var users = successRes.data;
         var user = getUser(users, username);
-        if (user){ // user exists
+        if (user) { // user exists
           currentUser = user;
           defer.resolve(username);
         } else {
@@ -81,7 +81,7 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.addPlayer = function(username){
+    this.addPlayer = function (username) {
 
       var defer = $q.defer();
       var url = serverAddr + 'users';
@@ -89,7 +89,7 @@ angular.module('bballApp')
       $http.get(url).then(function (successRes) {
         var users = successRes.data;
         var user = getUser(users, username);
-        if (user){ // user exists
+        if (user) { // user exists
 
           var isPlaying = false;
 
@@ -107,8 +107,6 @@ angular.module('bballApp')
             defer.reject("Player already entered");
           }
 
-
-
         } else {
           defer.reject("That username doesn't exist my good sir");
         }
@@ -118,15 +116,21 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.removePlayerFromShootout = function(player) {
+    this.removePlayerFromShootout = function (player) {
 
       var index = currentPlayers.indexOf(player)
 
-      currentPlayers.splice(index, index + 1);
+      // to get around a weird bug where if you delete the first one it only deletes
+      // that one, but if you delete any other it will delete the next one as well
+      if (index == 0) {
+        currentPlayers.splice(index, index + 1);
+      } else {
+        currentPlayers.splice(index, index);
+      }
 
     };
 
-    this.attemptDelete = function(username) {
+    this.attemptDelete = function (username) {
       var defer = $q.defer();
 
       if (!username) {
@@ -142,7 +146,7 @@ angular.module('bballApp')
       return defer.promise;
     }
 
-    this.getUsers = function() {
+    this.getUsers = function () {
       var url = serverAddr + 'users';
       return $q(function (resolve, reject) {
         $http.get(url).then(function (successRes) {
@@ -154,19 +158,19 @@ angular.module('bballApp')
       });
     };
 
-    this.getCurrentUser = function() {
+    this.getCurrentUser = function () {
       return currentUser;
     };
 
-    this.getCurrentPlayers = function() {
+    this.getCurrentPlayers = function () {
       return currentPlayers;
     };
 
-    this.logOut = function() {
+    this.logOut = function () {
       currentUser = {};
     };
 
-    this.clearCurrentPlayers = function() {
+    this.clearCurrentPlayers = function () {
       currentPlayers = [];
     };
   }]);
