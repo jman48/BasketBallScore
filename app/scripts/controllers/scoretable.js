@@ -54,34 +54,37 @@ angular.module('bballApp')
           result += $scope.highScore;
       }
 
-      // I feel like there must be a much easier way to find the highest scoring
-      // player according to a particular field?
-
       var maxScore = -1;
-      var highestPlayer = "";
+      var highestPlayer = { //TODO replace this once database is fixed
+        username: 'no one',
+        totalShots: 0,
+        highestStreak: 0,
+        shootOutsWon: 0
+      };
+      var thisScore, user;
 
       for (var i = 0; i < $scope.users.length; i++) {
-        var user = $scope.users[i];
-        var score = 0;
 
-        switch ($scope.highScore) {
-          case 'totalShots':
-            score = user.totalShots;
-            break;
-          case 'highestStreak':
-            score = user.highestStreak;
-            break;
-          case 'shootOutsWon':
-            score = user.shootOutsWon;
-            break;
-        }
+        user = $scope.users[i];
 
-        if (maxScore < score) {
-          maxScore = score;
-          highestPlayer = user.name;
+        thisScore = user[$scope.highScore];
+
+        if (thisScore > maxScore) {
+          maxScore = thisScore;
+          highestPlayer = user;
         }
       }
 
-      return result += highestPlayer.toUpperCase();
+      result += highestPlayer.username.toUpperCase();
+
+      return result;
+    };
+
+    $scope.matchActiveRow = function(thisUser) {
+      if (thisUser.username === user.getCurrentUser().username) {
+        return "info";
+      } else {
+        return "";
+      }
     };
   }]);

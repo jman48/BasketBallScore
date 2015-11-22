@@ -1,11 +1,13 @@
 <div class="container">
   <h1>Login</h1>
+
   <form class="form-inline" role="form">
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Username" ng-model="username" id="user">
+      <input type="text" class="form-control" placeholder="Username" ng-model="entername" id="user">
     </div>
-    <button type="submit" class="btn btn-primary" ng-click="attemptLogin(username)">Submit</button>
+    <button type="submit" class="btn btn-primary" ng-click="attemptLogin(entername)">Submit</button>
   </form>
   <p class="error-msg" ng-show="errorMessage" ng-bind="errorMessage"></p>
+
   <div>If you haven't already, <a class="btn-link" ng-href="#/register">register here</a></div>
 </div>

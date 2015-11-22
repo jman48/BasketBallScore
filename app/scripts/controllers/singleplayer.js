@@ -9,8 +9,8 @@
  */
 angular.module('bballApp')
   .controller('SinglePlayerCtrl', ['$scope', 'user', function ($scope, user) {
-    $scope.totalHoops = user.currentUser().totalHoops;
-    $scope.highestStreak = user.currentUser().highestStreak;
+    $scope.totalHoops = user.currentUser().total_hoops;
+    $scope.highestStreak = user.currentUser().highest_streak;
     $scope.currentStreak = 0;
 
     $scope.incrementHoops = function(){
@@ -30,7 +30,7 @@ angular.module('bballApp')
 
     $scope.incrementStreak = function(){
       $scope.currentStreak++;
-      if ($scope.currentStreak > user.currentUser().highestStreak){
+      if ($scope.currentStreak > user.currentUser().highest_streak){
         user.updateHighestStreak($scope.currentStreak);
         $scope.highestStreak = $scope.currentStreak;
       }
