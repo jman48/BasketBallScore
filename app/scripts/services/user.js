@@ -90,8 +90,25 @@ angular.module('bballApp')
         var users = successRes.data;
         var user = getUser(users, username);
         if (user){ // user exists
-          currentPlayers.push(user);
-          defer.resolve(username);
+
+          var isPlaying = false;
+
+          for (var i = 0; i < currentPlayers.length; i++) {
+            if (currentPlayers[i].username === username) {
+              isPlaying = true;
+            }
+          }
+
+          if (!isPlaying) {
+            console.log(currentPlayers.indexOf(user));
+            currentPlayers.push(user);
+            defer.resolve(username);
+          } else {
+            defer.reject("Player already entered");
+          }
+
+
+
         } else {
           defer.reject("That username doesn't exist my good sir");
         }
