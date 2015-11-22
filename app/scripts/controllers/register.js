@@ -16,9 +16,6 @@ angular.module('bballApp')
         $scope.errorMessage = "Invalid username";
       } else {
         var promise = user.register(username);
-        //promise.then(function (username) {
-        //  $location.path('/login');
-        //});
         promise.then(function (success) {
           $location.path('/landing');
         }, function (errorMsg) {
