@@ -10,29 +10,9 @@
 angular.module('bballApp')
   .service('user', ['$q', '$http', function ($q, $http) {
 
+    // local server when built with dev
+    // remove server when built with prod
     var serverAddr = config.backend;
-
-    // todo: replace with http requests
-    var users = {
-      'reserved': {
-        username: 'reserved',
-        totalShots: 101,
-        highestStreak: 5,
-        shootOutsWon: 2
-      },
-      'reserved1': {
-        username: 'reserved1',
-        totalShots: 50,
-        highestStreak: 6,
-        shootOutsWon: 4
-      },
-      'reserved2': {
-        username: 'reserved2',
-        totalShots: 75,
-        highestStreak: 1,
-        shootOutsWon: 6
-      }
-    };
 
     var currentUser = {};
 
@@ -79,18 +59,25 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.attemptLogin = function (username) {
+    this.login = function(username){
+
       var defer = $q.defer();
-      if (!username) {
-        defer.reject("Username is not valid");
-      } else if (users.hasOwnProperty(username.toLowerCase())) {
-        currentUser = users[username.toLowerCase()];
-        defer.resolve(username);
+      var url = serverAddr + 'users';
 
-      } else defer.reject("Username is not registered");
-
+      $http.get(url).then(function (successRes) {
+        var users = successRes.data;
+        var user = getUser(users, username);
+        if (user){ // user exists
+          currentUser = user;
+          defer.resolve(username);
+        } else {
+          defer.reject("That username doesn't exist ya chump");
+        }
+      }, function (failRes) {
+        defer.reject("Get request failed: " + failRes.statusText);
+      });
       return defer.promise;
-    }
+    };
 
     this.attemptDelete = function(username) {
       var defer = $q.defer();
@@ -109,11 +96,15 @@ angular.module('bballApp')
     }
 
     this.getUsers = function() {
-      var result = [];
-      angular.forEach(users, function(value, key) {
-        result.push(value);
-      })
-      return result;
+      var url = serverAddr + 'users';
+      return $q(function (resolve, reject) {
+        $http.get(url).then(function (successRes) {
+          var users = successRes.data;
+          resolve(users);
+        }, function (failRes) {
+          reject(failRes.statusText);
+        });
+      });
     };
 
     this.getCurrentUser = function() {

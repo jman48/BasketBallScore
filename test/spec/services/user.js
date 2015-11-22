@@ -9,7 +9,8 @@ describe('Service: user', function () {
   var user,
     scope,
     q,
-    http;
+    http,
+    testUsers;
 
   beforeEach(inject(function (_user_, _$rootScope_, $q, $http) {
     user = _user_;
@@ -19,7 +20,7 @@ describe('Service: user', function () {
 
     // reset users
     testUsers = [{
-      username: "testUser",
+      username: existingUsername,
       totalHoops: 50,
       highestStreak: 3,
       shootoutsWon: 10
@@ -27,7 +28,7 @@ describe('Service: user', function () {
 
   }));
 
-  var testUsers = [];
+  var existingUsername = "existing";
 
   var fakeGetReq = function (shouldResolve) {
     return q(function (resolve, reject) {
@@ -79,14 +80,13 @@ describe('Service: user', function () {
   });
 
   it('should fail when registering existing username', function() {
-    var existingUser = "testUser";
     var failSpy = jasmine.createSpy('duplicate user spy');
 
     spyOn(http, "get").and.returnValue(fakeGetReq(true));
     spyOn(http, "post").and.returnValue(fakePostReq(true));
 
-    user.register(existingUser);
-    var promise = user.register(existingUser);
+    user.register(existingUsername);
+    var promise = user.register(existingUsername);
     promise.then(angular.noop, failSpy);
     scope.$apply();
 
@@ -96,32 +96,36 @@ describe('Service: user', function () {
   });
 
   // LOGGING IN -----
-  it('should succeed when logging in as a valid user', function(){
-    var promise = user.attemptLogin('reserved');
+  it('should succeed when logging in as an existing user', function(){
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
+    var promise = user.login(existingUsername);
     var spy = jasmine.createSpy('valid user logon');
+    // place spy at success path
     promise.then(spy);
     scope.$apply();
 
+    expect(http.get).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
 
   it('should fail when logging in with an invalid username', function(){
-    var attempt1 = user.attemptLogin('');
-    var attempt2 = user.attemptLogin(null);
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
 
     var spy = jasmine.createSpy('invalid username logon');
 
-    attempt1.then(angular.noop, spy);
+    user.login('').then(angular.noop, spy);
     scope.$apply();
     expect(spy).toHaveBeenCalled();
 
-    attempt2.then(angular.noop, spy);
+    user.login(null).then(angular.noop, spy);
     scope.$apply();
     expect(spy).toHaveBeenCalled();
   });
 
   it('should fail when logging in as an unrecognised user', function(){
-    var promise = user.attemptLogin('Jimbo');
+    spyOn(http, "get").and.returnValue(fakeGetReq(true));
+
+    var promise = user.login('Jimbo');
     var spy = jasmine.createSpy('unrecognised user');
     promise.then(angular.noop, spy);
     scope.$apply();

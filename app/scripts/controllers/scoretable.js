@@ -55,7 +55,12 @@ angular.module('bballApp')
       }
 
       var maxScore = -1;
-      var highestPlayer = undefined;
+      var highestPlayer = { //TODO replace this once database is fixed
+        username: 'no one',
+        totalShots: 0,
+        highestStreak: 0,
+        shootOutsWon: 0
+      };
       var thisScore, user;
 
       for (var i = 0; i < $scope.users.length; i++) {
@@ -68,7 +73,7 @@ angular.module('bballApp')
           maxScore = thisScore;
           highestPlayer = user;
         }
-      };
+      }
 
       result += highestPlayer.username.toUpperCase();
 
