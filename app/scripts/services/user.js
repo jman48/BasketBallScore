@@ -12,6 +12,7 @@ angular.module('bballApp')
 
     // backend serverAddr
     var serverAddr = config.backend;
+    var url = serverAddr + 'users';
 
     var currentUser = {username: "test", totalHoops: 100, highestStreak: "3"};
 
@@ -25,7 +26,6 @@ angular.module('bballApp')
     };
 
     this.register = function (username) {
-      var url = serverAddr + "users";
       var promise = $http.get(url);
       var defer = $q.defer();
       if (!username) {
@@ -76,7 +76,6 @@ angular.module('bballApp')
     };
 
     this.getUsers = function() {
-      var url = serverAddr + 'users';
       return $q(function (resolve, reject) {
         $http.get(url).then(function (successRes) {
           var users = successRes.data;
@@ -89,10 +88,17 @@ angular.module('bballApp')
 
     this.incrementHoops = function(){
       currentUser.totalHoops++;
+      updateHoops();
     };
 
-    this.decrementHoops = function(){
+    this.decrementHoops = function () {
       currentUser.totalHoops--;
+      updateHoops();
+    };
+
+    var updateHoops = function () {
+      $http.put(url + "/" + 1 + "/totalHoops",
+        { totalHoops: currentUser.totalHoops });
     };
 
     this.currentUser = function(){
@@ -101,6 +107,8 @@ angular.module('bballApp')
 
     this.updateHighestStreak = function(newHighest){
       currentUser.highestStreak = newHighest;
+      $http.put(url + "/" + 1 + "/highestStreak",
+        { highestStreak: currentUser.highestStreak });
     };
   }]);
 
