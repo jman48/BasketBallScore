@@ -94,7 +94,7 @@ angular.module('bballApp')
           var isPlaying = false;
 
           for (var i = 0; i < currentPlayers.length; i++) {
-            if (currentPlayers[i].username === username) {
+            if (currentPlayers[i].username.toLowerCase() === username.toLowerCase()) {
               isPlaying = true;
             }
           }
