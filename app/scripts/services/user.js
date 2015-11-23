@@ -25,24 +25,7 @@ angular.module('bballApp')
 
     var rounds;
 
-    var currentPlayers = [[{
-      username: 'test1',
-      totalShots: 100,
-      highestStreak: 0,
-      shootOutsWon: 0
-    }, 0],
-      [ {
-        username: 'test2',
-        totalShots: 0,
-        highestStreak: 100,
-        shootOutsWon: 0
-      }, 0],
-      [ {
-        username: 'test3',
-        totalShots: 0,
-        highestStreak: 0,
-        shootOutsWon: 100
-      }, 0]];
+    var currentPlayers = [];
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
@@ -245,11 +228,22 @@ angular.module('bballApp')
     };
 
     this.incrementGoals = function() {
-      currentPlayers[playerTurn][1]++;
-      if (currentPlayers[playerTurn][1] === rounds) {
-        winner = currentPlayers[playerTurn][0].username;
+      var goalScorer = currentPlayers[playerTurn];
+      goalScorer[1]++;
+      if (goalScorer[1] === rounds) {
+        winner = goalScorer[0].username;
+        goalScorer[0].shootoutsWon++;
+        updateShootoutsWon(goalScorer[0]);
       }
     };
+
+    var updateShootoutsWon = function (goalScorer) {
+      $http.put(url + "/" + goalScorer.id + "/shootoutsWon",
+        {
+          shootoutsWon: goalScorer.shootoutsWon
+        });
+    };
+
 
     this.setActiveShootout = function(bool) {
       activeShootout = bool;
