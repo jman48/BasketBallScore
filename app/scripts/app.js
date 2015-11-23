@@ -32,7 +32,7 @@ angular
       })
       .when('/deleteuser', {
         templateUrl: 'views/deleteuser.html',
-        controller: 'DeleteuserCtrl'
+        controller: 'DeleteUserCtrl'
       })
       .when('/landing', {
         templateUrl: 'views/landing.html',
