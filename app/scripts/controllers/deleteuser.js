@@ -22,6 +22,6 @@ angular.module('bballApp')
     };
 
     $scope.getUsername = function() {
-      return user.getCurrentUser().name;
+      return user.getCurrentUser().username;
     };
   }]);

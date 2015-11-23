@@ -12,19 +12,19 @@ describe('Controller: ScoretableCtrl', function () {
     location;
 
   var testUsers = [{
-      username: 'test1',
+      name: 'test1',
       totalShots: 100,
       highestStreak: 0,
       shootOutsWon: 0
     },
     {
-      username: 'test2',
+      name: 'test2',
       totalShots: 0,
       highestStreak: 100,
       shootOutsWon: 0
     },
     {
-      username: 'test3',
+      name: 'test3',
       totalShots: 0,
       highestStreak: 0,
       shootOutsWon: 100

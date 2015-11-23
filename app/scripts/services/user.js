@@ -17,7 +17,28 @@ angular.module('bballApp')
 
     var currentUser = {};
 
-    var currentPlayers = [];
+    var playerTurn = 0;
+
+    var rounds;
+
+    var currentPlayers = [[{
+      username: 'test1',
+      totalShots: 100,
+      highestStreak: 0,
+      shootOutsWon: 0
+    }, 0],
+      [ {
+        username: 'test2',
+        totalShots: 0,
+        highestStreak: 100,
+        shootOutsWon: 0
+      }, 0],
+      [ {
+        username: 'test3',
+        totalShots: 0,
+        highestStreak: 0,
+        shootOutsWon: 100
+      }, 0]];
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
@@ -93,14 +114,13 @@ angular.module('bballApp')
           var isPlaying = false;
 
           for (var i = 0; i < currentPlayers.length; i++) {
-            if (currentPlayers[i].username.toLowerCase() === username.toLowerCase()) {
+            if (currentPlayers[i][0].username.toLowerCase() === username.toLowerCase()) {
               isPlaying = true;
             }
           }
 
           if (!isPlaying) {
-            console.log(currentPlayers.indexOf(user));
-            currentPlayers.push(user);
+            currentPlayers.push([user, 0]);
             defer.resolve(username);
           } else {
             defer.reject("Player already entered");
@@ -201,5 +221,23 @@ angular.module('bballApp')
     this.clearCurrentPlayers = function () {
       currentPlayers = [];
     };
+
+    this.setRounds = function(setupRounds) {
+      rounds = setupRounds;
+    };
+
+    this.getRounds = function() {
+      return rounds;
+    };
+
+    this.nextPlayerTurn = function() {
+      playerTurn++;
+      playerTurn %= currentPlayers.length;
+    };
+
+    this.getPlayerTurn = function() {
+      return playerTurn;
+    };
+
   }]);
 

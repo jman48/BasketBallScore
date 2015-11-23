@@ -10,10 +10,8 @@
 angular.module('bballApp')
   .controller('SetupShootoutCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
 
-    user.clearCurrentPlayers();
-
     $scope.players = user.getCurrentPlayers();
-    $scope.rounds = 5;
+    $scope.setupRounds = 5;
 
     $scope.attemptAddPlayer = function (username) {
 
@@ -32,25 +30,33 @@ angular.module('bballApp')
     };
 
     $scope.minusRounds = function() {
-      if ($scope.rounds > 0) {
-        $scope.rounds--;
+      if ($scope.setupRounds > 0) {
+        $scope.setupRounds--;
       }
     };
 
     $scope.plusRounds = function() {
-      $scope.rounds++;
+      $scope.setupRounds++;
     };
 
     $scope.startShootout = function () {
+      user.setRounds($scope.setupRounds);
       $location.path('/shootout');
     };
 
     $scope.playerGoal = function() {
-
+      user.nextPlayerTurn();
     };
 
     $scope.playerMiss = function() {
-
+      user.nextPlayerTurn();
     };
 
+    $scope.getRounds = function() {
+      return user.getRounds();
+    };
+
+    $scope.getPlayerTurn = function() {
+      return $scope.players[user.getPlayerTurn()][0].username;
+    };
   }]);

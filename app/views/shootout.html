@@ -1,7 +1,23 @@
 <div class="container">
-  <h1>Shoot Out!</h1>
-  <h2>Current Player is: Basil or someone?</h2>
+  <h1>Shoot Out! First to <b>{{getRounds()}}</b></h1>
+  <h2>Current Player is: <span class="user">{{getPlayerTurn()}}</span></h2>
   <button type="submit" class="btn btn-success" ng-click="playerGoal()">Goal!</button>
   <button type="submit" class="btn btn-danger" ng-click="playerMiss()">Nope!</button>
 
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Player</th>
+      <th>Goals</th>
+      <th>Remaining</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="player in players">
+      <td><span class="user">{{player[0].username}}</span></td>
+      <td>{{player[1]}}</td>
+      <td>{{getRounds() - player[1]}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
