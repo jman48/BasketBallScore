@@ -45,6 +45,7 @@ angular.module('bballApp')
     };
 
     $scope.playerGoal = function() {
+      user.incrementGoals();
       user.nextPlayerTurn();
     };
 

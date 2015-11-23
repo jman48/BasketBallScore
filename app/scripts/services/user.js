@@ -239,5 +239,9 @@ angular.module('bballApp')
       return playerTurn;
     };
 
+    this.incrementGoals = function() {
+      currentPlayers[playerTurn][1]++;
+    };
+
   }]);
 
