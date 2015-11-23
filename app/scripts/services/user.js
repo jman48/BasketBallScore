@@ -13,6 +13,7 @@ angular.module('bballApp')
     // local server when built with dev
     // remove server when built with prod
     var serverAddr = config.backend;
+    var url = serverAddr + 'users';
 
     var currentUser = {};
 
@@ -24,7 +25,6 @@ angular.module('bballApp')
     };
 
     this.register = function (username) {
-      var url = serverAddr + "users";
       var promise = $http.get(url);
       var defer = $q.defer();
       promise.then(function (getSuccessRes){
@@ -62,7 +62,6 @@ angular.module('bballApp')
     this.login = function(username){
 
       var defer = $q.defer();
-      var url = serverAddr + 'users';
 
       $http.get(url).then(function (successRes) {
         var users = successRes.data;
@@ -93,10 +92,9 @@ angular.module('bballApp')
       }
 
       return defer.promise;
-    }
+    };
 
     this.getUsers = function() {
-      var url = serverAddr + 'users';
       return $q(function (resolve, reject) {
         $http.get(url).then(function (successRes) {
           var users = successRes.data;
@@ -105,6 +103,36 @@ angular.module('bballApp')
           reject(failRes.statusText);
         });
       });
+    };
+
+    this.incrementHoops = function(){
+      currentUser.totalHoops++;
+      updateHoops();
+    };
+
+    this.decrementHoops = function () {
+      currentUser.totalHoops--;
+      updateHoops();
+    };
+
+    var updateHoops = function () {
+      $http.put(url + "/" + currentUser.id + "/totalHoops",
+        {
+          totalHoops: currentUser.totalHoops
+        });
+    };
+
+    this.currentUser = function(){
+      return currentUser;
+    };
+
+    this.updateHighestStreak = function(newHighest) {
+      currentUser.highestStreak = newHighest;
+      $http.put(url + "/" + currentUser.id + "/highestStreak",
+        {
+          highestStreak: currentUser.highestStreak
+        }
+      );
     };
 
     this.getCurrentUser = function() {
