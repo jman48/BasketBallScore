@@ -40,7 +40,7 @@ angular
       })
       .when('/scores', {
         templateUrl: 'views/scoretable.html',
-        controller: 'ScoretableCtrl'
+        controller: 'ScoreTableCtrl'
       })
       .when('/logout', {
         redirectTo: '/login'

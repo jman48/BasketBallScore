@@ -1,34 +1,16 @@
 'use strict';
 
-describe('Controller: ScoretableCtrl', function () {
+describe('Controller: ScoreTableCtrl', function () {
 
   // load the controller's module
   beforeEach(module('bballApp'));
 
-  var ScoretableCtrl,
+  var ScoreTableCtrl,
     scope,
     q,
     user,
     location;
 
-  var testUsers = [{
-      username: 'test1',
-      totalShots: 100,
-      highestStreak: 0,
-      shootOutsWon: 0
-    },
-    {
-      username: 'test2',
-      totalShots: 0,
-      highestStreak: 100,
-      shootOutsWon: 0
-    },
-    {
-      username: 'test3',
-      totalShots: 0,
-      highestStreak: 0,
-      shootOutsWon: 100
-    }];
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function (_user_, $controller, $rootScope, $q, $location) {
@@ -36,28 +18,46 @@ describe('Controller: ScoretableCtrl', function () {
     q = $q;
     location = $location;
     user = _user_;
-    ScoretableCtrl = $controller('ScoretableCtrl', {
+    ScoreTableCtrl = $controller('ScoreTableCtrl', {
       $scope: scope
       // place here mocked dependencies
     });
   }));
 
-  var falsePromise = function(resolve, data){
+  var usersPromise = function(resolve){
     var defer = q.defer();
     if (resolve) {
-      defer.resolve(data);
+      defer.resolve(testUsers);
     }
     else {
-      defer.reject(data);
+      defer.reject("Error message");
     }
     return defer.promise;
   };
 
-  it("should refresh user array when sort function is called", function() {
-    spyOn(user, "getUsers");
-    scope.order('highestStreak');
-    expect(user.getUsers).toHaveBeenCalled();
-  });
+  var fakeUpdateUsers = function () {
+    scope.users = testUsers;
+  };
+
+  var testUsers = [{
+    username: 'test1',
+    totalHoops: 100,
+    highestStreak: 0,
+    shootoutsWon: 0
+  },
+    {
+      username: 'test2',
+      totalHoops: 0,
+      highestStreak: 100,
+      shootoutsWon: 0
+    },
+    {
+      username: 'test3',
+      totalHoops: 0,
+      highestStreak: 0,
+      shootoutsWon: 100
+    }];
+
 
   it("should print longest streak in reverse when activated once", function() {
     scope.order('highestStreak');
@@ -73,17 +73,6 @@ describe('Controller: ScoretableCtrl', function () {
   it("should change sort order to 'highestStreak' when highest streak sort activated", function() {
     scope.order('highestStreak');
     expect(scope.sortBy).toBe('highestStreak');
-  });
-
-  it("should change high score readout to 'highestStreak' when highest streak sort activated", function() {
-    scope.order('highestStreak');
-    expect(scope.highScore).toBe('highestStreak');
-  });
-
-  it("should keep high score readout as 'highestStreak' if name sort is activated after highest streak", function(){
-    scope.order('highestStreak');
-    scope.order('name');
-    expect(scope.highScore).toBe('highestStreak');
   });
 
   it("should return no arrow for 'name' column if 'highest streak' is activated", function() {
@@ -103,20 +92,20 @@ describe('Controller: ScoretableCtrl', function () {
   });
 
   it("should return correct highest player information for hoops", function() {
-    spyOn(user, "getUsers").and.returnValue(testUsers);
-    scope.order('totalShots');
-    expect(scope.printHighScore()).toBe("Highest score in 'hoops' is TEST1");
+    fakeUpdateUsers();
+    scope.order('totalHoops');
+    expect(scope.getHighScoreText()).toContain("TEST1");
   });
 
   it("should return correct highest player information for longest streak", function() {
-    spyOn(user, "getUsers").and.returnValue(testUsers);
+    fakeUpdateUsers();
     scope.order('highestStreak');
-    expect(scope.printHighScore()).toBe("Highest score in 'longest streak' is TEST2");
+    expect(scope.getHighScoreText()).toContain("TEST2");
   });
 
   it("should return correct highest player information for shootouts won", function() {
-    spyOn(user, "getUsers").and.returnValue(testUsers);
-    scope.order('shootOutsWon');
-    expect(scope.printHighScore()).toBe("Highest score in 'shootouts won' is TEST3");
+    fakeUpdateUsers();
+    scope.order('shootoutsWon');
+    expect(scope.getHighScoreText()).toContain("TEST3");
   });
 });

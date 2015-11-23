@@ -8,25 +8,26 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('SetupShootoutCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
+  .controller('SetupShootoutCtrl', ['$scope', 'game', '$location', function ($scope, game, $location) {
 
-    $scope.players = user.getCurrentPlayers();
+    $scope.players = game.getCurrentPlayers();
     $scope.setupRounds = 5;
 
     $scope.attemptAddPlayer = function (username) {
 
       $scope.errorMessage = undefined;
 
-      var promise = user.addPlayer(username)
-        .then(function (success) {
-          $scope.players = user.getCurrentPlayers();
+      game.addPlayer(username)
+        .then(function (currentPlayers) {
+          $scope.players = currentPlayers;
         }, function (errorMsg) {
           $scope.errorMessage = errorMsg;
-        });
+        }
+      );
     };
 
     $scope.removePlayer = function(player) {
-      user.removePlayerFromShootout(player);
+      game.removePlayerFromShootout(player);
     };
 
     $scope.decrementRounds = function() {
@@ -40,9 +41,9 @@ angular.module('bballApp')
     };
 
     $scope.startShootout = function () {
-      if (user.getCurrentPlayers().length > 1) {
-        user.setRounds($scope.setupRounds);
-        user.setActiveShootout(true);
+      if (game.getCurrentPlayers().length > 1) {
+        game.setRounds($scope.setupRounds);
+        game.setActiveShootout(true);
         $location.path('/shootout');
       } else {
         $scope.errorMessage = "must have at least two players, please make some friends :(";
@@ -50,23 +51,27 @@ angular.module('bballApp')
     };
 
     $scope.playerGoal = function() {
-      user.incrementGoals();
-      user.nextPlayerTurn();
+      game.incrementGoals();
+      game.nextPlayerTurn();
     };
 
     $scope.playerMiss = function() {
-      user.nextPlayerTurn();
+      game.nextPlayerTurn();
+    };
+
+    this.getPlayerTurn = function () {
+      return playerTurn;
     };
 
     $scope.getRounds = function() {
-      return user.getRounds();
+      return game.getRounds();
     };
 
     $scope.getPlayerTurn = function() {
-      return $scope.players[user.getPlayerTurn()][0].username;
+      return game.getPlayerTurn()[0].username;
     };
 
     $scope.getWinner = function() {
-      return user.getWinner();
+      return game.getWinner();
     };
   }]);
