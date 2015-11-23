@@ -34,4 +34,12 @@ angular.module('bballApp')
 
     };
 
+    $scope.playerGoal = function() {
+
+    };
+
+    $scope.playerMiss = function() {
+
+    };
+
   }]);
