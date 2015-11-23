@@ -17,15 +17,11 @@ angular.module('bballApp')
 
     var currentUser = {};
 
-    var winner = undefined;
-
-    var activeShootout = false;
-
-    var playerTurn = 0;
-
-    var rounds;
-
     var currentPlayers = [];
+    var activeShootout = false; // will not let you access shootout screen if false
+    var playerTurn = 0; // current index of player in shootout
+    var rounds; // the amount of rounds in a shootout
+    var winner = undefined;
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
@@ -114,7 +110,7 @@ angular.module('bballApp')
           }
 
         } else {
-          defer.reject("That username doesn't exist my good sir");
+          defer.reject("That username does not exist, my good sir");
         }
       }, function (failRes) {
         defer.reject("Get request failed: " + failRes.statusText);
@@ -152,7 +148,7 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.getUsers = function() {
+    this.getUsers = function () {
       return $q(function (resolve, reject) {
         $http.get(url).then(function (successRes) {
           var users = successRes.data;
@@ -163,7 +159,7 @@ angular.module('bballApp')
       });
     };
 
-    this.incrementHoops = function(){
+    this.incrementHoops = function (){
       currentUser.totalHoops++;
       updateHoops();
     };
@@ -180,11 +176,11 @@ angular.module('bballApp')
         });
     };
 
-    this.currentUser = function(){
+    this.currentUser = function (){
       return currentUser;
     };
 
-    this.updateHighestStreak = function(newHighest) {
+    this.updateHighestStreak = function (newHighest) {
       currentUser.highestStreak = newHighest;
       $http.put(url + "/" + currentUser.id + "/highestStreak",
         {
@@ -210,24 +206,24 @@ angular.module('bballApp')
       winner = undefined;
     };
 
-    this.setRounds = function(setupRounds) {
+    this.setRounds = function (setupRounds) {
       rounds = setupRounds;
     };
 
-    this.getRounds = function() {
+    this.getRounds = function () {
       return rounds;
     };
 
-    this.nextPlayerTurn = function() {
+    this.nextPlayerTurn = function () {
       playerTurn++;
       playerTurn %= currentPlayers.length;
     };
 
-    this.getPlayerTurn = function() {
+    this.getPlayerTurn = function () {
       return playerTurn;
     };
 
-    this.incrementGoals = function() {
+    this.incrementGoals = function () {
       var goalScorer = currentPlayers[playerTurn];
       goalScorer[1]++;
       if (goalScorer[1] === rounds) {
@@ -244,17 +240,15 @@ angular.module('bballApp')
         });
     };
 
-
-    this.setActiveShootout = function(bool) {
+    this.setActiveShootout = function (bool) {
       activeShootout = bool;
     };
 
-    this.activeShootout = function() {
+    this.activeShootout = function () {
       return activeShootout;
     };
 
-    this.getWinner = function() {
+    this.getWinner = function () {
       return winner;
     };
   }]);
-
