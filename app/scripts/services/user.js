@@ -17,6 +17,10 @@ angular.module('bballApp')
 
     var currentUser = {};
 
+    var winner = undefined;
+
+    var activeShootout = false;
+
     var playerTurn = 0;
 
     var rounds;
@@ -218,8 +222,9 @@ angular.module('bballApp')
       currentUser = {};
     };
 
-    this.clearCurrentPlayers = function () {
+    this.resetShootout = function () {
       currentPlayers = [];
+      winner = undefined;
     };
 
     this.setRounds = function(setupRounds) {
@@ -241,7 +246,21 @@ angular.module('bballApp')
 
     this.incrementGoals = function() {
       currentPlayers[playerTurn][1]++;
+      if (currentPlayers[playerTurn][1] === rounds) {
+        winner = currentPlayers[playerTurn][0].username;
+      }
     };
 
+    this.setActiveShootout = function(bool) {
+      activeShootout = bool;
+    };
+
+    this.activeShootout = function() {
+      return activeShootout;
+    };
+
+    this.getWinner = function() {
+      return winner;
+    };
   }]);
 

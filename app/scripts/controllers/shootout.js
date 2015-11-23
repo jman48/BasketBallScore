@@ -40,8 +40,13 @@ angular.module('bballApp')
     };
 
     $scope.startShootout = function () {
-      user.setRounds($scope.setupRounds);
-      $location.path('/shootout');
+      if (user.getCurrentPlayers().length > 1) {
+        user.setRounds($scope.setupRounds);
+        user.setActiveShootout(true);
+        $location.path('/shootout');
+      } else {
+        $scope.errorMessage = "must have at least two players, please make some friends :(";
+      }
     };
 
     $scope.playerGoal = function() {
@@ -59,5 +64,9 @@ angular.module('bballApp')
 
     $scope.getPlayerTurn = function() {
       return $scope.players[user.getPlayerTurn()][0].username;
+    };
+
+    $scope.getWinner = function() {
+      return user.getWinner();
     };
   }]);
