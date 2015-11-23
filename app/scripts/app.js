@@ -61,4 +61,16 @@ angular
     // without it, rails server responds with 406 - Not Acceptable
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
-  }]);
+  }])
+
+  // from here: http://stackoverflow.com/a/20865048/1696114
+  .directive('autoFocus', function($timeout) {
+    return {
+      restrict: 'AC',
+      link: function(_scope, _element) {
+        $timeout(function(){
+          _element[0].focus();
+        }, 0);
+      }
+    };
+  });
