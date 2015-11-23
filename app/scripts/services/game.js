@@ -98,7 +98,7 @@ angular.module('bballApp')
     };
 
     this.getPlayerTurn = function () {
-      return currentPlayers[playerTurn];
+      return currentPlayers[playerTurn][0];
     };
 
     this.setActiveShootout = function (bool) {
