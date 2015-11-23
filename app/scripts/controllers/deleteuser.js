@@ -8,13 +8,12 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('DeleteuserCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
+  .controller('DeleteUserCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
 
     $scope.confirmDelete = function(username) {
-      var promise = user.attemptDelete(username);
-
+      var promise = user.delete(user.currentUser().id);
       promise.then(function (success) {
-        $location.path('/landing');
+        $location.path('/login');
         user.logOut();
       }, function (errorMsg) {
         $scope.errorMessage = errorMsg;
@@ -22,6 +21,6 @@ angular.module('bballApp')
     };
 
     $scope.getUsername = function() {
-      return user.getCurrentUser().name;
+      return user.getCurrentUser().username;
     };
   }]);

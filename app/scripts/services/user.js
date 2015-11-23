@@ -78,20 +78,14 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.attemptDelete = function(username) {
-      var defer = $q.defer();
-
-      if (!username) {
-        defer.reject("No username supplied.");
-      } else if (!users.hasOwnProperty(username.toLowerCase())) {
-        defer.reject("Cannot find username in database?");
-      } else {
-        delete users[username];
-        currentUser = {};
-        defer.resolve(username);
-      }
-
-      return defer.promise;
+    this.delete = function (id) {
+      return $q(function (resolve, reject) {
+        $http.delete(url + "/" + id).then(function (successRes) {
+          resolve(successRes);
+        }, function (failRes) {
+          reject("Something went wrong: " + failRes);
+        });
+      });
     };
 
     this.getUsers = function() {
