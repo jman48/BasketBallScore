@@ -25,5 +25,16 @@
     <br>
   </div>
 
+  <div><p>Number of goals required to win: <b>{{rounds}}</b></p>
+    <button type="button" class="btn btn-default btn-lg" ng-click="minusRounds()">
+      <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="btn btn-default btn-lg" ng-click="plusRounds()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <br>
+
   <button type="submit" class="btn btn-primary" ng-click="startShootout()">Start Shootout</button>
 </br>

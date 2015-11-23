@@ -13,6 +13,7 @@ angular.module('bballApp')
     user.clearCurrentPlayers();
 
     $scope.players = user.getCurrentPlayers();
+    $scope.rounds = 5;
 
     $scope.attemptAddPlayer = function (username) {
 
@@ -30,8 +31,18 @@ angular.module('bballApp')
       user.removePlayerFromShootout(player);
     };
 
-    $scope.startShootout = function () {
+    $scope.minusRounds = function() {
+      if ($scope.rounds > 0) {
+        $scope.rounds--;
+      }
+    };
 
+    $scope.plusRounds = function() {
+      $scope.rounds++;
+    };
+
+    $scope.startShootout = function () {
+      $location.path('/shootout');
     };
 
     $scope.playerGoal = function() {
