@@ -29,13 +29,13 @@ angular.module('bballApp')
       user.removePlayerFromShootout(player);
     };
 
-    $scope.minusRounds = function() {
-      if ($scope.setupRounds > 0) {
+    $scope.decrementRounds = function() {
+      if ($scope.setupRounds > 1) {
         $scope.setupRounds--;
       }
     };
 
-    $scope.plusRounds = function() {
+    $scope.incrementRounds = function() {
       $scope.setupRounds++;
     };
 
