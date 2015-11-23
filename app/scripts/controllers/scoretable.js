@@ -8,21 +8,29 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('ScoretableCtrl', ['$scope', 'user', function ($scope, user) {
+  .controller('ScoreTableCtrl', ['$scope', 'user', '$q', function ($scope, user, $q) {
 
-    $scope.users = user.getUsers();
-    $scope.sortBy = 'totalShots';
-    $scope.highScore = 'totalShots';
+    $scope.sortBy = 'totalHoops'; // default
     $scope.reverse = true;
+    $scope.users = [];
+
+    this.updateUsers = function () {
+      return $q(function (resolve, reject) {
+        user.getUsers().then(function (users) {
+          $scope.users = users;
+          resolve(users);
+        }, function (failMessage) {
+          $scope.errorMessage = failMessage;
+          reject(errorMessage);
+        });
+      });
+    };
+
+    this.updateUsers();
 
     $scope.order = function (sortBy) {
-      $scope.users = user.getUsers();
       $scope.reverse = ($scope.sortBy === sortBy) ? !$scope.reverse : true;
       $scope.sortBy = sortBy;
-
-      // Don't change the high score if user asks to sort by name, otherwise
-      // high score will show the highest score in the field sorted by
-      $scope.highScore = (sortBy !== 'name') ? sortBy : $scope.highScore;
     };
 
     $scope.getGlyph = function (name) {
@@ -37,45 +45,33 @@ angular.module('bballApp')
       }
     };
 
-    $scope.printHighScore = function () {
+    $scope.getHighScoreText = function () {
       var result = "Highest score in ";
 
-      switch ($scope.highScore) {
-        case 'totalShots':
-          result += "'hoops' is ";
+      switch ($scope.sortBy) {
+        case 'totalHoops':
+          result += "'total hoops' is ";
           break;
         case 'highestStreak':
           result += "'longest streak' is ";
           break;
-        case 'shootOutsWon':
+        case 'shootoutsWon':
           result += "'shootouts won' is ";
           break;
         default:
-          result += $scope.highScore;
+          result += $scope.sortBy;
       }
 
-      var maxScore = -1;
-      var highestPlayer = { //TODO replace this once database is fixed
-        username: 'no one',
-        totalShots: 0,
-        highestStreak: 0,
-        shootOutsWon: 0
-      };
-      var thisScore, user;
-
-      for (var i = 0; i < $scope.users.length; i++) {
-
-        user = $scope.users[i];
-
-        thisScore = user[$scope.highScore];
-
-        if (thisScore > maxScore) {
-          maxScore = thisScore;
-          highestPlayer = user;
-        }
+      var winner;
+      if ($scope.users.length > 0){
+         winner = $scope.users.sort(function (a, b) {
+          return -(a[$scope.sortBy] - b[$scope.sortBy]);
+        })[0];
+      } else {
+        winner = { username: "Noone" };
       }
 
-      result += highestPlayer.username.toUpperCase();
+      result += winner.username.toUpperCase();
 
       return result;
     };
