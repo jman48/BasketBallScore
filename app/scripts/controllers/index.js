@@ -16,4 +16,13 @@ angular.module('bballApp')
     $scope.logOut = function() {
       user.logOut();
     };
+
+    $scope.resetShootout = function() {
+      user.resetShootout();
+      user.setActiveShootout(false);
+    };
+
+    $scope.activeShootout = function() {
+      return user.activeShootout();
+    };
   }]);

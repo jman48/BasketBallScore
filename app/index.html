@@ -38,6 +38,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a ng-href="#/scores">High Scores</a></li>
+            <li><a ng-href="#/setup_shootout" ng-click="resetShootout()">Start New Shootout</a></li>
+            <li><a ng-show="activeShootout()" ng-href="#/shootout">Current Shootout</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li ng-hide="username()"><a ng-href="#/login">Login</a></li>
@@ -96,6 +98,7 @@
         <script src="scripts/controllers/scoretable.js"></script>
         <script src="scripts/controllers/deleteuser.js"></script>
         <script src="scripts/controllers/index.js"></script>
+        <script src="scripts/controllers/shootout.js"></script>
         <!-- endbuild -->
 </body>
 </html>
