@@ -17,12 +17,6 @@ angular.module('bballApp')
 
     var currentUser = {};
 
-    var currentPlayers = [];
-    var activeShootout = false; // will not let you access shootout screen if false
-    var playerTurn = 0; // current index of player in shootout
-    var rounds; // the amount of rounds in a shootout
-    var winner = undefined;
-
     // helper function, returns user from users array
     var getUser = function (users, username) {
       return users[users.map(function (user) {
@@ -45,8 +39,6 @@ angular.module('bballApp')
             //highestStreak: 0,
             //shootoutsWon: 0
           };
-
-//        currentUser = newUser;
 
           var postRes = $http.post(
             serverAddr + 'users',
@@ -84,7 +76,7 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.addPlayer = function (username) {
+    this.getPlayer = function (username) {
 
       var defer = $q.defer();
       var url = serverAddr + 'users';
@@ -92,43 +84,11 @@ angular.module('bballApp')
       $http.get(url).then(function (successRes) {
         var users = successRes.data;
         var user = getUser(users, username);
-        if (user) { // user exists
-
-          var isPlaying = false;
-
-          for (var i = 0; i < currentPlayers.length; i++) {
-            if (currentPlayers[i][0].username.toLowerCase() === username.toLowerCase()) {
-              isPlaying = true;
-            }
-          }
-
-          if (!isPlaying) {
-            currentPlayers.push([user, 0]);
-            defer.resolve(username);
-          } else {
-            defer.reject("Player already entered");
-          }
-
-        } else {
-          defer.reject("That username does not exist, my good sir");
-        }
+        defer.resolve(user);
       }, function (failRes) {
         defer.reject("Get request failed: " + failRes.statusText);
       });
       return defer.promise;
-    };
-
-    this.removePlayerFromShootout = function (player) {
-
-      var index = currentPlayers.indexOf(player)
-
-      // to get around a weird bug where if you delete the first one it only deletes
-      // that one, but if you delete any other it will delete the next one as well
-      if (index == 0) {
-        currentPlayers.splice(index, index + 1);
-      } else {
-        currentPlayers.splice(index, index);
-      }
     };
 
     this.delete = function (id) {
@@ -186,62 +146,14 @@ angular.module('bballApp')
       return currentUser;
     };
 
-    this.getCurrentPlayers = function () {
-      return currentPlayers;
-    };
-
     this.logOut = function () {
       currentUser = {};
     };
 
-    this.resetShootout = function () {
-      currentPlayers = [];
-      winner = undefined;
-    };
-
-    this.setRounds = function (setupRounds) {
-      rounds = setupRounds;
-    };
-
-    this.getRounds = function () {
-      return rounds;
-    };
-
-    this.nextPlayerTurn = function () {
-      playerTurn++;
-      playerTurn %= currentPlayers.length;
-    };
-
-    this.getPlayerTurn = function () {
-      return playerTurn;
-    };
-
-    this.incrementGoals = function () {
-      var goalScorer = currentPlayers[playerTurn];
-      goalScorer[1]++;
-      if (goalScorer[1] === rounds) {
-        winner = goalScorer[0].username;
-        goalScorer[0].shootoutsWon++;
-        updateShootoutsWon(goalScorer[0]);
-      }
-    };
-
-    var updateShootoutsWon = function (goalScorer) {
+    this.updateShootoutsWon = function (goalScorer) {
       $http.put(url + "/" + goalScorer.id + "/shootoutsWon",
         {
           shootoutsWon: goalScorer.shootoutsWon
         });
-    };
-
-    this.setActiveShootout = function (bool) {
-      activeShootout = bool;
-    };
-
-    this.activeShootout = function () {
-      return activeShootout;
-    };
-
-    this.getWinner = function () {
-      return winner;
     };
   }]);

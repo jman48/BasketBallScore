@@ -8,7 +8,7 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('IndexCtrl', ['$scope', 'user', function ($scope, user) {
+  .controller('IndexCtrl', ['$scope', 'user', 'game', function ($scope, user, game) {
     $scope.username = function() {
       return user.getCurrentUser().username;
     };
@@ -18,11 +18,11 @@ angular.module('bballApp')
     };
 
     $scope.resetShootout = function() {
-      user.resetShootout();
-      user.setActiveShootout(false);
+      game.resetShootout();
+      game.setActiveShootout(false);
     };
 
     $scope.activeShootout = function() {
-      return user.activeShootout();
+      return game.activeShootout();
     };
   }]);
