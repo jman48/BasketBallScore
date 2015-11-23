@@ -17,6 +17,12 @@ angular.module('bballApp')
 
     var currentUser = {};
 
+    var currentPlayers = [];
+    var activeShootout = false; // will not let you access shootout screen if false
+    var playerTurn = 0; // current index of player in shootout
+    var rounds; // the amount of rounds in a shootout
+    var winner = undefined;
+
     // helper function, returns user from users array
     var getUser = function (users, username) {
       return users[users.map(function (user) {
@@ -27,9 +33,9 @@ angular.module('bballApp')
     this.register = function (username) {
       var promise = $http.get(url);
       var defer = $q.defer();
-      promise.then(function (getSuccessRes){
+      promise.then(function (getSuccessRes) {
         // if user already exists
-        if (getUser(getSuccessRes.data, username)){
+        if (getUser(getSuccessRes.data, username)) {
           defer.reject("Username is already taken");
         } else { // username is available
 
@@ -40,15 +46,15 @@ angular.module('bballApp')
             //shootoutsWon: 0
           };
 
-          currentUser = newUser;
+//        currentUser = newUser;
 
           var postRes = $http.post(
             serverAddr + 'users',
             JSON.stringify(newUser)
           );
-          postRes.then(function(postSuccessRes){
+          postRes.then(function (postSuccessRes) {
             defer.resolve(username);
-          }, function(postFailRes){
+          }, function (postFailRes) {
             defer.reject("Post failed: " + postFailRes.statusText);
           });
         }
@@ -59,14 +65,14 @@ angular.module('bballApp')
       return defer.promise;
     };
 
-    this.login = function(username){
+    this.login = function (username) {
 
       var defer = $q.defer();
 
       $http.get(url).then(function (successRes) {
         var users = successRes.data;
         var user = getUser(users, username);
-        if (user){ // user exists
+        if (user) { // user exists
           currentUser = user;
           defer.resolve(username);
         } else {
@@ -76,6 +82,53 @@ angular.module('bballApp')
         defer.reject("Get request failed: " + failRes.statusText);
       });
       return defer.promise;
+    };
+
+    this.addPlayer = function (username) {
+
+      var defer = $q.defer();
+      var url = serverAddr + 'users';
+
+      $http.get(url).then(function (successRes) {
+        var users = successRes.data;
+        var user = getUser(users, username);
+        if (user) { // user exists
+
+          var isPlaying = false;
+
+          for (var i = 0; i < currentPlayers.length; i++) {
+            if (currentPlayers[i][0].username.toLowerCase() === username.toLowerCase()) {
+              isPlaying = true;
+            }
+          }
+
+          if (!isPlaying) {
+            currentPlayers.push([user, 0]);
+            defer.resolve(username);
+          } else {
+            defer.reject("Player already entered");
+          }
+
+        } else {
+          defer.reject("That username does not exist, my good sir");
+        }
+      }, function (failRes) {
+        defer.reject("Get request failed: " + failRes.statusText);
+      });
+      return defer.promise;
+    };
+
+    this.removePlayerFromShootout = function (player) {
+
+      var index = currentPlayers.indexOf(player)
+
+      // to get around a weird bug where if you delete the first one it only deletes
+      // that one, but if you delete any other it will delete the next one as well
+      if (index == 0) {
+        currentPlayers.splice(index, index + 1);
+      } else {
+        currentPlayers.splice(index, index);
+      }
     };
 
     this.delete = function (id) {
@@ -88,7 +141,7 @@ angular.module('bballApp')
       });
     };
 
-    this.getUsers = function() {
+    this.getUsers = function () {
       return $q(function (resolve, reject) {
         $http.get(url).then(function (successRes) {
           var users = successRes.data;
@@ -99,7 +152,7 @@ angular.module('bballApp')
       });
     };
 
-    this.incrementHoops = function(){
+    this.incrementHoops = function (){
       currentUser.totalHoops++;
       updateHoops();
     };
@@ -116,11 +169,11 @@ angular.module('bballApp')
         });
     };
 
-    this.currentUser = function(){
+    this.currentUser = function (){
       return currentUser;
     };
 
-    this.updateHighestStreak = function(newHighest) {
+    this.updateHighestStreak = function (newHighest) {
       currentUser.highestStreak = newHighest;
       $http.put(url + "/" + currentUser.id + "/highestStreak",
         {
@@ -133,8 +186,62 @@ angular.module('bballApp')
       return currentUser;
     };
 
-    this.logOut = function() {
+    this.getCurrentPlayers = function () {
+      return currentPlayers;
+    };
+
+    this.logOut = function () {
       currentUser = {};
     };
-  }]);
 
+    this.resetShootout = function () {
+      currentPlayers = [];
+      winner = undefined;
+    };
+
+    this.setRounds = function (setupRounds) {
+      rounds = setupRounds;
+    };
+
+    this.getRounds = function () {
+      return rounds;
+    };
+
+    this.nextPlayerTurn = function () {
+      playerTurn++;
+      playerTurn %= currentPlayers.length;
+    };
+
+    this.getPlayerTurn = function () {
+      return playerTurn;
+    };
+
+    this.incrementGoals = function () {
+      var goalScorer = currentPlayers[playerTurn];
+      goalScorer[1]++;
+      if (goalScorer[1] === rounds) {
+        winner = goalScorer[0].username;
+        goalScorer[0].shootoutsWon++;
+        updateShootoutsWon(goalScorer[0]);
+      }
+    };
+
+    var updateShootoutsWon = function (goalScorer) {
+      $http.put(url + "/" + goalScorer.id + "/shootoutsWon",
+        {
+          shootoutsWon: goalScorer.shootoutsWon
+        });
+    };
+
+    this.setActiveShootout = function (bool) {
+      activeShootout = bool;
+    };
+
+    this.activeShootout = function () {
+      return activeShootout;
+    };
+
+    this.getWinner = function () {
+      return winner;
+    };
+  }]);

@@ -45,6 +45,14 @@ angular
       .when('/logout', {
         redirectTo: '/login'
       })
+      .when('/setup_shootout', {
+        templateUrl: 'views/setup_shootout.html',
+        controller: 'SetupShootoutCtrl'
+      })
+      .when('/shootout', {
+        templateUrl: 'views/shootout.html',
+        controller: 'SetupShootoutCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
