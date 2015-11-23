@@ -39,7 +39,7 @@ describe('Controller: RegisterCtrl', function () {
     spyOn(user, "register").and.returnValue(generatePromise(true, "John"));
     var promise = scope.attemptRegister("John");
     scope.$apply();
-    expect(location.path).toHaveBeenCalledWith('/landing');
+    expect(location.path).toHaveBeenCalledWith('/login');
     expect(scope.errorMessage).toBe(undefined);
   });
 
