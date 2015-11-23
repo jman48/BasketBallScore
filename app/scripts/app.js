@@ -35,7 +35,8 @@ angular
         controller: 'DeleteuserCtrl'
       })
       .when('/landing', {
-        templateUrl: 'views/blank.html'
+        templateUrl: 'views/landing.html',
+        controller: 'SinglePlayerCtrl'
       })
       .when('/scores', {
         templateUrl: 'views/scoretable.html',
