@@ -68,7 +68,12 @@ angular.module('bballApp')
     };
 
     $scope.getPlayerTurn = function() {
-      return game.getPlayerTurn().username;
+      var player = game.getPlayerTurn();
+      if (player === undefined) {
+        return "";
+      } else {
+        return game.getPlayerTurn().username;
+      }
     };
 
     $scope.getWinner = function() {
