@@ -39,7 +39,8 @@
           <ul class="nav navbar-nav">
             <li><a ng-href="#/scores">High Scores</a></li>
             <li><a ng-href="#/setup_shootout" ng-click="resetShootout()">Start New Shootout</a></li>
-            <li><a ng-show="activeShootout()" ng-href="#/shootout">Current Shootout</a></li>
+            <li><a ng-show="activeShootout()" class="btn navbar-btn" ng-href="#/shootout">Join Current Shootout</a></li>
+            <li><button class="btn navbar-btn" ng-class="{'btn-info':spectatorMode}"ng-click="toggleSpectatorMode()">Spectator Mode</button></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li ng-hide="loggedOn()"><a ng-href="#/login">Login</a></li>
@@ -100,6 +101,7 @@
         <script src="scripts/controllers/index.js"></script>
         <script src="scripts/controllers/shootout.js"></script>
         <script src="scripts/services/game.js"></script>
+        <script src="scripts/controllers/spectate.js"></script>
         <!-- endbuild -->
 </body>
 </html>

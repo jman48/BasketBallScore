@@ -9,7 +9,6 @@
  */
 angular.module('bballApp')
   .service('game', ['user', '$q', function (user, $q) {
-    // AngularJS will instantiate a singleton by calling "new" on this function
 
     var currentPlayers = [];
     var winner = undefined;
@@ -21,9 +20,9 @@ angular.module('bballApp')
 
       var defer = $q.defer();
 
-      user.getPlayer(username).then(function (user) {
+      user.getPlayer(username).then(function (player) {
 
-          if (user) { // user exists
+          if (player) { // user exists
 
             var isPlaying = false;
 
@@ -34,7 +33,7 @@ angular.module('bballApp')
             }
 
             if (!isPlaying) {
-              currentPlayers.push([user, 0]);
+              currentPlayers.push([player, 0]);
               defer.resolve(currentPlayers);
             } else {
               defer.reject("Player already entered");
@@ -46,14 +45,14 @@ angular.module('bballApp')
         }, function (failure) {
           defer.reject(failure);
         }
-      )
+      );
 
       return defer.promise;
     };
 
     this.removePlayerFromShootout = function (player) {
 
-      var index = currentPlayers.indexOf(player)
+      var index = currentPlayers.indexOf(player);
 
       // to get around a weird bug where if you delete the first one it only deletes
       // that one, but if you delete any other it will delete the next one as well
