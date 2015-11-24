@@ -59,10 +59,6 @@ describe('Service: user', function () {
     });
   };
 
-  it('should do something', function () {
-    expect(!!user).toBe(true);
-  });
-
   it('should succeed when registering an unused username', function() {
     var newUser = "john";
     var spy = jasmine.createSpy('add user spy');
