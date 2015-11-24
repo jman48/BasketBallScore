@@ -15,7 +15,7 @@ angular.module('bballApp')
     var serverAddr = config.backend;
     var url = serverAddr + 'users';
 
-    var currentUser = {};
+    var currentUser = null;
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
@@ -79,7 +79,6 @@ angular.module('bballApp')
     this.getPlayer = function (username) {
 
       var defer = $q.defer();
-      var url = serverAddr + 'users';
 
       $http.get(url).then(function (successRes) {
         var users = successRes.data;
@@ -129,10 +128,6 @@ angular.module('bballApp')
         });
     };
 
-    this.currentUser = function (){
-      return currentUser;
-    };
-
     this.updateHighestStreak = function (newHighest) {
       currentUser.highestStreak = newHighest;
       $http.put(url + "/" + currentUser.id + "/highestStreak",
@@ -142,18 +137,22 @@ angular.module('bballApp')
       );
     };
 
-    this.getCurrentUser = function() {
-      return currentUser;
-    };
-
-    this.logOut = function () {
-      currentUser = {};
-    };
-
     this.updateShootoutsWon = function (goalScorer) {
       $http.put(url + "/" + goalScorer.id + "/shootoutsWon",
         {
           shootoutsWon: goalScorer.shootoutsWon
         });
     };
+
+    this.currentUser = function (){
+      return currentUser;
+    };
+
+    this.logOut = function () {
+      currentUser = null;
+    };
+
+    this.isLoggedOn = function () {
+      return currentUser;
+    }
   }]);

@@ -10,7 +10,15 @@
 angular.module('bballApp')
   .controller('IndexCtrl', ['$scope', 'user', 'game', function ($scope, user, game) {
     $scope.username = function() {
-      return user.getCurrentUser().username;
+      if (user.isLoggedOn()){
+        return user.currentUser().username;
+      } else {
+        return "Guest?";
+      }
+    };
+
+    $scope.loggedOn = function () {
+      return user.isLoggedOn();
     };
 
     $scope.logOut = function() {
