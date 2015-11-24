@@ -59,10 +59,6 @@ angular.module('bballApp')
       game.nextPlayerTurn();
     };
 
-    this.getPlayerTurn = function () {
-      return playerTurn;
-    };
-
     $scope.getRounds = function() {
       return game.getRounds();
     };
