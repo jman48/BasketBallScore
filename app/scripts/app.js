@@ -63,6 +63,32 @@ angular
 
   }])
 
+  // prevents access to some pages if not logged in
+  .run( ['$rootScope', '$location', 'user', function ($rootScope, $location, user) {
+    // need to be logged in to view these
+    var blackList = [
+      "/landing"
+    ];
+    // register listener to watch route changes
+    $rootScope.$on("$locationChangeStart", function (event, next, current) {
+      if (!user.isLoggedOn()){
+
+        // util method
+        String.prototype.endsWith = function(suffix) {
+          return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        };
+
+        // if going to a blacklist page
+        if (blackList.some(function (route) {
+            return next.endsWith(route);
+          })){
+          // redirect
+          $location.path("/login");
+        }
+      }
+    });
+  }])
+
   // from here: http://stackoverflow.com/a/20865048/1696114
   .directive('autoFocus', function($timeout) {
     return {

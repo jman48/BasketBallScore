@@ -9,9 +9,11 @@
  */
 angular.module('bballApp')
   .controller('SinglePlayerCtrl', ['$scope', 'user', function ($scope, user) {
-    $scope.totalHoops = user.currentUser().totalHoops;
-    $scope.highestStreak = user.currentUser().highestStreak;
-    $scope.currentStreak = 0;
+    if (user.isLoggedOn()){
+      $scope.totalHoops = user.currentUser().totalHoops;
+      $scope.highestStreak = user.currentUser().highestStreak;
+      $scope.currentStreak = 0;
+    }
 
     $scope.incrementHoops = function(){
       $scope.totalHoops++;

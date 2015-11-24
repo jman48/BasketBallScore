@@ -7,44 +7,46 @@ describe('Controller: SinglePlayerCtrl', function () {
 
   var SinglePlayerCtrl,
     scope,
-    user;
+    fakeUser = function(totalHoops, highestStreak){
+        return {
+          name: "Joe",
+          totalHoops: totalHoops,
+          highestStreak: highestStreak,
+          shootOutsWon: 2
+        };
+    },
+    mockUserService = {
+      isLoggedOn: function () { return true; },
+      currentUser: function () { return fakeUser; },
+      incrementHoops: function () {},
+      decrementHoops: function () {},
+      updateHighestStreak: function () {}
+    };
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, _user_) {
-    user = _user_;
-    // return fake user
-    spyOn(user, 'currentUser').and.returnValue(fakeUser(10, 3));
+    spyOn(mockUserService, 'currentUser').and.returnValue(fakeUser(10, 3));
     scope = $rootScope.$new();
     SinglePlayerCtrl = $controller('SinglePlayerCtrl', {
       $scope: scope,
-      // place here mocked dependencies
-      user: user
+      user: mockUserService
     });
   }));
 
-  var fakeUser = function(totalHoops, highestStreak){
-    return {
-      name: "Joe",
-      totalHoops: totalHoops,
-      highestStreak: highestStreak,
-      shootOutsWon: 2
-    };
-  };
-
   it('should increment total hoops when incrementHoops is called', function(){
     var beforeHoops = scope.totalHoops;
-    spyOn(user, "incrementHoops");
+    spyOn(mockUserService, "incrementHoops");
     scope.incrementHoops();
     expect(scope.totalHoops).toBe(beforeHoops+1);
-    expect(user.incrementHoops).toHaveBeenCalled();
+    expect(mockUserService.incrementHoops).toHaveBeenCalled();
   });
 
   it('should decrement total hoops when decrementHoops is called', function(){
     var beforeHoops = scope.totalHoops;
-    spyOn(user, "decrementHoops");
+    spyOn(mockUserService, "decrementHoops");
     scope.decrementHoops();
     expect(scope.totalHoops).toBe(beforeHoops-1);
-    expect(user.decrementHoops).toHaveBeenCalled();
+    expect(mockUserService.decrementHoops).toHaveBeenCalled();
   });
 
   it('should increment streak when incrementStreak is called', function(){
@@ -54,11 +56,11 @@ describe('Controller: SinglePlayerCtrl', function () {
   });
 
   it('should update highest streak when currentStreak higher than highest', function(){
-    scope.currentStreak = user.currentUser().highestStreak;
+    scope.currentStreak = mockUserService.currentUser().highestStreak;
     var beforeStreak = scope.currentStreak;
-    spyOn(user, 'updateHighestStreak');
+    spyOn(mockUserService, 'updateHighestStreak');
     scope.incrementStreak();
-    expect(user.updateHighestStreak).toHaveBeenCalledWith(beforeStreak+1);
+    expect(mockUserService.updateHighestStreak).toHaveBeenCalledWith(beforeStreak+1);
   });
 
   it('should reset streak when resetStreak is called', function(){
