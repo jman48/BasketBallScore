@@ -67,9 +67,7 @@ angular
   .run( ['$rootScope', '$location', 'user', function ($rootScope, $location, user) {
     // need to be logged in to view these
     var blackList = [
-      "/landing",
-      "/setup_shootout",
-      "/shootout"
+      "/landing"
     ];
     // register listener to watch route changes
     $rootScope.$on("$locationChangeStart", function (event, next, current) {
