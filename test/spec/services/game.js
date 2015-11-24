@@ -8,11 +8,13 @@ describe('Service: game', function () {
   // instantiate service
   var scope,
     game,
+    user,
     q;
 
 
-  beforeEach(inject(function (_game_, _$rootScope_, $q) {
+  beforeEach(inject(function (_game_, _$rootScope_, _user_, $q) {
     scope = _$rootScope_.$new();
+    user = _user_;
     game = _game_;
     q = $q;
     game.setCurrentPlayers([
@@ -27,11 +29,11 @@ describe('Service: game', function () {
   });
 
   it('should add player with goals set to zero if player is valid', function () {
-
+    // TODO Having some difficulty implementing this test
   });
 
   it('should not add player if player is already in game', function () {
-
+    // TODO Having some difficulty implementing this test
   });
 
   // The splice function in arrays was being difficult, so I am including two remove player tests

@@ -78,7 +78,7 @@ angular.module('bballApp')
 
     $scope.matchActiveRow = function(thisUser) {
       if (user.isLoggedOn()){
-        if (thisUser.username === user.getCurrentUser().username) {
+        if (thisUser.username === user.currentUser().username) {
           return "info";
         } else {
           return "";

@@ -45,7 +45,7 @@ angular.module('bballApp')
           }
         }, function (failure) {
 
-          defer.reject(failure);
+        defer.reject(failure);
         }
       )
 
