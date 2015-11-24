@@ -21,9 +21,9 @@ angular.module('bballApp')
 
       var defer = $q.defer();
 
-      user.getPlayer(username).then(function (user) {
+      user.getPlayer(username).then(function (resolve) {
 
-          if (user) { // user exists
+          if (resolve) { // user exists
 
             var isPlaying = false;
 
@@ -34,7 +34,7 @@ angular.module('bballApp')
             }
 
             if (!isPlaying) {
-              currentPlayers.push([user, 0]);
+              currentPlayers.push([resolve, 0]);
               defer.resolve(currentPlayers);
             } else {
               defer.reject("Player already entered");
@@ -44,9 +44,10 @@ angular.module('bballApp')
             defer.reject("That username does not exist, my good sir");
           }
         }, function (failure) {
-          defer.reject(failure);
+
+        defer.reject(failure);
         }
-      )
+      );
 
       return defer.promise;
     };
@@ -67,6 +68,7 @@ angular.module('bballApp')
     this.resetShootout = function () {
       currentPlayers = [];
       winner = undefined;
+      playerTurn = 0;
     };
 
     this.getCurrentPlayers = function () {
@@ -75,6 +77,10 @@ angular.module('bballApp')
 
     this.setRounds = function (setupRounds) {
       rounds = setupRounds;
+    };
+
+    this.setCurrentPlayers = function(players) {
+      currentPlayers = players;
     };
 
     this.getRounds = function () {
@@ -98,7 +104,11 @@ angular.module('bballApp')
     };
 
     this.getPlayerTurn = function () {
-      return currentPlayers[playerTurn];
+      if (currentPlayers.length === 0) {
+        return undefined;
+      } else {
+        return currentPlayers[playerTurn][0];
+      }
     };
 
     this.setActiveShootout = function (bool) {
