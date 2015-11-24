@@ -83,6 +83,8 @@ angular.module('bballApp')
         } else {
           return "";
         }
-      }
+      } else {
+        return "";
+      };
     };
   }]);

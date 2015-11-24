@@ -7,11 +7,13 @@ describe('Controller: IndexCtrl', function () {
 
   var IndexCtrl,
     user,
+    game,
     scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _user_) {
+  beforeEach(inject(function ($controller, $rootScope, _user_, _game_) {
     scope = $rootScope.$new();
+    game = _game_;
     user = _user_;
     IndexCtrl = $controller('IndexCtrl', {
       $scope: scope
@@ -29,5 +31,14 @@ describe('Controller: IndexCtrl', function () {
     spyOn(user, "isLoggedOn").and.returnValue(false);
     spyOn(user, "currentUser").and.returnValue({username: "Alice"});
     expect(scope.username()).not.toBe("Alice");
+  });
+
+  it('should call reset shootout and set active shootout to false when reset shootout' +
+    ' is called', function () {
+    spyOn(game, "resetShootout");
+    spyOn(game, "setActiveShootout");
+    scope.resetShootout();
+    expect(game.resetShootout).toHaveBeenCalled();
+    expect(game.setActiveShootout).toHaveBeenCalledWith(false);
   });
 });
