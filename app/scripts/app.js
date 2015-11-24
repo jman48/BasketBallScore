@@ -63,11 +63,13 @@ angular
 
   }])
 
+  // prevents access to some pages if not logged in
   .run( ['$rootScope', '$location', 'user', function ($rootScope, $location, user) {
     // need to be logged in to view these
     var blackList = [
       "/landing",
-      "/setup_shootout"
+      "/setup_shootout",
+      "/shootout"
     ];
     // register listener to watch route changes
     $rootScope.$on("$locationChangeStart", function (event, next, current) {
@@ -87,4 +89,16 @@ angular
         }
       }
     });
-  }]);
+  }])
+
+  // from here: http://stackoverflow.com/a/20865048/1696114
+  .directive('autoFocus', function($timeout) {
+    return {
+      restrict: 'AC',
+      link: function(_scope, _element) {
+        $timeout(function(){
+          _element[0].focus();
+        }, 0);
+      }
+    };
+  });
