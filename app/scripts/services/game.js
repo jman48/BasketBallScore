@@ -21,9 +21,9 @@ angular.module('bballApp')
 
       var defer = $q.defer();
 
-      user.getPlayer(username).then(function (name) {
+      user.getPlayer(username).then(function (resolve) {
 
-          if (name) { // user exists
+          if (resolve) { // user exists
 
             var isPlaying = false;
 
@@ -34,7 +34,7 @@ angular.module('bballApp')
             }
 
             if (!isPlaying) {
-              currentPlayers.push([name, 0]);
+              currentPlayers.push([resolve, 0]);
               defer.resolve(currentPlayers);
             } else {
               defer.reject("Player already entered");
@@ -47,7 +47,7 @@ angular.module('bballApp')
 
         defer.reject(failure);
         }
-      )
+      );
 
       return defer.promise;
     };
