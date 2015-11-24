@@ -77,10 +77,12 @@ angular.module('bballApp')
     };
 
     $scope.matchActiveRow = function(thisUser) {
-      if (thisUser.username === user.getCurrentUser().username) {
-        return "info";
-      } else {
-        return "";
+      if (user.isLoggedOn()){
+        if (thisUser.username === user.getCurrentUser().username) {
+          return "info";
+        } else {
+          return "";
+        }
       }
     };
   }]);

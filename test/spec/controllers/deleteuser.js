@@ -19,8 +19,8 @@ describe('Controller: DeleteUserCtrl', function () {
     user = _user_;
     DeleteUserCtrl = $controller('DeleteUserCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
+
   }));
 
   var generatePromise = function(resolve, data){
@@ -34,20 +34,28 @@ describe('Controller: DeleteUserCtrl', function () {
     return defer.promise;
   };
 
+  var fakeUser = {
+    username: "test",
+    id: 1
+  };
+
   it("should redirect when valid username is deleted", function(){
     spyOn(location, 'path');
+    spyOn(user, "currentUser").and.returnValue(fakeUser);
     spyOn(user, "delete").and.returnValue(generatePromise(true, "RegisteredUser"));
-    scope.confirmDelete("RegisteredUser");
+    scope.confirmDelete();
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/login');
   });
 
   it("should stay on same page and return an error message if invalid username is deleted", function() {
     spyOn(location, 'path');
+    spyOn(user, "currentUser").and.returnValue(fakeUser);
     spyOn(user, "delete").and.returnValue(generatePromise(false, "Error"));
-    scope.confirmDelete("");
+    scope.confirmDelete();
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
     expect(scope.errorMessage).toBe("Error");
-  })
+  });
+
 });

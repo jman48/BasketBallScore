@@ -10,7 +10,7 @@
 angular.module('bballApp')
   .controller('DeleteUserCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
 
-    $scope.confirmDelete = function(username) {
+    $scope.confirmDelete = function() {
       var promise = user.delete(user.currentUser().id);
       promise.then(function (success) {
         $location.path('/login');
