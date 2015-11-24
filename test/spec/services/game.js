@@ -29,18 +29,25 @@ describe('Service: game', function () {
   });
 
   it('should add player with goals set to zero if player is valid', function () {
-    //console.log(game.getCurrentPlayers());
-    //var defer = q.defer();
-    //defer.resolve({username: "test4"});
-    //spyOn(user, "getPlayer").and.returnValue(defer.promise);
-    //game.addPlayer("test4");
-    //console.log(game.getCurrentPlayers());
-
-    // TODO Having some difficulty implementing this test
+    var defer = q.defer();
+    defer.resolve({username: "test4"});
+    spyOn(user, "getPlayer").and.returnValue(defer.promise);
+    game.addPlayer("test4");
+    var players = game.getCurrentPlayers();
+    expect(players.length).toBe(4);
+    expect(players[3][1]).toBe(0);
+    expect(players[3][0].username).toBe("test4");
+    // TODO Having some difficulty implementing this test, something to do with asynchronous testing
   });
 
   it('should not add player if player is already in game', function () {
-    // TODO Having some difficulty implementing this test
+    var defer = q.defer();
+    defer.resolve({username: "test3"});
+    spyOn(user, "getPlayer").and.returnValue(defer.promise);
+    game.addPlayer("test3");
+    var players = game.getCurrentPlayers();
+    expect(players.length).toBe(3);
+    // TODO See above, this test passes but does not run properly
   });
 
   // The splice function in arrays was being difficult, so I am including two remove player tests
