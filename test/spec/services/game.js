@@ -8,14 +8,12 @@ describe('Service: game', function () {
   // instantiate service
   var scope,
     game,
-    q,
-    _user_;
+    q;
 
 
-  beforeEach(inject(function (_game_, user, _$rootScope_, $q) {
+  beforeEach(inject(function (_game_, _$rootScope_, $q) {
     scope = _$rootScope_.$new();
     game = _game_;
-    _user_ = user;
     q = $q;
     game.setCurrentPlayers([
       [{username: "test1"}, 0],
@@ -78,7 +76,9 @@ describe('Service: game', function () {
   });
 
   it('should reset game when reset game button is pushed', function () {
-
+    game.resetShootout();
+    expect(game.getWinner()).toBe(undefined);
+    expect(game.getCurrentPlayers().length).toBe(0);
+    expect(game.getPlayerTurn()).toBe(undefined);
   });
-
 });
