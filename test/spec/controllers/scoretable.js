@@ -125,9 +125,4 @@ describe('Controller: ScoreTableCtrl', function () {
     spyOn(user, "currentUser").and.returnValue({username: "Bob"});
     expect(scope.matchActiveRow({username: "Bob"})).toBe("info");
   })
-
-  it('should display "test2" if player sorts by longest streak', function () {
-    fakeUpdateUsers();
-    element(by.id('hoops')).click();
-  });
 });

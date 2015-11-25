@@ -8,7 +8,7 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('IndexCtrl', ['$scope', 'user', 'game', function ($scope, user, game) {
+  .controller('IndexCtrl', ['$scope', '$location', 'user', 'game', function ($scope, $location, user, game) {
     $scope.username = function() {
       if (user.isLoggedOn()){
         return user.currentUser().username;
@@ -28,6 +28,7 @@ angular.module('bballApp')
     $scope.resetShootout = function() {
       game.resetShootout();
       game.setActiveShootout(false);
+      $location.path('/setup_shootout');
     };
 
     $scope.activeShootout = function() {
