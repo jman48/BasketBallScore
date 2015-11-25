@@ -21,7 +21,7 @@ angular.module('bballApp')
           resolve(users);
         }, function (failMessage) {
           $scope.errorMessage = failMessage;
-          reject(errorMessage);
+          reject($scope.errorMessage);
         });
       });
     };
