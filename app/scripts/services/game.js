@@ -43,7 +43,8 @@ angular.module('bballApp')
             defer.reject("That username does not exist, my good sir");
           }
         }, function (failure) {
-          defer.reject(failure);
+
+        defer.reject(failure);
         }
       );
 
@@ -66,6 +67,7 @@ angular.module('bballApp')
     this.resetShootout = function () {
       currentPlayers = [];
       winner = undefined;
+      playerTurn = 0;
     };
 
     this.getCurrentPlayers = function () {
@@ -74,6 +76,10 @@ angular.module('bballApp')
 
     this.setRounds = function (setupRounds) {
       rounds = setupRounds;
+    };
+
+    this.setCurrentPlayers = function(players) {
+      currentPlayers = players;
     };
 
     this.getRounds = function () {
@@ -97,7 +103,11 @@ angular.module('bballApp')
     };
 
     this.getPlayerTurn = function () {
-      return currentPlayers[playerTurn];
+      if (currentPlayers.length === 0) {
+        return undefined;
+      } else {
+        return currentPlayers[playerTurn][0];
+      }
     };
 
     this.setActiveShootout = function (bool) {

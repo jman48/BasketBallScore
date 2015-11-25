@@ -44,31 +44,21 @@ describe('Service: user', function () {
     });
   };
 
-  var fakePostReq = function (shouldResolve) {
-    testUsers.push(user);
+  var fakePostReq = function (newUser) {
+    testUsers.push(newUser);
     return q(function (resolve, reject) {
-      if (shouldResolve){
         resolve({
           status: 200 // success
         });
-      } else {
-        reject({
-          statusText: "Could not complete post"
-        });
-      }
     });
   };
-
-  it('should do something', function () {
-    expect(!!user).toBe(true);
-  });
 
   it('should succeed when registering an unused username', function() {
     var newUser = "john";
     var spy = jasmine.createSpy('add user spy');
 
     spyOn(http, "get").and.returnValue(fakeGetReq(true));
-    spyOn(http, "post").and.returnValue(fakePostReq(true));
+    spyOn(http, "post").and.callFake(fakePostReq);
 
     var promise = user.register(newUser);
     promise.then(spy);
@@ -83,7 +73,7 @@ describe('Service: user', function () {
     var failSpy = jasmine.createSpy('duplicate user spy');
 
     spyOn(http, "get").and.returnValue(fakeGetReq(true));
-    spyOn(http, "post").and.returnValue(fakePostReq(true));
+    spyOn(http, "post").and.callFake(fakePostReq);
 
     user.register(existingUsername);
     var promise = user.register(existingUsername);
@@ -105,20 +95,6 @@ describe('Service: user', function () {
     scope.$apply();
 
     expect(http.get).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should fail when logging in with an invalid username', function(){
-    spyOn(http, "get").and.returnValue(fakeGetReq(true));
-
-    var spy = jasmine.createSpy('invalid username logon');
-
-    user.login('').then(angular.noop, spy);
-    scope.$apply();
-    expect(spy).toHaveBeenCalled();
-
-    user.login(null).then(angular.noop, spy);
-    scope.$apply();
     expect(spy).toHaveBeenCalled();
   });
 

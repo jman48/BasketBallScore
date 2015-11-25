@@ -108,4 +108,21 @@ describe('Controller: ScoreTableCtrl', function () {
     scope.order('shootoutsWon');
     expect(scope.getHighScoreText()).toContain("TEST3");
   });
+
+  it('should return empty string if user is not logged in', function () {
+    spyOn(user, "isLoggedOn").and.returnValue(false);
+    expect(scope.matchActiveRow("Bob")).toBe("");
+  });
+
+  it('should return empty string if user is logged in but does not match this user', function () {
+    spyOn(user, "isLoggedOn").and.returnValue(true);
+    spyOn(user, "currentUser").and.returnValue({username: "Alice"});
+    expect(scope.matchActiveRow({username: "Bob"})).toBe("");
+  })
+
+  it('should return "info" if user is logged in and does match this user', function () {
+    spyOn(user, "isLoggedOn").and.returnValue(true);
+    spyOn(user, "currentUser").and.returnValue({username: "Bob"});
+    expect(scope.matchActiveRow({username: "Bob"})).toBe("info");
+  })
 });

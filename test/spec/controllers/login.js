@@ -39,7 +39,7 @@ describe('Controller: LoginCtrl', function () {
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
     spyOn(user, "login").and.returnValue(generatePromise(true, "RegisteredUser"));
-    var promise = scope.attemptLogin("RegisteredUser");
+    scope.attemptLogin("RegisteredUser");
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/landing');
     expect(scope.errorMessage).toBe(undefined);
@@ -51,7 +51,6 @@ describe('Controller: LoginCtrl', function () {
     scope.attemptLogin(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
-
     scope.attemptLogin('');
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();

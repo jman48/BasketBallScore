@@ -59,8 +59,20 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       "karma-phantomjs-launcher",
-      "karma-jasmine"
+      "karma-jasmine",
+      "karma-coverage"
     ],
+
+    // Files to check coverage for
+    preprocessors: {
+      'app/scripts/controllers/deleteuser.js': ['coverage'],
+      'app/scripts/controllers/index.js': ['coverage'],
+      'app/scripts/controllers/login.js': ['coverage'],
+      'app/scripts/controllers/register.js': ['coverage'],
+      'app/scripts/controllers/scoretable.js': ['coverage'],
+      'app/scripts/controllers/shootout.js': ['coverage'],
+      'app/scripts/controllers/singleplayer.js': ['coverage'],
+    },
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
