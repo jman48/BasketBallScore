@@ -23,11 +23,14 @@ angular.module('bballApp')
 
     $scope.logOut = function () {
       user.logOut();
+      $scope.collapse();
+      $location.path('/logout');
     };
 
     $scope.resetShootout = function () {
       game.resetShootout();
       game.setActiveShootout(false);
+      $scope.collapse();
       $location.path('/setup_shootout');
     };
 
@@ -38,8 +41,28 @@ angular.module('bballApp')
     $scope.highScores = function () {
       if (screen.width <= 549) {
         $location.path('/mobilescores');
+        $(".navbar-collapse").collapse('hide');
       } else {
         $location.path('/scores');
       }
     };
+
+    $scope.logIn = function () {
+      $location.path('/login');
+      $scope.collapse();
+    };
+
+    $scope.register = function () {
+      $location.path('/register');
+      $scope.collapse();
+    };
+
+    $scope.delete = function () {
+      $location.path('/deleteuser');
+      $scope.collapse();
+    };
+
+    $scope.collapse = function () {
+      $(".navbar-collapse").collapse('hide');
+    }
   }]);
