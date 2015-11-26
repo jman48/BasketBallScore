@@ -9,7 +9,7 @@
  */
 angular.module('bballApp')
   .controller('IndexCtrl', ['$scope', '$location', 'user', 'game', function ($scope, $location, user, game) {
-    $scope.username = function() {
+    $scope.username = function () {
       if (user.isLoggedOn()){
         return user.currentUser().username;
       } else {
@@ -21,17 +21,25 @@ angular.module('bballApp')
       return user.isLoggedOn();
     };
 
-    $scope.logOut = function() {
+    $scope.logOut = function () {
       user.logOut();
     };
 
-    $scope.resetShootout = function() {
+    $scope.resetShootout = function () {
       game.resetShootout();
       game.setActiveShootout(false);
       $location.path('/setup_shootout');
     };
 
-    $scope.activeShootout = function() {
+    $scope.activeShootout = function () {
       return game.activeShootout();
+    };
+
+    $scope.highScores = function () {
+      if (screen.width <= 549) {
+        $location.path('/mobilescores');
+      } else {
+        $location.path('/scores');
+      }
     };
   }]);
