@@ -45,6 +45,7 @@ angular.module('bballApp')
       $scope.spectatorMode = !$scope.spectatorMode;
       if ($scope.spectatorMode) {
         $location.path('/scores');
+        waitForGame();
         spectatorWaitID = setInterval(waitForGame, spectatorRefreshTime);
       } else {
         $location.path('/login');

@@ -104,7 +104,7 @@ angular.module('bballApp')
     this.incrementGoals = function () {
       var goalScorer = currentPlayers[playerTurn];
       goalScorer.score++;
-      $http.put(url + "players/" + goalScorer.username, {
+      $http.put(url + "players/" + goalScorer.username + "/game/" + gameId, {
         score: goalScorer.score
       }).then(function (successRes) {
         // cool

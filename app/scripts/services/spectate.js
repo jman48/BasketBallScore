@@ -35,7 +35,7 @@ angular.module('bballApp')
 
     this.updateScores = function () {
       return $q(function (resolve, reject) {
-        $http.get(url + "players/" + gameId).then (function (playersRes) {
+        $http.get(url + "players/game/" + gameId).then (function (playersRes) {
           resolve(playersRes.data);
         }, function (failRes) {
           reject(failRes.statusText);

@@ -18,6 +18,7 @@ angular.module('bballApp')
 
     var updateScores = function () {
       spectate.updateScores().then(function (players){
+        console.log("updating scores");
         $scope.players = players;
       }, function (failRes) {
         console.log("GET players failed", failRes.statusText);
@@ -36,11 +37,14 @@ angular.module('bballApp')
     updateGameInfo();
     updateScores();
 
-    // repeat updateScores
+    // keep checking for changes in scores and game state
     setInterval(updateScores, waitTime);
+    setInterval(updateGameInfo, waitTime);
 
     $scope.getWinner = function () {
-      return Math.max.apply(null, $scope.players);
+      return $scope.players.sort(function (a, b) {
+        return -(a.score - b.score);
+      })[0];
     };
 
   }]);

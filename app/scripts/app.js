@@ -93,6 +93,7 @@ angular
     });
   }])
 
+  // for autofocusing text inputs in login and register
   // from here: http://stackoverflow.com/a/20865048/1696114
   .directive('autoFocus', function($timeout) {
     return {
