@@ -18,9 +18,9 @@ describe('Service: game', function () {
     game = _game_;
     q = $q;
     game.setCurrentPlayers([
-      [{username: "test1"}, 0],
-      [{username: "test2"}, 0],
-      [{username: "test3"}, 0]
+      {username: "test1", score: 0},
+      {username: "test2", score: 0},
+      {username: "test3", score: 0}
     ]);
   }));
 
@@ -36,8 +36,8 @@ describe('Service: game', function () {
     scope.$apply();
     var players = game.getCurrentPlayers();
     expect(players.length).toBe(4);
-    expect(players[3][1]).toBe(0);
-    expect(players[3][0].username).toBe("test4");
+    expect(players[3].score).toBe(0);
+    expect(players[3].username).toBe("test4");
   });
 
   it('should not add player if player is already in game', function () {
@@ -55,21 +55,21 @@ describe('Service: game', function () {
   it('should remove only first player when remove first player link is clicked', function() {
     game.removePlayerFromShootout(game.getCurrentPlayers()[0]);
     var players = game.getCurrentPlayers();
-    expect(players[0][0].username).toBe("test2");
-    expect(players[1][0].username).toBe("test3");
+    expect(players[0].username).toBe("test2");
+    expect(players[1].username).toBe("test3");
   });
 
   it('should remove only second player when remove second player link is clicked', function() {
     game.removePlayerFromShootout(game.getCurrentPlayers()[1]);
     var players = game.getCurrentPlayers();
-    expect(players[0][0].username).toBe("test1");
-    expect(players[1][0].username).toBe("test3");
+    expect(players[0].username).toBe("test1");
+    expect(players[1].username).toBe("test3");
   });
 
   it('should increment players goal count when goal button is pushed', function () {
-    var goalCount = game.getCurrentPlayers()[0][1];
+    var goalCount = game.getCurrentPlayers()[0].score;
     game.incrementGoals();
-    expect(game.getCurrentPlayers()[0][1]).toBe(goalCount + 1);
+    expect(game.getCurrentPlayers()[0].score).toBe(goalCount + 1);
   });
 
   it('should move to next player when miss button is pushed and eventually' +
@@ -86,7 +86,7 @@ describe('Service: game', function () {
   it('should change winner state and increment players shootouts won count when ' +
     'player reaches goal', function () {
     expect(game.getWinner()).toBe(undefined);
-    game.setRounds(1);
+    game.startGame(1);
     game.incrementGoals();
     expect(game.getWinner()).toBe("test1");
   });

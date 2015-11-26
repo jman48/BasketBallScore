@@ -36,9 +36,7 @@ describe('Controller: IndexCtrl', function () {
   it('should call reset shootout and set active shootout to false when reset shootout' +
     ' is called', function () {
     spyOn(game, "resetShootout");
-    spyOn(game, "setActiveShootout");
     scope.resetShootout();
     expect(game.resetShootout).toHaveBeenCalled();
-    expect(game.setActiveShootout).toHaveBeenCalledWith(false);
   });
 });

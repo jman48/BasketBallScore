@@ -8,7 +8,8 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('IndexCtrl', ['$scope', 'user', 'game', '$location', function ($scope, user, game, $location) {
+  .controller('IndexCtrl', ['$scope', 'user', 'game', '$location', 'spectate',
+    function ($scope, user, game, $location, spectate) {
 
     $scope.spectatorMode = false;
 
@@ -34,7 +35,6 @@ angular.module('bballApp')
 
     $scope.resetShootout = function() {
       game.resetShootout();
-      game.setActiveShootout(false);
     };
 
     $scope.activeShootout = function() {
@@ -53,9 +53,13 @@ angular.module('bballApp')
 
     var waitForGame = function () {
       // check for game
-      if (game.activeShootout()){
-        $location.path('/spectate-game');
+      spectate.isActiveGame().then(function (game) {
+        // stop checking for games
         clearInterval(spectatorWaitID);
-      }
+        // watch the game
+        $location.path('/spectate');
+      }, function (failRes) {
+        // keep waiting
+      });
     }
   }]);

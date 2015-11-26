@@ -19,7 +19,6 @@ angular.module('bballApp')
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
-      console.log("users", users);
       return users[users.map(function (user){
         return user.username.toLowerCase();
       }).indexOf(username.toLowerCase())];

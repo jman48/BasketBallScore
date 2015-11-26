@@ -53,6 +53,10 @@ angular
         templateUrl: 'views/shootout.html',
         controller: 'SetupShootoutCtrl'
       })
+      .when('/spectate', {
+        templateUrl: 'views/spectate.html',
+        controller: 'SpectateCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -8,7 +8,8 @@
  * Controller of the bballApp
  */
 angular.module('bballApp')
-  .controller('SetupShootoutCtrl', ['$scope', 'game', '$location', function ($scope, game, $location) {
+  .controller('SetupShootoutCtrl', ['$scope', 'game', '$location', '$http',
+    function ($scope, game, $location, $http) {
 
     $scope.players = game.getCurrentPlayers();
     $scope.setupRounds = 5;
@@ -42,8 +43,7 @@ angular.module('bballApp')
 
     $scope.startShootout = function () {
       if (game.getCurrentPlayers().length > 1) {
-        game.setRounds($scope.setupRounds);
-        game.setActiveShootout(true);
+        game.startGame($scope.setupRounds);
         $location.path('/shootout');
       } else {
         $scope.errorMessage = "must have at least two players, please make some friends :(";

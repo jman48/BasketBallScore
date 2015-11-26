@@ -18,20 +18,18 @@
 
     <ul>
       <li ng-repeat="player in players">
-        {{player[0].username}} (<a ng-click="removePlayer(player)">remove player</a>)
+        {{player.username}} (<a ng-click="removePlayer(player)">remove player</a>)
       </li>
     </ul>
 
     <br>
-  </div>
-
-  <div><p>Number of goals required to win: <b>{{setupRounds}}</b></p>
     <button type="button" class="btn btn-default btn-lg" ng-click="decrementRounds()">
       <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
     </button>
     <button type="button" class="btn btn-default btn-lg" ng-click="incrementRounds()">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button>
+    <span>Hoops needed to win <mark ng-bind="setupRounds"></mark></span>
   </div>
 
   <br>
