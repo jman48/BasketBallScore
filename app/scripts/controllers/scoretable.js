@@ -73,7 +73,7 @@ angular.module('bballApp')
           return -(a[$scope.sortBy] - b[$scope.sortBy]);
         })[0];
       } else {
-        winner = { username: "Noone" };
+        winner = { username: "" };
       }
 
       return winner.username.toUpperCase();
