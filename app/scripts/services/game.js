@@ -146,6 +146,6 @@ angular.module('bballApp')
       $http.put(url + "games/" + gameId + "/active", {
         isActive: false
       });
-    }
+    };
 
   }]);

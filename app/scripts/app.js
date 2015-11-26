@@ -20,7 +20,7 @@ angular
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {
-        redirectTo: "/login"
+        redirectTo: "/scores"
       })
       .when('/register', {
         templateUrl: 'views/register.html',
@@ -68,32 +68,54 @@ angular
   }])
 
   // prevents access to some pages if not logged in
-  .run( ['$rootScope', '$location', 'user', function ($rootScope, $location, user) {
-    // need to be logged in to view these
-    var blackList = [
-      "/landing"
-    ];
+  .run( ['$rootScope', '$location', 'user', 'game', 'spectate', function ($rootScope, $location, user, game, spectate) {
     // register listener to watch route changes
     $rootScope.$on("$locationChangeStart", function (event, next, current) {
+
+      var redirect = function () {
+        $location.path("/scores");
+      };
+
+      // util method
+      String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+      };
+
       if (!user.isLoggedOn()){
-
-        // util method
-        String.prototype.endsWith = function(suffix) {
-          return this.indexOf(suffix, this.length - suffix.length) !== -1;
-        };
-
+        // need to be logged in to view these
+        var blackList = [
+          "/landing"
+        ];
         // if going to a blacklist page
         if (blackList.some(function (route) {
             return next.endsWith(route);
-          })){
-          // redirect
-          $location.path("/login");
+          })
+        ){
+          redirect();
         }
       }
+
+      // if on shootout page with shootouts in progress
+      if (next.endsWith("/shootout") && !game.activeShootout()) {
+        redirect();
+      }
+
+      // if on spectate page with nothing to spectate
+      if (next.endsWith("/spectate")) {
+        // if spectator mode off
+        if (!spectate.getSpectateMode) {
+          redirect();
+        }
+        // if no game to spectate
+        spectate.isActiveGame().then(function (){/* ok */}, function () {
+            redirect();
+          });
+      }
+
     });
   }])
 
-  // for autofocusing text inputs in login and register
+  // for auto-focusing text inputs in login and register
   // from here: http://stackoverflow.com/a/20865048/1696114
   .directive('autoFocus', function($timeout) {
     return {

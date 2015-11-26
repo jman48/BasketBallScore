@@ -11,8 +11,6 @@ angular.module('bballApp')
   .controller('IndexCtrl', ['$scope', 'user', 'game', '$location', 'spectate',
     function ($scope, user, game, $location, spectate) {
 
-    $scope.spectatorMode = false;
-
     var spectatorWaitID,
       spectatorRefreshTime = 5000; // in ms
 
@@ -44,12 +42,18 @@ angular.module('bballApp')
     $scope.toggleSpectatorMode = function () {
       $scope.spectatorMode = !$scope.spectatorMode;
       if ($scope.spectatorMode) {
-        $location.path('/scores');
-        waitForGame();
-        spectatorWaitID = setInterval(waitForGame, spectatorRefreshTime);
+        $scope.startWaitingForGame();
+        spectate.spectatorMode(true);
       } else {
+        spectate.spectatorMode(false);
         $location.path('/login');
       }
+    };
+
+    $scope.startWaitingForGame = function () {
+      $location.path('/scores');
+      waitForGame();
+      spectatorWaitID = setInterval(waitForGame, spectatorRefreshTime);
     };
 
     var waitForGame = function () {

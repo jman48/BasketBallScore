@@ -13,7 +13,7 @@ angular.module('bballApp')
     var url = config.backend;
 
     var gameId,
-      activeGame = false;
+      spectateMode;
 
     this.isActiveGame = function () {
       return $q(function (resolve, reject) {
@@ -21,10 +21,8 @@ angular.module('bballApp')
           var activeGame = successRes.data;
           if (activeGame) {
             gameId = activeGame.id;
-            activeGame = true;
             resolve(activeGame);
           } else {
-            activeGame = false;
             reject();
           }
         }, function (failRes) {
@@ -51,6 +49,14 @@ angular.module('bballApp')
           reject(failRes.statusText);
         });
       });
+    };
+
+    this.spectatorMode = function (on) {
+      spectateMode = on;
+    };
+
+    this.getSpectateMode = function () {
+      return spectateMode;
     };
 
   }]);

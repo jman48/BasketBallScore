@@ -39,7 +39,7 @@
           <ul class="nav navbar-nav">
             <li><a ng-href="#/scores">High Scores</a></li>
             <li><a ng-href="#/setup_shootout" ng-click="resetShootout()">Start New Shootout</a></li>
-            <li><a ng-show="activeShootout()" class="btn navbar-btn" ng-href="#/shootout">Join Current Shootout</a></li>
+            <li><a ng-show="activeShootout()" ng-href="#/shootout">Join Current Shootout</a></li>
             <li><button class="btn navbar-btn" ng-class="{'btn-info':spectatorMode}"ng-click="toggleSpectatorMode()">Spectator Mode</button></li>
             <!--<li ng-show="spectatorMode" class="navbar-"><p class="navbar-text"><i>Spectating</i></p></li>-->
           </ul>
