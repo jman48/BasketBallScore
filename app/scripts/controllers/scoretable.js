@@ -62,18 +62,22 @@ angular.module('bballApp')
           result += $scope.sortBy;
       }
 
+      return result;
+
+    };
+
+    $scope.getHighScoreName = function () {
       var winner;
       if ($scope.users.length > 0){
-         winner = $scope.users.sort(function (a, b) {
+        winner = $scope.users.sort(function (a, b) {
           return -(a[$scope.sortBy] - b[$scope.sortBy]);
         })[0];
       } else {
         winner = { username: "Noone" };
       }
 
-      result += winner.username.toUpperCase();
+      return winner.username.toUpperCase();
 
-      return result;
     };
 
     $scope.matchActiveRow = function(thisUser) {
