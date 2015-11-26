@@ -42,6 +42,10 @@ angular
         templateUrl: 'views/scoretable.html',
         controller: 'ScoreTableCtrl'
       })
+      .when('/mobilescores', {
+        templateUrl: 'views/mobilescoretable.html',
+        controller: 'ScoreTableCtrl'
+      })
       .when('/logout', {
         redirectTo: '/login'
       })

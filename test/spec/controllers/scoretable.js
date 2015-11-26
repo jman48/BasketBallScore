@@ -24,17 +24,6 @@ describe('Controller: ScoreTableCtrl', function () {
     });
   }));
 
-  var usersPromise = function(resolve){
-    var defer = q.defer();
-    if (resolve) {
-      defer.resolve(testUsers);
-    }
-    else {
-      defer.reject("Error message");
-    }
-    return defer.promise;
-  };
-
   var fakeUpdateUsers = function () {
     scope.users = testUsers;
   };
@@ -94,19 +83,19 @@ describe('Controller: ScoreTableCtrl', function () {
   it("should return correct highest player information for hoops", function() {
     fakeUpdateUsers();
     scope.order('totalHoops');
-    expect(scope.getHighScoreText()).toContain("TEST1");
+    expect(scope.getHighScoreName()).toContain("TEST1");
   });
 
   it("should return correct highest player information for longest streak", function() {
     fakeUpdateUsers();
     scope.order('highestStreak');
-    expect(scope.getHighScoreText()).toContain("TEST2");
+    expect(scope.getHighScoreName()).toContain("TEST2");
   });
 
   it("should return correct highest player information for shootouts won", function() {
     fakeUpdateUsers();
     scope.order('shootoutsWon');
-    expect(scope.getHighScoreText()).toContain("TEST3");
+    expect(scope.getHighScoreName()).toContain("TEST3");
   });
 
   it('should return empty string if user is not logged in', function () {
@@ -118,11 +107,11 @@ describe('Controller: ScoreTableCtrl', function () {
     spyOn(user, "isLoggedOn").and.returnValue(true);
     spyOn(user, "currentUser").and.returnValue({username: "Alice"});
     expect(scope.matchActiveRow({username: "Bob"})).toBe("");
-  })
+  });
 
   it('should return "info" if user is logged in and does match this user', function () {
     spyOn(user, "isLoggedOn").and.returnValue(true);
     spyOn(user, "currentUser").and.returnValue({username: "Bob"});
     expect(scope.matchActiveRow({username: "Bob"})).toBe("info");
-  })
+  });
 });

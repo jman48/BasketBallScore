@@ -21,7 +21,7 @@ angular.module('bballApp')
           resolve(users);
         }, function (failMessage) {
           $scope.errorMessage = failMessage;
-          reject(errorMessage);
+          reject($scope.errorMessage);
         });
       });
     };
@@ -62,18 +62,22 @@ angular.module('bballApp')
           result += $scope.sortBy;
       }
 
+      return result;
+
+    };
+
+    $scope.getHighScoreName = function () {
       var winner;
       if ($scope.users.length > 0){
-         winner = $scope.users.sort(function (a, b) {
+        winner = $scope.users.sort(function (a, b) {
           return -(a[$scope.sortBy] - b[$scope.sortBy]);
         })[0];
       } else {
-        winner = { username: "Noone" };
+        winner = { username: "" };
       }
 
-      result += winner.username.toUpperCase();
+      return winner.username.toUpperCase();
 
-      return result;
     };
 
     $scope.matchActiveRow = function(thisUser) {

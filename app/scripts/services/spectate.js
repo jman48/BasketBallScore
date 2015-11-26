@@ -13,7 +13,7 @@ angular.module('bballApp')
     var url = config.backend;
 
     var gameId,
-      spectateMode;
+      spectateMode = false;
 
     this.isActiveGame = function () {
       return $q(function (resolve, reject) {

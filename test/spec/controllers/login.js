@@ -34,7 +34,7 @@ describe('Controller: LoginCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  }
+  };
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
@@ -70,7 +70,7 @@ describe('Controller: LoginCtrl', function () {
 
   it("should change error message if username is invalid", function() {
     spyOn(user, "login").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptLogin(null);
+    scope.attemptLogin(null);
     scope.$apply();
     expect(scope.errorMessage).toBe("Error");
   });

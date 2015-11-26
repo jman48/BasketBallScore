@@ -1,6 +1,7 @@
 <div class="container">
-  <h1>High Scores</h1>
+  <!--<h1>High Scores</h1>-->
   <h2 class="highscore" ng-bind="getHighScoreText()"></h2>
+  <h1 class="highscore"><span class="glyphicon glyphicon-star"></span> {{getHighScoreName()}} <span class="glyphicon glyphicon-star"></span></h1>
   <table class="table table-striped table-responsive">
     <thead>
     <tr>
@@ -10,15 +11,15 @@
       </th>
       <th>
         <span class="{{getGlyph('totalHoops')}}"></span>
-        <button class="btn btn-link" ng-click="order('totalHoops')">Hoops</button>
+        <button id="hoops" class="btn btn-link" ng-click="order('totalHoops')">Hoops</button>
       </th>
       <th>
         <span class="{{getGlyph('highestStreak')}}"></span>
-        <button class="btn btn-link" ng-click="order('highestStreak')">Longest Streak</button>
+        <button id="streak" class="btn btn-link" ng-click="order('highestStreak')">Longest Streak</button>
       </th>
       <th>
         <span class="{{getGlyph('shootoutsWon')}}"></span>
-        <button class="btn btn-link" ng-click="order('shootoutsWon')">Shootouts Won</button>
+        <button id="wins" class="btn btn-link" ng-click="order('shootoutsWon')">Shootouts Won</button>
       </th>
     </tr>
     </thead>

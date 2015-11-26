@@ -32,12 +32,12 @@ describe('Controller: RegisterCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  }
+  };
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
     spyOn(user, "register").and.returnValue(generatePromise(true, "John"));
-    var promise = scope.attemptRegister("John");
+    scope.attemptRegister("John");
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/login');
     expect(scope.errorMessage).toBe(undefined);
