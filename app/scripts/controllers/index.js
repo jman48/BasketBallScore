@@ -37,6 +37,11 @@ angular.module('bballApp')
       return game.activeShootout();
     };
 
+    $scope.currentShootout = function () {
+      $scope.collapse();
+      $location.path('/shootout');
+    };
+
     $scope.highScores = function () {
       if (screen.width <= 549) {
         $location.path('/mobilescores');
