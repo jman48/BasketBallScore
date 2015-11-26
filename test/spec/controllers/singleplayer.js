@@ -24,7 +24,7 @@ describe('Controller: SinglePlayerCtrl', function () {
     };
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _user_) {
+  beforeEach(inject(function ($controller, $rootScope) {
     spyOn(mockUserService, 'currentUser').and.returnValue(fakeUser(10, 3));
     scope = $rootScope.$new();
     SinglePlayerCtrl = $controller('SinglePlayerCtrl', {

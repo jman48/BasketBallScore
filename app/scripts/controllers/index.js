@@ -9,7 +9,7 @@
  */
 angular.module('bballApp')
   .controller('IndexCtrl', ['$scope', '$location', 'user', 'game', function ($scope, $location, user, game) {
-    $scope.username = function() {
+    $scope.username = function () {
       if (user.isLoggedOn()){
         return user.currentUser().username;
       } else {
@@ -21,17 +21,52 @@ angular.module('bballApp')
       return user.isLoggedOn();
     };
 
-    $scope.logOut = function() {
+    $scope.logOut = function () {
       user.logOut();
+      $scope.collapse();
+      $location.path('/logout');
     };
 
-    $scope.resetShootout = function() {
+    $scope.resetShootout = function () {
       game.resetShootout();
       game.setActiveShootout(false);
       $location.path('/setup_shootout');
     };
 
-    $scope.activeShootout = function() {
+    $scope.activeShootout = function () {
       return game.activeShootout();
     };
+
+    $scope.currentShootout = function () {
+      $scope.collapse();
+      $location.path('/shootout');
+    };
+
+    $scope.highScores = function () {
+      if (screen.width <= 549) {
+        $location.path('/mobilescores');
+        $(".navbar-collapse").collapse('hide');
+      } else {
+        $location.path('/scores');
+      }
+    };
+
+    $scope.logIn = function () {
+      $location.path('/login');
+      $scope.collapse();
+    };
+
+    $scope.register = function () {
+      $location.path('/register');
+      $scope.collapse();
+    };
+
+    $scope.delete = function () {
+      $location.path('/deleteuser');
+      $scope.collapse();
+    };
+
+    $scope.collapse = function () {
+      $(".navbar-collapse").collapse('hide');
+    }
   }]);
