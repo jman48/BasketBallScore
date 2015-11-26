@@ -30,7 +30,6 @@ angular.module('bballApp')
     $scope.resetShootout = function () {
       game.resetShootout();
       game.setActiveShootout(false);
-      $scope.collapse();
       $location.path('/setup_shootout');
     };
 

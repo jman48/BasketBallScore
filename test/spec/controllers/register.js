@@ -32,12 +32,12 @@ describe('Controller: RegisterCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  }
+  };
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
     spyOn(user, "register").and.returnValue(generatePromise(true, "John"));
-    var promise = scope.attemptRegister("John");
+    scope.attemptRegister("John");
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/login');
     expect(scope.errorMessage).toBe(undefined);
@@ -46,14 +46,14 @@ describe('Controller: RegisterCtrl', function () {
   it("should stay on same page when given invalid username", function() {
     spyOn(location, 'path');
     spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
+    scope.attemptRegister(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
   });
 
   it("shouldn't use user service if username is not valid", function() {
     spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
+    scope.attemptRegister(null);
     scope.$apply();
     expect(user.register).not.toHaveBeenCalled();
   });
