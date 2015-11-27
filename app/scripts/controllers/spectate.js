@@ -14,39 +14,25 @@ angular.module('bballApp')
     $scope.rounds = 0;
     $scope.gameActive = true;
 
-    var updateWait = 1000; // in millis
+    var updateWait = 10000; // in millis
+    var ctrl = this;
 
-    var update = function () {
-      if ($scope.gameActive && spectate.getSpectateMode()) {
-        updateScores();
-        updateGameInfo();
-      } else {
-        stopUpdating();
-        $location.path("/scores");
-      }
-    };
-
-    update();
-    // keep checking for changes in scores and game state
-    var intervalId = setInterval(update, updateWait);
-
-     function updateScores() {
-      spectate.updateScores().then(function (players){
-        console.log("updating scores");
+     this.updateScores = function () {
+      spectate.updatePlayers().then(function (players){
         $scope.players = players;
       }, function (failRes) {
         console.log("GET players failed", failRes.statusText);
       });
-    }
+    };
 
-    function updateGameInfo() {
+    this.updateGameInfo = function () {
       spectate.updateGameInfo().then(function (game) {
         $scope.rounds = game.hoopsToWin;
         $scope.gameActive = game.is_active;
 
         if (!$scope.gameActive){
           var gameOverWait = 1000; // 10 seconds
-          stopUpdating();
+          ctrl.stopUpdating();
           setTimeout(function () {
             $location.path('/scores');
             $scope.startWaitingForGame();
@@ -58,11 +44,11 @@ angular.module('bballApp')
         // if game is not reachable, assume it has ended
         $scope.gameActive = false;
       });
-    }
+    };
 
-    function stopUpdating() {
+    this.stopUpdating = function() {
       clearInterval(intervalId);
-    }
+    };
 
     $scope.getWinner = function () {
       return $scope.players.sort(function (a, b) {
@@ -70,5 +56,18 @@ angular.module('bballApp')
       })[0];
     };
 
+    this.update = function () {
+      if (spectate.getSpectateMode()) {
+        ctrl.updateScores();
+        ctrl.updateGameInfo();
+      } else {
+        ctrl.stopUpdating();
+        $location.path("/scores");
+      }
+    };
+
+    var intervalId = setInterval(this.update, updateWait);
+    this.update();
+    // keep checking for changes in scores and game state
 
   }]);
