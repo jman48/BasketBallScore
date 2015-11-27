@@ -46,6 +46,7 @@ describe('Controller: RegisterCtrl', function () {
   it("should stay on same page when given invalid username", function() {
     spyOn(location, 'path');
     spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
+    scope.attemptRegister('');
     scope.attemptRegister(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
@@ -53,9 +54,9 @@ describe('Controller: RegisterCtrl', function () {
 
   it("shouldn't use user service if username is not valid", function() {
     spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
+    scope.attemptRegister('');
     scope.attemptRegister(null);
     scope.$apply();
     expect(user.register).not.toHaveBeenCalled();
   });
-
 });

@@ -39,10 +39,8 @@ describe('Controller: IndexCtrl', function () {
     ' set up shootout page when reset shootout is called', function () {
     spyOn(location, "path");
     spyOn(game, "resetShootout");
-    spyOn(game, "setActiveShootout");
     scope.resetShootout();
     expect(location.path).toHaveBeenCalledWith('/setup_shootout');
     expect(game.resetShootout).toHaveBeenCalled();
-    expect(game.setActiveShootout).toHaveBeenCalledWith(false);
   });
 });

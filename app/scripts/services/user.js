@@ -19,23 +19,9 @@ angular.module('bballApp')
 
     // helper function, returns user from users array
     var getUser = function (users, username) {
-
-      if (!username) {
-        return false;
-      }
-
-      var map = users.map(function (user) {
-        return user.username;
-      });
-
-      for (var i = 0; i < map.length; i++) {
-        if (map[i] !== undefined && map[i].toLowerCase() === username.toLowerCase()) {
-          return users[i];
-        }
-      }
-
-      return false;
-
+      return users[users.map(function (user){
+        return user.username.toLowerCase();
+      }).indexOf(username.toLowerCase())];
     };
 
     this.register = function (username) {

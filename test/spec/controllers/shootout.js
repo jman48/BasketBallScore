@@ -77,36 +77,26 @@ describe('Controller: SetupShootoutCtrl', function () {
   it('should display an error message if you try to start a shootout with one player', function () {
     spyOn(game, "getCurrentPlayers").and.returnValue([{username: "test1"}]);
     spyOn(location, "path");
-    spyOn(game, "setRounds");
-    spyOn(game, "setActiveShootout");
     scope.startShootout();
     expect(location.path).not.toHaveBeenCalled();
-    expect(game.setRounds).not.toHaveBeenCalled();
-    expect(game.setActiveShootout).not.toHaveBeenCalled();
+    expect(game.activeShootout()).toBe(false);
     expect(scope.errorMessage).not.toBe(undefined);
   });
 
   it('should display an error message if you try to start a shootout with zero players', function () {
     spyOn(game, "getCurrentPlayers").and.returnValue([]);
     spyOn(location, "path");
-    spyOn(game, "setRounds");
-    spyOn(game, "setActiveShootout");
     scope.startShootout();
     expect(location.path).not.toHaveBeenCalled();
-    expect(game.setRounds).not.toHaveBeenCalled();
-    expect(game.setActiveShootout).not.toHaveBeenCalled();
     expect(scope.errorMessage).not.toBe(undefined);
   });
 
   it('should start a new game if you try to start a shootout with two players', function () {
     spyOn(game, "getCurrentPlayers").and.returnValue([{username: "test1"}, {username: "test2"}]);
     spyOn(location, "path");
-    spyOn(game, "setRounds");
-    spyOn(game, "setActiveShootout");
     scope.startShootout();
     expect(location.path).toHaveBeenCalledWith('/shootout');
-    expect(game.setRounds).toHaveBeenCalledWith(scope.setupRounds);
-    expect(game.setActiveShootout).toHaveBeenCalledWith(true);
+    expect(game.activeShootout()).toBe(true);
     expect(scope.errorMessage).toBe(undefined);
   });
 });

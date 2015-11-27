@@ -39,7 +39,8 @@
           <ul class="nav navbar-nav">
             <li><a href ng-click="highScores()">High Scores</a></li>
             <li><a href ng-click="collapse(); resetShootout()">Start New Shootout</a></li>
-            <li><a ng-show="activeShootout()" ng-click="currentShootout()">Current Shootout</a></li>
+            <li><button ng-show="activeShootout()" class="btn navbar-btn" ng-click="currentShootout()">Current Shootout</button></li>
+            <li><button class="btn navbar-btn" ng-class="{'btn-info':spectatorMode}"ng-click="toggleSpectatorMode()">Spectator Mode</button></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li ng-hide="loggedOn()"><a href ng-click="logIn()">Login</a></li>
@@ -59,6 +60,10 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+
+    <!--<div class="container">-->
+      <!--<h3 ng-show="spectatorMode"><i>Spectating</i></h3>-->
+    <!--</div>-->
 
     <div class="container">
     <div ng-view></div>
@@ -100,6 +105,8 @@
         <script src="scripts/controllers/index.js"></script>
         <script src="scripts/controllers/shootout.js"></script>
         <script src="scripts/services/game.js"></script>
+        <script src="scripts/controllers/spectate.js"></script>
+        <script src="scripts/services/spectate.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>Shoot Out! First to <b>{{rounds}}</b></h1>
+  <h2 ng-hide="gameActive">Winner is: <span class="user" ng-bind="getWinner().username"></span>!!!</h2>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Player</th>
+      <th>Goals</th>
+      <th>Remaining</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="player in players">
+      <td><span class="user" ng-bind="player.username"></span></td>
+      <td ng-bind="player.score"></td>
+      <td ng-bind="rounds - player.score"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

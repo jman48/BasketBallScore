@@ -15,9 +15,9 @@
     </thead>
     <tbody>
     <tr ng-repeat="player in players">
-      <td><span class="user">{{player[0].username}}</span></td>
-      <td>{{player[1]}}</td>
-      <td>{{getRounds() - player[1]}}</td>
+      <td><span class="user">{{player.username}}</span></td>
+      <td>{{player.score}}</td>
+      <td>{{getRounds() - player.score}}</td>
     </tr>
     </tbody>
   </table>
