@@ -14,7 +14,7 @@ angular.module('bballApp')
     $scope.rounds = 0;
     $scope.gameActive = true;
 
-    var waitTime = 1000;
+    var updateWait = 1000; // in millis
 
     var update = function () {
       if ($scope.gameActive && spectate.getSpectateMode()) {
@@ -28,7 +28,7 @@ angular.module('bballApp')
 
     update();
     // keep checking for changes in scores and game state
-    var intervalId = setInterval(update, waitTime);
+    var intervalId = setInterval(update, updateWait);
 
      function updateScores() {
       spectate.updateScores().then(function (players){
@@ -45,7 +45,7 @@ angular.module('bballApp')
         $scope.gameActive = game.is_active;
 
         if (!$scope.gameActive){
-          var gameOverWait = 3000; // 20 seconds
+          var gameOverWait = 1000; // 10 seconds
           stopUpdating();
           setTimeout(function () {
             $location.path('/scores');

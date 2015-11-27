@@ -39,7 +39,7 @@
           <ul class="nav navbar-nav">
             <li><a href ng-click="highScores()">High Scores</a></li>
             <li><a href ng-click="collapse(); resetShootout()">Start New Shootout</a></li>
-            <li><a ng-show="activeShootout()" ng-click="currentShootout()">Current Shootout</a></li>
+            <li><button ng-show="activeShootout()" class="btn navbar-btn" ng-click="currentShootout()">Current Shootout</button></li>
             <li><button class="btn navbar-btn" ng-class="{'btn-info':spectatorMode}"ng-click="toggleSpectatorMode()">Spectator Mode</button></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

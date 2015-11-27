@@ -49,7 +49,7 @@ angular.module('bballApp')
         spectate.spectatorMode(true);
       } else {
         spectate.spectatorMode(false);
-        $location.path('/login');
+        $location.path('/scores');
       }
     };
 

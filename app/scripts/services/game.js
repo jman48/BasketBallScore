@@ -75,7 +75,7 @@ angular.module('bballApp')
       // to get around a weird bug where if you delete the first one it only deletes
       // that one, but if you delete any other it will delete the next one as well
       if (index == 0) {
-        // is splice being used correctly here?
+        // is pectplice being used correctly here?
         currentPlayers.splice(index, index + 1);
       } else {
         currentPlayers.splice(index, index);
