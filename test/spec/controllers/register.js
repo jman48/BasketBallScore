@@ -32,44 +32,31 @@ describe('Controller: RegisterCtrl', function () {
       defer.reject(data);
     }
     return defer.promise;
-  }
-
-  it("should change nameOK when given valid username", function(){
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(true, "John"));
-    var promise = scope.attemptRegister("John");
-    scope.$apply();
-    expect(scope.nameOK).toBe(true);
-  });
+  };
 
   it("should redirect when when given valid username", function(){
     spyOn(location, 'path');
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(true, "John"));
-    var promise = scope.attemptRegister("John");
+    spyOn(user, "register").and.returnValue(generatePromise(true, "John"));
+    scope.attemptRegister("John");
     scope.$apply();
     expect(location.path).toHaveBeenCalledWith('/login');
     expect(scope.errorMessage).toBe(undefined);
   });
 
-  it("should not change nameOK when given invalid username", function(){
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
-    scope.$apply();
-    expect(scope.nameOK).toBe(false);
-  });
-
   it("should stay on same page when given invalid username", function() {
     spyOn(location, 'path');
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
+    spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
+    scope.attemptRegister('');
+    scope.attemptRegister(null);
     scope.$apply();
     expect(location.path).not.toHaveBeenCalled();
   });
 
-  it("should change error message if username is invalid", function() {
-    spyOn(user, "attemptRegister").and.returnValue(generatePromise(false, "Error"));
-    var promise = scope.attemptRegister(null);
+  it("shouldn't use user service if username is not valid", function() {
+    spyOn(user, "register").and.returnValue(generatePromise(false, "Error"));
+    scope.attemptRegister('');
+    scope.attemptRegister(null);
     scope.$apply();
-    expect(scope.errorMessage).toBe("Error");
+    expect(user.register).not.toHaveBeenCalled();
   });
-
 });

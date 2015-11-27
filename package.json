@@ -30,6 +30,7 @@
     "jit-grunt": "^0.9.1",
     "jshint-stylish": "^1.0.0",
     "karma-jasmine": "*",
+    "karma-coverage": "*",
     "karma-phantomjs-launcher": "*",
     "time-grunt": "^1.0.0"
   },

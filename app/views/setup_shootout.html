@@ -1,0 +1,39 @@
+<div class="container">
+  <h1>Add Players To Shootout</h1>
+  <p class="error-msg" ng-show="errorMessage" ng-bind="errorMessage"></p>
+
+  <div>Please enter players:</div>
+
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Username" ng-model="entername" id="user">
+    </div>
+    <button type="submit" class="btn btn-primary" ng-click="attemptAddPlayer(entername)">Submit</button>
+  </form>
+
+  <br>
+
+  <div ng-show="players.length > 0">
+    <p>Players added:</p>
+
+    <ul>
+      <li ng-repeat="player in players">
+        {{player.username}} (<a ng-click="removePlayer(player)">remove player</a>)
+      </li>
+    </ul>
+
+    <br>
+    <button type="button" class="btn btn-default btn-lg" ng-click="decrementRounds()">
+      <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="btn btn-default btn-lg" ng-click="incrementRounds()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </button>
+    <span>Hoops needed to win <mark ng-bind="setupRounds"></mark></span>
+  </div>
+
+  <br>
+
+  <button type="submit" class="btn btn-primary" ng-click="startShootout()">Start Shootout</button>
+</br>
+</div>

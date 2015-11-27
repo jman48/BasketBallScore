@@ -9,16 +9,18 @@
  */
 angular.module('bballApp')
   .controller('RegisterCtrl', ['$scope', 'user', '$location', function ($scope, user, $location) {
-      $scope.nameOK = true;
 
-      $scope.attemptRegister = function(userName){
-        var promise = user.attemptRegister(userName);
-        promise.then(function(username) {
+    $scope.attemptRegister = function (username) {
+      // if invalid username
+      if (!username) {
+        $scope.errorMessage = "Invalid username";
+      } else {
+        var promise = user.register(username);
+        promise.then(function (success) {
           $location.path('/login');
-        },
-          function(errorMsg){
-            $scope.nameOK = false;
-            $scope.errorMessage = errorMsg;
+        }, function (errorMsg) {
+          $scope.errorMessage = errorMsg;
         });
-      };
+      }
+    };
   }]);

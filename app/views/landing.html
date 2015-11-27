@@ -1,0 +1,26 @@
+<div ng-keyup="incrementHoops()">
+  <h1>Single Player</h1>
+  <table class="table">
+    <caption>Single player stats</caption>
+    <thead>
+      <tr>
+        <th>Total hoops</th>
+        <th>Highest streak</th>
+      </tr>
+    </thead>
+    <tr>
+      <td ng-bind="totalHoops"></td>
+      <td ng-bind="highestStreak"></td>
+    </tr>
+  </table>
+
+  <button class="btn btn-lg btn-success glyphicon glyphicon-plus" ng-click="incrementHoops()"></button>
+  <button class="btn btn-lg btn-danger glyphicon glyphicon-minus" ng-click="decrementHoops()"></button>
+  <div display="row">
+    Current streak:
+    <mark>
+      <button class="btn btn-link" ng-click="incrementStreak()" ng-bind="currentStreak"></button>
+      <button class="btn btn-xs btn-warning" ng-click="cancelStreak()">Broken</button>
+    </mark>
+  </div>
+</div>
