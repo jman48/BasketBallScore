@@ -10,7 +10,7 @@
 angular.module('bballApp')
   .controller('ScoreTableCtrl', ['$scope', 'user', '$q', function ($scope, user, $q) {
 
-    $scope.sortBy = 'totalHoops'; // default
+    $scope.sortBy = 'shootoutsWon'; // default
     $scope.reverse = true;
     $scope.users = [];
 
