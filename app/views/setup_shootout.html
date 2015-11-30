@@ -8,7 +8,7 @@
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Username" ng-model="entername" id="user">
     </div>
-    <button type="submit" class="btn btn-primary" ng-click="attemptAddPlayer(entername)">Submit</button>
+    <button type="submit" class="btn btn-primary" ng-click="attemptAddPlayer(entername)" id="submit">Submit</button>
   </form>
 
   <br>
@@ -23,10 +23,10 @@
     </ul>
 
     <br>
-    <button type="button" class="btn btn-default btn-lg" ng-click="decrementRounds()">
+    <button type="button" class="btn btn-default btn-lg" ng-click="decrementRounds()" id="lessRounds">
       <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
     </button>
-    <button type="button" class="btn btn-default btn-lg" ng-click="incrementRounds()">
+    <button type="button" class="btn btn-default btn-lg" ng-click="incrementRounds()" id="moreRounds">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button>
     <span>Hoops needed to win <mark ng-bind="setupRounds"></mark></span>
@@ -34,6 +34,6 @@
 
   <br>
 
-  <button type="submit" class="btn btn-primary" ng-click="startShootout()">Start Shootout</button>
+  <button type="submit" class="btn btn-primary" ng-click="startShootout()" id="start">Start Shootout</button>
 </br>
 </div>

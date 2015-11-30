@@ -2,8 +2,8 @@
   <h1>Shoot Out! First to <b>{{getRounds()}}</b></h1>
   <h2 ng-hide="getWinner()">Current Player is: <span class="user">{{getPlayerTurn()}}</span></h2>
   <h2 ng-show="getWinner()">Winner is: <span class="user">{{getWinner()}}</span>!!!</h2>
-  <button type="submit" class="btn btn-success" ng-click="playerGoal()" ng-hide="getWinner()">Goal!</button>
-  <button type="submit" class="btn btn-danger" ng-click="playerMiss()" ng-hide="getWinner()">Nope!</button>
+  <button type="submit" class="btn btn-success" ng-click="playerGoal()" ng-hide="getWinner()" id="hit">Goal!</button>
+  <button type="submit" class="btn btn-danger" ng-click="playerMiss()" ng-hide="getWinner()" id="miss">Nope!</button>
 
   <table class="table table-striped">
     <thead>

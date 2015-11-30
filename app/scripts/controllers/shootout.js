@@ -9,7 +9,7 @@
  */
 angular.module('bballApp')
   .controller('SetupShootoutCtrl', ['$scope', 'game', '$location', '$http',
-    function ($scope, game, $location, $http) {
+    function ($scope, game, $location) {
 
     $scope.players = game.getCurrentPlayers();
     $scope.setupRounds = 5;
@@ -21,6 +21,7 @@ angular.module('bballApp')
       game.addPlayer(username)
         .then(function (currentPlayers) {
           $scope.players = currentPlayers;
+          $scope.entername = "";
         }, function (errorMsg) {
           $scope.errorMessage = errorMsg;
         }
