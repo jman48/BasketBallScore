@@ -130,4 +130,16 @@ angular
         }, 0);
       }
     };
+  })
+
+  //to automatically collapse menu when link is clicked
+  .directive('autoCollapse', function () {
+    return {
+      restrict: 'A',
+      link: function(scope, element) {
+        element.on('click', function() {
+          $(".navbar-collapse").collapse('hide');
+        })
+      }
+    }
   });

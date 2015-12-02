@@ -37,23 +37,23 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href ng-click="highScores()" id="scores">High Scores</a></li>
-            <li><a href ng-click="collapse(); resetShootout()" id="setup">Start New Shootout</a></li>
-            <li><button ng-show="activeShootout()" class="btn navbar-btn" ng-click="currentShootout()">Current Shootout</button></li>
+            <li><a href ng-click="highScores()" id="scores" auto-collapse>High Scores</a></li>
+            <li><a href ng-click="collapse(); resetShootout()" id="setup" auto-collapse>Start New Shootout</a></li>
+            <li><button ng-show="activeShootout()" class="btn navbar-btn" ng-click="currentShootout()" auto-collapse>Current Shootout</button></li>
             <li><button class="btn navbar-btn" ng-class="{'btn-info':spectatorMode}"ng-click="toggleSpectatorMode()">Spectator Mode</button></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li ng-hide="loggedOn()"><a href ng-click="logIn()" id="login">Login</a></li>
-            <li ng-hide="loggedOn()"><a href ng-click="register()" id="register">Register</a></li>
+            <li ng-hide="loggedOn()"><a href ng-click="logIn()" id="login" auto-collapse>Login</a></li>
+            <li ng-hide="loggedOn()"><a href ng-click="register()" id="register" auto-collapse>Register</a></li>
             <li class="dropdown ng-cloak" ng-show="loggedOn()">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="dropdown">
                 <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Signed in as <span class="user" ng-bind="username()"></span>
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href ng-click="logOut()" id="logout">Log Out</a></li>
+                <li><a href ng-click="logOut()" id="logout" auto-collapse>Log Out</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href ng-click="delete()" id="delete">Delete account</a></li>
+                <li><a href ng-click="delete()" id="delete" auto-collapse>Delete account</a></li>
               </ul>
             </li>
           </ul>
