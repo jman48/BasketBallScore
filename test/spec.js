@@ -7,25 +7,19 @@ describe('protractor test', function() {
   });
 
   //helper functions to set up and delete a couple of new players
-  var addPlayers = function() {
+  var addPlayer = function(username) {
     element(by.id('register')).click();
-    element(by.model('entername')).sendKeys('player1');
-    element(by.id('submit')).click();
-    element(by.id('register')).click();
-    element(by.model('entername')).sendKeys('player2');
+    element(by.model('entername')).sendKeys(username);
     element(by.id('submit')).click();
   };
 
-  var deletePlayers = function () {
+  var logIn = function (username) {
     element(by.id('login')).click();
-    element(by.model('entername')).sendKeys('player1');
+    element(by.model('entername')).sendKeys(username);
     element(by.id('submit')).click();
-    element(by.id('dropdown')).click();
-    element(by.id('delete')).click();
-    element(by.id('confirm')).click();
-    element(by.id('login')).click();
-    element(by.model('entername')).sendKeys('player2');
-    element(by.id('submit')).click();
+  };
+
+  var deletePlayer = function () {
     element(by.id('dropdown')).click();
     element(by.id('delete')).click();
     element(by.id('confirm')).click();
@@ -42,7 +36,8 @@ describe('protractor test', function() {
   it('should create two players, start a shootout with them, increment' +
     'the shootout score of the winner and then delete them', function () {
 
-    addPlayers();
+    addPlayer('player1');
+    addPlayer('player2');
 
     element(by.id('setup')).click();
     element(by.model('entername')).sendKeys('player1');
@@ -68,6 +63,9 @@ describe('protractor test', function() {
     expect(element(by.binding('getWinner()')).getText()).
     toEqual('PLAYER1');
 
-    deletePlayers();
+    logIn('player1');
+    deletePlayer();
+    logIn('player2');
+    deletePlayer();
   });
 });

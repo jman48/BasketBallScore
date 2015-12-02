@@ -4,8 +4,6 @@ exports.config = {
 
   framework: 'jasmine2',
 
-  //baseUrl: 'http://localhost:9010',
-
   specs: [
     'spec.js'
   ],
