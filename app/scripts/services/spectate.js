@@ -31,7 +31,7 @@ angular.module('bballApp')
       });
     };
 
-    this.updateScores = function () {
+    this.updatePlayers = function () {
       return $q(function (resolve, reject) {
         $http.get(url + "players/game/" + gameId).then (function (playersRes) {
           resolve(playersRes.data);
